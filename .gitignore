@@ -1,0 +1,44 @@
+# =========================
+# SECRETS - NEVER COMMIT
+# =========================
+.env
+.env.*
+!.env.example
+
+**/application-local.properties
+**/application-secret.properties
+
+# =========================
+# JAVA / MAVEN
+# =========================
+**/target/
+
+# =========================
+# FRONTEND (IF PRESENT)
+# =========================
+**/node_modules/
+**/dist/
+
+# =========================
+# IDE
+# =========================
+**/.idea/
+**/.vscode/
+
+# =========================
+# LOGS
+# =========================
+*.log
+
+# =========================
+# DATABASE BACKUPS
+# =========================
+**/SmartEdu_Backup/
+**/*backup*.sql
+**/*dump*.sql
+
+# =========================
+# WINDOWS
+# =========================
+Thumbs.db
+Desktop.ini
