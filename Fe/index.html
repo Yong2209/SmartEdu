@@ -1,1 +1,1078 @@
-<h1> day la file FE</h1>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartEdu - Học thông minh hơn</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5548d7;
+            --primary-dark: #393078;
+            --text: #182137;
+            --muted: #77819b;
+            --background: #fafaff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        button, a {
+            font-family: inherit;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+
+        header {
+            width: 100%;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1352px;
+            margin: auto;
+            padding: 0 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 21px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 7px 18px rgba(85,72,215,0.2);
+        }
+
+        .logo-icon svg {
+            width: 24px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 42px;
+            align-items: center;
+            font-size: 15px;
+            color: #303951;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .login {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 16px 23px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(85,72,215,0.19);
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #4437c0;
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 1352px;
+            margin: auto;
+            min-height: 715px;
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            align-items: center;
+            gap: 40px;
+            padding-bottom: 25px;
+        }
+
+        .hero-content {
+            padding-top: 12px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 17px;
+            border-radius: 30px;
+            background: #f0efff;
+            border: 1px solid #dedbff;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .hero-label svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 4vw, 66px);
+            line-height: 1.12;
+            font-weight: 800;
+            letter-spacing: -3.5px;
+            color: #182137;
+        }
+
+        .hero h1 em {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #6255df;
+            font-size: clamp(43px, 3.8vw, 62px);
+            letter-spacing: -2px;
+            line-height: 1.25;
+            white-space: nowrap;
+        }
+
+        .hero-description {
+            color: var(--muted);
+            font-size: 19px;
+            line-height: 1.8;
+            max-width: 590px;
+            margin-top: 25px;
+        }
+
+        /* BUTTONS */
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-top: 34px;
+        }
+
+        .explore-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 17px 26px;
+        }
+
+        .explore-btn span {
+            font-size: 21px;
+        }
+
+        .demo-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #424c65;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .play-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid #e3e5ef;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(30,40,80,0.08);
+        }
+
+        /* STUDENT SOCIAL PROOF */
+
+        .students {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 43px;
+        }
+
+        .avatars {
+            display: flex;
+            padding-left: 2px;
+        }
+
+        .avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            border: 2px solid white;
+            margin-left: -7px;
+        }
+
+        .avatar:nth-child(1) {
+            background: #ffdbc9;
+            color: #a85b37;
+        }
+
+        .avatar:nth-child(2) {
+            background: #dcdfff;
+            color: #5552ad;
+        }
+
+        .avatar:nth-child(3) {
+            background: #c9eee5;
+            color: #267f70;
+        }
+
+        .avatar:nth-child(4) {
+            background: #d8d8ff;
+            color: #5548d7;
+        }
+
+        .student-info strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .student-info small {
+            font-size: 12px;
+            color: #8992a8;
+        }
+
+        /* DASHBOARD VISUAL */
+
+        .hero-visual {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        .dashboard {
+            width: 100%;
+            background: white;
+            border: 1px solid #e6e7f1;
+            border-radius: 21px;
+            overflow: hidden;
+            box-shadow: 0 35px 75px rgba(58,48,122,0.14);
+            transform: perspective(1200px) rotateY(-2deg);
+        }
+
+        .dashboard-top {
+            height: 39px;
+            background: #f6f6fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: #9298aa;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .window-dots {
+            position: absolute;
+            left: 14px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot:nth-child(1) { background: #e7a7a7; }
+        .dot:nth-child(2) { background: #e9cf88; }
+        .dot:nth-child(3) { background: #8dc5aa; }
+
+        .dashboard-body {
+            display: flex;
+            min-height: 410px;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 64px;
+            flex-shrink: 0;
+            background: #342b79;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .sidebar-logo {
+            width: 29px;
+            height: 29px;
+            background: white;
+            border-radius: 9px;
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .side-item {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.13);
+        }
+
+        .side-item.active {
+            background: #897bea;
+        }
+
+        /* MAIN DASHBOARD */
+
+        .dashboard-content {
+            flex: 1;
+            min-width: 0;
+            padding: 39px 30px 9px;
+            background: #fcfcff;
+        }
+
+        .dashboard-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .greeting {
+            font-size: 9px;
+            color: #a3a9ba;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .dashboard-heading h3 {
+            font-size: 22px;
+            font-weight: 500;
+            color: #273047;
+        }
+
+        .profile {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #e3e0ff;
+            color: #6659ca;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* STATISTICS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 11px;
+            margin-bottom: 14px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e9e9f2;
+            border-radius: 12px;
+            min-height: 88px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            gap: 13px;
+        }
+
+        .stat-icon {
+            color: #7568f1;
+        }
+
+        .stat-icon svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .stat-number {
+            font-size: 17px;
+            font-weight: 700;
+            color: #293248;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #9ba2b5;
+            margin-top: 7px;
+        }
+
+        /* DASHBOARD BOTTOM */
+
+        .dashboard-bottom {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 13px;
+        }
+
+        .chart-card {
+            background: white;
+            border: 1px solid #e9e9f2;
+            border-radius: 12px;
+            padding: 17px 15px 12px;
+            min-height: 184px;
+        }
+
+        .card-title {
+            font-size: 11px;
+            color: #687188;
+            font-weight: 500;
+        }
+
+        .chart {
+            height: 115px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 9px;
+            padding-top: 15px;
+        }
+
+        .bar {
+            flex: 1;
+            max-width: 29px;
+            background: #9388e9;
+            border-radius: 4px 4px 0 0;
+            transition: 0.3s;
+        }
+
+        .bar:hover {
+            background: var(--primary);
+        }
+
+        .ai-card {
+            border-radius: 12px;
+            background: linear-gradient(145deg, #5549c2, #6659d9);
+            color: white;
+            padding: 17px;
+            min-height: 184px;
+        }
+
+        .ai-icon {
+            width: 33px;
+            height: 33px;
+            background: rgba(255,255,255,0.18);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 17px;
+        }
+
+        .ai-card h4 {
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+
+        .ai-card p {
+            font-size: 8px;
+            line-height: 1.6;
+            color: #dedbff;
+            margin-bottom: 9px;
+        }
+
+        .ai-card button {
+            background: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 8px;
+            color: #5548c8;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* FLOATING NOTIFICATIONS */
+
+        .floating-card {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            background: white;
+            padding: 16px 19px;
+            border-radius: 15px;
+            box-shadow: 0 17px 40px rgba(45,39,102,0.14);
+            z-index: 2;
+        }
+
+        .schedule-card {
+            top: 0;
+            right: -55px;
+        }
+
+        .question-card {
+            bottom: 0;
+            left: -30px;
+        }
+
+        .floating-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #d9f7ec;
+            color: #19ae80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .question-card .floating-icon {
+            background: transparent;
+            color: #6558dc;
+            font-size: 21px;
+        }
+
+        .floating-text strong {
+            display: block;
+            font-size: 12px;
+            white-space: nowrap;
+            margin-bottom: 5px;
+        }
+
+        .floating-text small {
+            display: block;
+            color: #a0a6b6;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1450px) {
+            header, .hero {
+                max-width: 1160px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr 1.05fr;
+            }
+
+            .schedule-card {
+                right: -15px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            header, .hero {
+                margin-left: 35px;
+                margin-right: 35px;
+            }
+
+            .hero {
+                gap: 25px;
+            }
+
+            .hero h1 {
+                font-size: 50px;
+            }
+
+            .hero h1 em {
+                font-size: 43px;
+            }
+
+            .dashboard-content {
+                padding: 30px 18px 9px;
+            }
+
+            .floating-card {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                height: 75px;
+            }
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 70px;
+                gap: 75px;
+            }
+
+            .hero-content {
+                max-width: 650px;
+            }
+
+            .hero-visual {
+                max-width: 650px;
+                margin: auto;
+            }
+
+            .schedule-card {
+                right: -10px;
+            }
+
+            .question-card {
+                left: -10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                margin: 0 20px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .header-actions {
+                gap: 13px;
+            }
+
+            .login {
+                font-size: 13px;
+            }
+
+            .header-actions .btn {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .hero {
+                margin: 0 20px;
+                padding-top: 55px;
+                gap: 65px;
+            }
+
+            .hero-label {
+                font-size: 11px;
+                margin-bottom: 24px;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+                letter-spacing: -2px;
+            }
+
+            .hero h1 em {
+                font-size: 34px;
+                letter-spacing: -1.5px;
+                white-space: normal;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-buttons {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .explore-btn {
+                padding: 14px 18px;
+            }
+
+            .students {
+                margin-top: 30px;
+            }
+
+            .dashboard {
+                transform: none;
+            }
+
+            .dashboard-body {
+                min-height: 300px;
+            }
+
+            .sidebar {
+                width: 42px;
+                gap: 15px;
+            }
+
+            .sidebar-logo {
+                width: 25px;
+                height: 25px;
+            }
+
+            .dashboard-content {
+                padding: 20px 12px 10px;
+            }
+
+            .dashboard-heading h3 {
+                font-size: 17px;
+            }
+
+            .stat-card {
+                min-height: 70px;
+                padding: 8px;
+                gap: 6px;
+            }
+
+            .stat-number {
+                font-size: 13px;
+            }
+
+            .stat-label {
+                font-size: 8px;
+            }
+
+            .dashboard-bottom {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-card {
+                min-height: 140px;
+            }
+
+            .floating-card {
+                transform: scale(0.85);
+            }
+
+            .schedule-card {
+                right: -25px;
+            }
+
+            .question-card {
+                left: -25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m2 9 10-5 10 5-10 5-10-5Z"/>
+                    <path d="M6 11v5c3 3 9 3 12 0v-5"/>
+                    <path d="M22 9v6"/>
+                </svg>
+            </div>
+            <div>Smart<span>Edu</span></div>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#features">Tính năng</a>
+            <a href="#how-it-works">Cách hoạt động</a>
+            <a href="#benefits">Lợi ích</a>
+        </nav>
+
+        <div class="header-actions">
+            <a href="#" class="login">Đăng nhập</a>
+            <button class="btn">Bắt đầu miễn phí</button>
+        </div>
+
+    </header>
+
+    <!-- HERO SECTION -->
+    <main class="hero">
+
+        <!-- LEFT CONTENT -->
+        <section class="hero-content">
+
+            <div class="hero-label">
+                <span>✣</span>
+                Nền tảng học tập thông minh dành cho sinh viên
+            </div>
+
+            <h1>
+                Học thông minh<br>
+                hơn.
+                <em>Lập lịch dễ dàng hơn.</em>
+            </h1>
+
+            <p class="hero-description">
+                SmartEdu ứng dụng AI để biến học liệu thành câu hỏi ôn tập và
+                đề xuất thời khóa biểu tối ưu theo chính sở thích của bạn.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="btn explore-btn">
+                    Khám phá SmartEdu
+                    <span>→</span>
+                </button>
+
+                <button class="demo-btn" id="demoBtn">
+                    <span class="play-icon">▶</span>
+                    Xem bản trải nghiệm
+                </button>
+
+            </div>
+
+            <!-- STUDENTS -->
+            <div class="students">
+
+                <div class="avatars">
+                    <div class="avatar">AN</div>
+                    <div class="avatar">MH</div>
+                    <div class="avatar">QT</div>
+                    <div class="avatar">+2K</div>
+                </div>
+
+                <div class="student-info">
+                    <strong>2.000+ sinh viên</strong>
+                    <small>đang học hiệu quả mỗi ngày</small>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- RIGHT DASHBOARD -->
+        <section class="hero-visual">
+
+            <!-- FLOATING CARD 1 -->
+            <div class="floating-card schedule-card">
+
+                <div class="floating-icon">✓</div>
+
+                <div class="floating-text">
+                    <strong>Thời khóa biểu tối ưu</strong>
+                    <small>Không trùng lịch · 18 tín chỉ</small>
+                </div>
+
+            </div>
+
+            <!-- DASHBOARD -->
+            <div class="dashboard">
+
+                <div class="dashboard-top">
+
+                    <div class="window-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+
+                    SmartEdu Workspace
+
+                </div>
+
+                <div class="dashboard-body">
+
+                    <!-- SIDEBAR -->
+                    <aside class="sidebar">
+
+                        <div class="sidebar-logo">S</div>
+
+                        <div class="side-item active"></div>
+                        <div class="side-item"></div>
+                        <div class="side-item"></div>
+                        <div class="side-item"></div>
+                        <div class="side-item"></div>
+
+                    </aside>
+
+                    <!-- DASHBOARD CONTENT -->
+                    <div class="dashboard-content">
+
+                        <div class="dashboard-heading">
+
+                            <div>
+                                <p class="greeting">CHÀO BUỔI SÁNG</p>
+                                <h3>Minh Anh</h3>
+                            </div>
+
+                            <div class="profile">MA</div>
+
+                        </div>
+
+                        <!-- STATISTICS -->
+                        <div class="stats">
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path d="M4 5h16v12H8l-4 3V5Z"/>
+                                        <path d="M8 9h8M8 13h5"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="stat-number">12</div>
+                                    <div class="stat-label">Học liệu</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="3" width="16" height="18" rx="2"/>
+                                        <path d="M8 8h8M8 12h8M8 16h5"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="stat-number">86%</div>
+                                    <div class="stat-label">Điểm TB</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="5" width="18" height="16" rx="2"/>
+                                        <path d="M16 3v4M8 3v4M3 10h18"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="stat-number">18</div>
+                                    <div class="stat-label">Tín chỉ</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- CHART AND AI -->
+                        <div class="dashboard-bottom">
+
+                            <div class="chart-card">
+
+                                <p class="card-title">Tiến độ tuần này</p>
+
+                                <div class="chart">
+                                    <div class="bar" style="height:45%"></div>
+                                    <div class="bar" style="height:72%"></div>
+                                    <div class="bar" style="height:55%"></div>
+                                    <div class="bar" style="height:88%"></div>
+                                    <div class="bar" style="height:64%"></div>
+                                    <div class="bar" style="height:38%"></div>
+                                    <div class="bar" style="height:76%"></div>
+                                </div>
+
+                            </div>
+
+                            <div class="ai-card">
+
+                                <div class="ai-icon">✣</div>
+
+                                <h4>Tạo câu hỏi bằng AI</h4>
+
+                                <p>
+                                    Biến tài liệu thành bộ câu hỏi
+                                    trong vài giây.
+                                </p>
+
+                                <button onclick="alert('Chào mừng bạn đến với SmartEdu AI!')">
+                                    Thử ngay
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- FLOATING CARD 2 -->
+            <div class="floating-card question-card">
+
+                <div class="floating-icon">✣</div>
+
+                <div class="floating-text">
+                    <strong>AI đã tạo 20 câu hỏi</strong>
+                    <small>Từ tài liệu Mạng máy tính</small>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // Nút xem trải nghiệm
+        document.getElementById("demoBtn").addEventListener("click", function() {
+            alert("Chào mừng bạn đến với bản trải nghiệm SmartEdu!");
+        });
+    </script>
+
+</body>
+</html>
