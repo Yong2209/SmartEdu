@@ -1,51 +1,77 @@
-# SmartEdu database package (MySQL 8.4)
+# SmartEdu - Cài đặt cơ sở dữ liệu
 
-This package contains the corrected 44-table MySQL 8.4 schema and a complete fictional seed dataset covering all 44 tables.
+## 1. Yêu cầu
 
-## Files
+- MySQL Server **8.4.x**.
+- MySQL Workbench hoặc MySQL Client.
+- Backend SmartEdu hiện được cấu hình mặc định kết nối:
+  - Host: `127.0.0.1`
+  - Port: `3307`
+  - Database: `smartedu_demo`
+  - Username: `root`
 
-- `schema.sql` — creates `smartedu_demo`, all 44 tables, indexes, foreign keys and supported checks. Run on a fresh/empty database only.
-- `seed.sql` — inserts fictional development data into all 44 tables. Run after `schema.sql` succeeds.
+Nếu MySQL của bạn chạy port khác, hãy cập nhật cấu hình trong
+`Be/demo/src/main/resources/application.properties`.
 
-## MySQL Workbench setup
+## 2. Cài đặt bằng MySQL Workbench
 
-1. Start MySQL Server 8.4.
-2. Open MySQL Workbench and connect to the team's MySQL instance (for example `127.0.0.1`, port `3307`).
-3. Open `schema.sql` with **File > Open SQL Script...** and execute the whole script once.
-4. Confirm the schema has 44 tables:
+1. Khởi động MySQL Server.
+2. Mở MySQL Workbench và kết nối tới server của nhóm.
+3. Mở file `schema.sql` trong thư mục này.
+4. Chạy toàn bộ file một lần bằng nút **Execute**.
+5. Mở file `seed.sql` và chạy toàn bộ file một lần.
+6. Chạy câu lệnh kiểm tra:
 
 ```sql
+USE smartedu_demo;
+
 SELECT COUNT(*) AS total_tables
 FROM information_schema.tables
 WHERE table_schema = 'smartedu_demo'
   AND table_type = 'BASE TABLE';
-```
 
-5. Open `seed.sql` and execute the whole script once.
-6. Confirm sample data:
+SELECT id, username, email, account_status
+FROM users
+ORDER BY id;
 
-```sql
-USE smartedu_demo;
-SELECT * FROM roles;
-SELECT id, username, email, account_status FROM users ORDER BY id;
-SELECT course_code, course_name FROM courses ORDER BY course_code;
 SELECT COUNT(*) AS question_count FROM questions;
 SELECT COUNT(*) AS quiz_count FROM quiz_tests;
 ```
 
-## Demo accounts
+`total_tables` phải có giá trị **44**.
 
-All demo accounts use the same local-development password: `Demo@12345`.
+## 3. Cài đặt bằng dòng lệnh
 
-- `student.demo` / `student1@smartedu.test`
-- `student.demo2` / `student2@smartedu.test`
-- `admin.demo` / `admin@smartedu.test`
+Trên Windows, mở PowerShell tại thư mục gốc repository và chạy:
 
-The `users.password_hash` values are BCrypt hashes. OTP, reset-token and session data are hashed placeholders for database/UI demonstration, not live credentials or valid sessions. These fictional accounts must never be used in production.
+```powershell
+mysql -h 127.0.0.1 -P 3307 -u root -p < .\Database\schema.sql
+mysql -h 127.0.0.1 -P 3307 -u root -p < .\Database\seed.sql
+```
 
-## Important notes
+Nhập mật khẩu MySQL khi được yêu cầu. Chỉ chạy `seed.sql` sau khi `schema.sql`
+đã chạy thành công.
 
-- `seed.sql` assumes that all 44 tables exist and should be run once on a fresh schema. It uses reserved demo IDs (9001–13403); do not rerun it after the application has begun using those IDs.
-- If the team previously inserted data into this database, inspect existing rows before running the seed.
-- Do not commit production data, real student information, database passwords, `.env` files or private backups.
-- Each teammate configures their own local MySQL port, username and password in environment variables. The SQL package does not contain database server credentials.
+## 4. Tài khoản demo
+
+Các tài khoản demo dùng cùng mật khẩu dành cho môi trường phát triển:
+`Demo@12345`.
+
+| Username | Email | Vai trò |
+|---|---|---|
+| `student.demo` | `student1@smartedu.test` | STUDENT |
+| `student.demo2` | `student2@smartedu.test` | STUDENT |
+| `admin.demo` | `admin@smartedu.test` | ADMIN |
+
+Đây là dữ liệu giả lập, không sử dụng cho production.
+
+## 5. Lưu ý
+
+- Chỉ chạy các script trên database trống hoặc database dùng riêng cho
+  development.
+- Không chạy lại `schema.sql` trên database đang có dữ liệu.
+- `seed.sql` dùng các ID demo cố định từ `9001` đến `13403`; chỉ chạy một lần.
+- Không đưa mật khẩu database, dữ liệu sinh viên thật hoặc file backup riêng tư
+  vào repository.
+- Backend đang dùng `spring.jpa.hibernate.ddl-auto=none`, vì vậy phải import
+  schema trước khi chạy ứng dụng.
