@@ -244,6 +244,79 @@ body.modal-open{overflow:hidden}
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);padding:12px 20px;border-radius:10px;background:#252d42;color:#fff;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:200}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+
+/* ===== AI + TỰ LUYỆN ===== */
+.tabbar{display:flex;gap:6px;border-bottom:1px solid var(--border);margin-bottom:22px}
+.tabbar button{position:relative;padding:12px 16px;border:0;background:transparent;color:#77819b;font-size:13px;font-weight:500;cursor:pointer}
+.tabbar button.active{color:var(--primary);font-weight:600}
+.tabbar button.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--primary)}
+.cnt{margin-left:6px;padding:1px 7px;border-radius:10px;background:#efedff;color:var(--primary);font-size:10px}
+.tp{display:none}.tp.active{display:block;animation:fade .2s ease-out}
+.two{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:20px;align-items:start}
+.two.eq{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.box{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.box-h{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.box-h .n{width:28px;height:28px;border-radius:8px;background:#efedff;color:var(--primary);display:grid;place-items:center;font-size:12px;font-weight:700}
+.box-h h3{font-size:15px;font-weight:600;color:#273047}.box-h small{display:block;font-size:11px;color:#a0a6b6;margin-top:2px;font-weight:400}
+.box-h .btn-outline{margin-left:auto;padding:9px 14px;font-size:13px}
+.box-b{padding:20px;display:flex;flex-direction:column;gap:16px}
+.fl label{display:block;margin-bottom:7px;font-size:13px;font-weight:500;color:#252d42}
+.fl input,.fl select{width:100%;height:42px;padding:0 12px;border:1px solid #e1e4ee;border-radius:10px;outline:0;background:#fff;font-size:14px;color:var(--text)}
+.fl input:focus,.fl select:focus{border-color:#8d84ed;box-shadow:0 0 0 3px rgba(85,72,215,.11)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.chips{display:flex;gap:8px}
+.chip{flex:1;height:40px;border:1px solid #e1e4ee;border-radius:10px;background:#fff;color:#4b5570;font-size:13px;font-weight:500;cursor:pointer}
+.chip.on{border-color:#8d84ed;background:#efedff;color:var(--primary);font-weight:600}
+.note{display:flex;gap:10px;padding:12px;border-radius:10px;background:#f4f3ff;font-size:11px;color:#8992a8}
+.note b{display:block;color:#273047;font-size:12px;margin-bottom:2px}.note svg{width:18px;height:18px;color:var(--primary);flex:0 0 18px}
+.btn-primary.w{width:100%;justify-content:center;padding:13px}
+.btn-primary[disabled]{opacity:.6;cursor:wait}
+.q{margin:16px;padding:18px;border:1px solid var(--border);border-radius:14px}
+.q-h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.q-h b{font-size:11px;letter-spacing:1px;color:var(--primary)}
+.lv{padding:2px 8px;border-radius:10px;background:#fff4de;color:#d38a10;font-size:10px}
+.q-h .sp{flex:1}.q-h button{width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#8992a8;cursor:pointer}
+.q-h button:hover{background:#f4f3ff;color:var(--primary)}.q-h svg{width:16px;height:16px}
+.q-t{font-size:14px;color:#273047;margin-bottom:12px;line-height:1.5}
+.ops{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.op{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:9px;font-size:12px;color:#4b5570}
+.op i{width:22px;height:22px;border-radius:6px;background:#f1f2f8;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700;flex:0 0 22px}
+.op.ok{border-color:#bfe6d6;background:#effaf5}.op.ok i{background:#d3f1e4;color:#19a074}
+.op em{margin-left:auto;color:#19a074;font-style:normal}
+.q details{margin-top:12px;border-top:1px solid var(--border);padding-top:10px;font-size:11px;color:#8992a8}
+.q summary{cursor:pointer;color:var(--primary);font-weight:600}
+.empty-r{padding:60px 20px;text-align:center;color:var(--muted);font-size:13px}
+.empty-r b{display:block;color:#273047;font-size:15px;margin-bottom:6px}
+.set-ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px}
+.set-ic svg{width:20px;height:20px}
+.set .card-more{top:14px;right:14px}.set .card-more>button{box-shadow:none}
+.set{padding:20px}.set h3{font-size:15px;font-weight:500;color:#273047}.set p{margin:6px 0 16px;font-size:11px;color:#a0a6b6}
+.set .acts{display:flex;gap:8px}.set .acts button{flex:1;justify-content:center}
+.btn-primary.s2{padding:9px 12px;font-size:12px;box-shadow:none}
+.dur{margin-top:4px}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sum div{display:flex;gap:10px;align-items:center;font-size:12px;font-weight:600;color:#273047}.sum small{display:block;font-weight:400;color:#a0a6b6;font-size:10px}
+.sum svg{width:20px;height:20px;color:var(--primary)}
+.act{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border)}.act:last-child{border:0}
+.sc{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:#e6f7f0;color:#19a074}
+.sc.mid{background:#fff4de;color:#d38a10}.sc.low{background:#fdecec;color:#dc2626}
+.act b{display:block;font-size:13px;color:#273047}.act small{font-size:11px;color:#a0a6b6}.act span{margin-left:auto;font-size:11px;color:#a0a6b6}
+.link{margin-left:auto;border:0;background:none;color:var(--primary);font-size:12px;font-weight:600;cursor:pointer}
+table.h{width:100%;border-collapse:collapse;font-size:13px}
+table.h th{text-align:left;padding:14px 20px;background:#fafaff;font-size:10px;letter-spacing:.8px;color:#8992a8;font-weight:600}
+table.h td{padding:18px 20px;border-top:1px solid var(--border);color:#6b7590}table.h td:first-child{color:#273047;font-weight:600}
+.h-wrap{overflow-x:auto}.eye{border:0;background:none;color:#7a84a0;cursor:pointer}.eye:hover{color:var(--primary)}.eye svg{width:20px;height:20px}
+.quiz{width:min(100%,720px)}
+.qbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}.qbar h2{font-size:16px;font-weight:600;flex:1}
+.timer{padding:6px 12px;border-radius:20px;background:#efedff;color:var(--primary);font-weight:700;font-size:13px}
+.prog{height:5px;border-radius:5px;background:#eceef6;margin-bottom:18px;overflow:hidden}.prog div{height:100%;background:var(--primary);transition:.2s}
+.pick{cursor:pointer;margin-bottom:8px}.pick:hover{border-color:#8d84ed}.pick.sel{border-color:var(--primary);background:#efedff}
+.pick.bad{border-color:#f3c2c2;background:#fdf1f1}.pick.bad i{background:#f9d6d6;color:#dc2626}
+.qnav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.big{font-size:44px;font-weight:700;color:var(--primary);text-align:center}.res-s{text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px}
+@media(max-width:1000px){.two,.two.eq{grid-template-columns:1fr}}
+@media(max-width:700px){.ops{grid-template-columns:1fr}}
+
 /* ============ RESPONSIVE ============ */
 @media(max-width:1100px){
   :root{--sidebar-w:68px}
@@ -373,29 +446,55 @@ body.modal-open{overflow:hidden}
       <!-- ===== CÂU HỎI AI ===== -->
       <section class="page" id="page-ai">
         <div class="page-head"><div>
-          <div class="eyebrow">TRỢ LÝ THÔNG MINH</div>
-          <h1 class="page-title">Câu hỏi AI</h1>
-          <p class="page-sub">Tạo bộ câu hỏi ôn tập từ học liệu của bạn.</p>
+          <div class="eyebrow">TRỢ LÝ HỌC TẬP AI</div>
+          <h1 class="page-title">Câu hỏi ôn tập bằng AI</h1>
+          <p class="page-sub">Biến học liệu của bạn thành bộ câu hỏi chất lượng trong vài giây.</p>
         </div></div>
-        <div class="placeholder"><div>
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg></div>
-          <h3>Chưa có bộ câu hỏi nào</h3>
-          <p>Chọn “Tạo câu hỏi” ở một học liệu để bắt đầu.</p>
+        <div class="tabbar" id="aiTabs"><button class="active" data-t="new">Tạo mới</button><button data-t="saved">Bộ câu hỏi đã lưu<span class="cnt" id="savedCnt">0</span></button></div>
+
+        <div class="tp active" id="ai-new"><div class="two">
+          <div class="box"><div class="box-h"><span class="n">1</span><h3>Thiết lập yêu cầu</h3></div>
+            <div class="box-b">
+              <div class="fl"><label>Học liệu nguồn</label><select id="aiSrc"></select></div>
+              <div class="fl"><label>Phạm vi nội dung</label><select id="aiScope"></select></div>
+              <div class="fl"><label>Dạng câu hỏi</label><div class="chips"><button type="button" class="chip on" data-ty="mc">Trắc nghiệm</button><button type="button" class="chip on" data-ty="tf">Đúng / Sai</button></div></div>
+              <div class="row2"><div class="fl"><label>Số lượng</label><input id="aiNum" type="number" min="1" max="20" value="10"></div>
+                <div class="fl"><label>Độ khó</label><select id="aiLv"><option>Dễ</option><option selected>Trung bình</option><option>Khó</option></select></div></div>
+              <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/></svg><div><b>AI sẽ bám sát học liệu</b>Câu hỏi có đáp án, giải thích và tham chiếu nguồn.</div></div>
+              <button class="btn-primary w" id="aiGen" type="button">Tạo câu hỏi bằng AI</button>
+            </div></div>
+          <div class="box"><div class="box-h"><span class="n">2</span><div><h3>Xem và tinh chỉnh</h3><small id="aiMeta">Chưa có câu hỏi</small></div>
+            <button class="btn-outline" id="aiSave" type="button" style="display:none">Lưu bộ câu hỏi</button></div>
+            <div id="aiList"><div class="empty-r"><b>Chưa có câu hỏi nào</b>Chọn học liệu và bấm “Tạo câu hỏi bằng AI”.</div></div></div>
         </div></div>
+
+        <div class="tp" id="ai-saved"><div class="grid" id="setGrid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))"></div></div>
       </section>
 
       <!-- ===== TỰ LUYỆN ===== -->
       <section class="page" id="page-practice">
         <div class="page-head"><div>
-          <div class="eyebrow">ÔN TẬP</div>
+          <div class="eyebrow">KIỂM TRA &amp; CỦNG CỐ KIẾN THỨC</div>
           <h1 class="page-title">Tự luyện</h1>
-          <p class="page-sub">Luyện tập với các bộ câu hỏi và theo dõi tiến bộ.</p>
+          <p class="page-sub">Tạo bài kiểm tra, ôn lại câu sai và theo dõi tiến bộ của bạn.</p>
         </div></div>
-        <div class="placeholder"><div>
-          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
-          <h3>Chưa có bài luyện tập</h3>
-          <p>Hãy tạo bộ câu hỏi AI trước để bắt đầu tự luyện.</p>
+        <div class="tabbar" id="prTabs"><button class="active" data-t="do">Bài tự luyện</button><button data-t="hist">Lịch sử</button></div>
+
+        <div class="tp active" id="pr-do"><div class="two eq">
+          <div class="box"><div class="box-h"><span class="n">1</span><h3>Tạo bài kiểm tra mới</h3></div>
+            <div class="box-b">
+              <div class="fl"><label>Chọn bộ câu hỏi</label><select id="prSet"></select></div>
+              <div class="fl"><label>Thời gian làm bài</label><div class="chips dur" id="prDur"><button type="button" class="chip" data-m="10">10 phút</button><button type="button" class="chip on" data-m="15">15 phút</button><button type="button" class="chip" data-m="20">20 phút</button><button type="button" class="chip" data-m="30">30 phút</button></div></div>
+              <div class="sum"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span><span id="sumQ">0 câu hỏi</span><small>Trắc nghiệm &amp; Đúng/Sai</small></span></div>
+                <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><span id="sumT">15 phút</span><small>Tự động nộp khi hết giờ</small></span></div></div>
+              <button class="btn-primary w" id="prStart" type="button">Bắt đầu làm bài →</button>
+            </div></div>
+          <div class="box"><div class="box-h"><h3>Hoạt động gần đây</h3><small style="margin:0">Kết quả 4 bài gần nhất</small><button class="link" id="prAll" type="button">Xem tất cả</button></div><div id="prRecent"></div></div>
         </div></div>
+
+        <div class="tp" id="pr-hist"><div class="box"><div class="box-h"><h3>Lịch sử làm bài</h3><small id="hCnt" style="margin:0"></small>
+          <select class="select" id="hSort" style="margin-left:auto"><option value="new">Mới nhất</option><option value="old">Cũ nhất</option><option value="hi">Điểm cao nhất</option><option value="lo">Điểm thấp nhất</option></select></div>
+          <div class="h-wrap"><table class="h"><thead><tr><th>BÀI KIỂM TRA</th><th>NGÀY LÀM</th><th>THỜI GIAN</th><th>KẾT QUẢ</th><th>ĐIỂM</th><th></th></tr></thead><tbody id="hBody"></tbody></table></div></div></div>
       </section>
 
       <!-- ===== THỜI KHÓA BIỂU ===== -->
@@ -517,6 +616,7 @@ body.modal-open{overflow:hidden}
   </section>
 </div>
 
+<div class="overlay" id="quizOv"><section class="modal quiz" id="quizBox"></section></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -544,6 +644,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active", p.id==="page-"+name));
     navButtons.forEach(b=>b.classList.toggle("active", b.dataset.page===name));
     document.querySelector(".content").scrollTop = 0;
+    if(typeof onPage==="function") onPage(name);
     if(location.hash !== "#"+name) history.replaceState(null,"","#"+name);
   }
   navButtons.forEach(b=>b.addEventListener("click", ()=>showPage(b.dataset.page)));
@@ -646,7 +747,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if(e.target.closest(".view")){
       toast("Xem nội dung: "+m.name);
     } else if(e.target.closest(".gen")){
-      showPage("ai"); toast("Tạo câu hỏi từ: "+m.name);
+      openAIFor(m);
     }
   });
 
@@ -771,6 +872,238 @@ document.addEventListener("DOMContentLoaded", function () {
     e.target.reset(); pwHint.classList.remove("show");
     toast("Đã cập nhật mật khẩu (chưa kết nối backend)");
   });
+
+  /* ================= CÂU HỎI AI + TỰ LUYỆN (dữ liệu mẫu, chưa có backend) ================= */
+  // [loại, câu hỏi, đáp án, index đúng, giải thích]  — thay bằng API AI thật sau
+  const BANK=[
+   ["mc","Chức năng chính của tầng mạng trong mô hình OSI là gì?",["Truyền bit qua môi trường vật lý","Định tuyến gói tin giữa các mạng","Mã hóa dữ liệu ứng dụng","Kiểm soát phiên làm việc"],1,"Tầng mạng chịu trách nhiệm đánh địa chỉ logic và định tuyến gói tin."],
+   ["mc","Địa chỉ IPv4 có độ dài bao nhiêu bit?",["16 bit","32 bit","64 bit","128 bit"],1,"IPv4 gồm 4 octet, mỗi octet 8 bit."],
+   ["mc","Router hoạt động chủ yếu tại tầng nào trong mô hình OSI?",["Tầng vật lý","Tầng liên kết dữ liệu","Tầng mạng","Tầng giao vận"],2,"Router xử lý địa chỉ IP nên thuộc tầng mạng."],
+   ["tf","TCP là giao thức hướng kết nối và đảm bảo truyền tin cậy.",["Đúng","Sai"],0,"TCP dùng bắt tay 3 bước và cơ chế xác nhận."],
+   ["tf","Switch dùng địa chỉ IP để chuyển khung dữ liệu.",["Đúng","Sai"],1,"Switch (L2) dùng địa chỉ MAC."],
+   ["mc","Dạng chuẩn hóa nào loại bỏ phụ thuộc bắc cầu?",["1NF","2NF","3NF","BCNF"],2,"3NF loại bỏ phụ thuộc bắc cầu vào khóa chính."],
+   ["mc","Khóa chính (primary key) có đặc điểm nào?",["Có thể trùng lặp","Cho phép NULL","Xác định duy nhất một bản ghi","Luôn là chuỗi"],2,"Khóa chính định danh duy nhất mỗi bản ghi."],
+   ["mc","Lệnh SQL nào dùng để lấy dữ liệu từ bảng?",["INSERT","SELECT","UPDATE","DROP"],1,"SELECT truy vấn dữ liệu."],
+   ["tf","Một bảng có thể có nhiều khóa chính.",["Đúng","Sai"],1,"Chỉ có một khóa chính (có thể gồm nhiều cột)."],
+   ["tf","Chuẩn hóa giúp giảm dư thừa dữ liệu.",["Đúng","Sai"],0,"Mục tiêu chính của chuẩn hóa là giảm dư thừa."],
+   ["mc","Trong Scrum, một Sprint thường kéo dài bao lâu?",["1–4 tuần","3–6 tháng","1 ngày","1 năm"],0,"Sprint có thời gian cố định, thường 1–4 tuần."],
+   ["mc","Vai trò nào chịu trách nhiệm quản lý Product Backlog?",["Scrum Master","Product Owner","Developer","Stakeholder"],1,"Product Owner sắp xếp và quản lý backlog."],
+   ["mc","Cuộc họp nào diễn ra hằng ngày trong Scrum?",["Sprint Review","Retrospective","Daily Scrum","Planning"],2,"Daily Scrum kéo dài khoảng 15 phút."],
+   ["tf","Agile ưu tiên phản hồi thay đổi hơn là bám theo kế hoạch.",["Đúng","Sai"],0,"Đây là một giá trị trong Tuyên ngôn Agile."],
+   ["tf","Scrum Master là người ra lệnh cho nhóm phát triển.",["Đúng","Sai"],1,"Scrum Master là người hỗ trợ, không ra lệnh."],
+   ["mc","Độ phức tạp thời gian của tìm kiếm nhị phân là gì?",["O(n)","O(log n)","O(n²)","O(1)"],1,"Mỗi bước loại bỏ một nửa dữ liệu."],
+   ["mc","Tìm kiếm nhị phân yêu cầu dữ liệu phải như thế nào?",["Ngẫu nhiên","Đã sắp xếp","Không trùng","Toàn số nguyên"],1,"Dữ liệu cần được sắp xếp."],
+   ["mc","Thuật toán nào duyệt theo chiều rộng?",["DFS","BFS","Dijkstra","Quick sort"],1,"BFS duyệt theo từng lớp đỉnh."],
+   ["tf","Tìm kiếm tuyến tính có độ phức tạp O(n).",["Đúng","Sai"],0,"Trường hợp xấu nhất phải duyệt cả n phần tử."],
+   ["tf","DFS dùng hàng đợi (queue) để duyệt.",["Đúng","Sai"],1,"DFS dùng ngăn xếp (stack) hoặc đệ quy."]
+  ];
+  const TOPIC=[[/mạng|network/i,0,5],[/dữ liệu|csdl|sql/i,5,10],[/agile|scrum|phần mềm/i,10,15],[/thuật toán|tìm kiếm/i,15,20]];
+  const LV_TXT={"Dễ":"Dễ","Trung bình":"Trung bình","Khó":"Khó"};
+  const LET="ABCD";
+  const ICO_E='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+  const ICO_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-15-6.7L3 8M3 3v5h5M3 12a9 9 0 0 0 15 6.7L21 16M21 21v-5h-5"/></svg>';
+  const SET_COL=[["#e8f0fd","#3f7fe0"],["#efedff","#6659ca"],["#e6f7f0","#19a074"],["#fff4de","#d38a10"]];
+  const pad=n=>String(n).padStart(2,"0");
+  const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
+  const scoreCls=v=>v>=8?"":v>=6.5?"mid":"low";
+
+  function pickQuestions(name,n,types,lv,exclude){
+    const t=TOPIC.find(x=>x[0].test(name));
+    let idx=BANK.map((_,i)=>i).filter(i=>types.includes(BANK[i][0])&&!(exclude||[]).includes(i));
+    if(t) idx=[...idx.filter(i=>i>=t[1]&&i<t[2]),...shuffle(idx.filter(i=>i<t[1]||i>=t[2]))];
+    else idx=shuffle(idx);
+    return idx.slice(0,n).map(i=>({bi:i,lv}));
+  }
+  const qOf=q=>BANK[q.bi];
+
+  let savedSets=[
+   {id:1,name:"Ôn tập Mạng máy tính – Chương 4",date:new Date(2026,2,16),qs:pickQuestions("mạng",10,["mc","tf"],"Trung bình")},
+   {id:2,name:"Cơ sở dữ liệu – Chuẩn hóa",date:new Date(2026,2,14),qs:pickQuestions("dữ liệu",15,["mc","tf"],"Trung bình")},
+   {id:3,name:"Agile & Scrum cơ bản",date:new Date(2026,2,10),qs:pickQuestions("agile",20,["mc","tf"],"Trung bình")},
+   {id:4,name:"Thuật toán tìm kiếm",date:new Date(2026,2,8),qs:pickQuestions("thuật toán",12,["mc","tf"],"Trung bình")}
+  ];
+  let attempts=[
+   {name:"Mạng máy tính – Lần 2",date:new Date(2026,2,16),time:"12:48",ok:9,total:10},
+   {name:"Chuẩn hóa dữ liệu",date:new Date(2026,2,14),time:"18:02",ok:12,total:15},
+   {name:"Agile & Scrum",date:new Date(2026,2,10),time:"21:35",ok:17,total:20},
+   {name:"Mạng máy tính – Lần 1",date:new Date(2026,2,8),time:"11:20",ok:7,total:10}
+  ];
+  let cur=null; // bộ câu hỏi đang xem ở tab Tạo mới
+  let setSeq=4;
+
+  function tabs(id,cb){document.querySelectorAll("#"+id+" button").forEach(b=>b.addEventListener("click",()=>cb(b.dataset.t)));}
+  function setTab(bar,prefix,t){
+    document.querySelectorAll("#"+bar+" button").forEach(b=>b.classList.toggle("active",b.dataset.t===t));
+    document.querySelectorAll('[id^="'+prefix+'"].tp').forEach(p=>p.classList.toggle("active",p.id===prefix+t));
+  }
+  tabs("aiTabs",t=>setTab("aiTabs","ai-",t));
+  tabs("prTabs",t=>setTab("prTabs","pr-",t));
+
+  var ready;
+  function onPage(name){
+    if(!ready) return;
+    if(name==="ai") refreshAI();
+    if(name==="practice") refreshPractice();
+  }
+  let pendingSrc=null;
+  function openAIFor(m){ pendingSrc=m.id; showPage("ai"); setTab("aiTabs","ai-","new"); }
+
+  /* ----- Câu hỏi AI ----- */
+  function refreshAI(){
+    const sel=$("aiSrc"), keep=pendingSrc||sel.value;
+    sel.innerHTML=materials.map(m=>`<option value="${m.id}" ${m.status!=="done"?"disabled":""}>${esc(m.name)}${m.status!=="done"?" (đang xử lý)":""}</option>`).join("");
+    if(keep && materials.some(m=>m.id==keep&&m.status==="done")) sel.value=keep;
+    pendingSrc=null; refreshScope(); $("savedCnt").textContent=savedSets.length; renderSets();
+  }
+  function refreshScope(){
+    const m=materials.find(x=>x.id==$("aiSrc").value), p=m&&m.pages;
+    $("aiScope").innerHTML= p ? `<option>Toàn bộ tài liệu (${p} trang)</option><option>Nửa đầu (trang 1–${Math.ceil(p/2)})</option><option>Nửa sau (trang ${Math.ceil(p/2)+1}–${p})</option>` : "<option>Toàn bộ tài liệu</option>";
+  }
+  $("aiSrc").addEventListener("change",refreshScope);
+  document.querySelectorAll(".chip[data-ty]").forEach(c=>c.addEventListener("click",()=>{
+    const on=document.querySelectorAll(".chip[data-ty].on");
+    if(c.classList.contains("on")&&on.length===1) return toast("Cần chọn ít nhất một dạng câu hỏi");
+    c.classList.toggle("on");
+  }));
+
+  $("aiGen").addEventListener("click",()=>{
+    const m=materials.find(x=>x.id==$("aiSrc").value); if(!m) return toast("Vui lòng chọn học liệu đã xử lý");
+    const types=[...document.querySelectorAll(".chip[data-ty].on")].map(c=>c.dataset.ty);
+    let n=Math.max(1,Math.min(20,parseInt($("aiNum").value)||10)); $("aiNum").value=n;
+    const btn=$("aiGen"); btn.disabled=true; btn.textContent="AI đang tạo câu hỏi...";
+    $("aiList").innerHTML='<div class="empty-r"><b>Đang phân tích học liệu...</b>Vui lòng chờ trong giây lát.</div>';
+    setTimeout(()=>{ // mô phỏng gọi AI
+      const qs=pickQuestions(m.name,n,types,$("aiLv").value);
+      cur={name:"Ôn tập "+m.name,qs,saved:false};
+      if(qs.length<n) toast("Dữ liệu mẫu chỉ có "+qs.length+" câu cho lựa chọn này");
+      btn.disabled=false; btn.textContent="Tạo câu hỏi bằng AI"; renderCur();
+    },1200);
+  });
+
+  function qHTML(q,i,edit){
+    const d=qOf(q);
+    const ops=d[2].map((o,k)=>`<div class="op ${k===d[3]?"ok":""}"><i>${d[0]==="tf"?(k?"S":"Đ"):LET[k]}</i>${esc(o)}${k===d[3]?"<em>✓</em>":""}</div>`).join("");
+    const act=edit?"":`<button type="button" data-a="edit" title="Sửa câu hỏi">${ICO_E}</button><button type="button" data-a="regen" title="Tạo lại câu này">${ICO_R}</button>`;
+    return `<div class="q" data-i="${i}"><div class="q-h"><b>CÂU ${i+1}</b><span class="lv">${q.lv}</span><span class="sp"></span>${act}</div>
+      <div class="q-t">${esc(d[1])}</div><div class="ops">${ops}</div>
+      <details><summary>Xem giải thích &amp; nguồn tham chiếu</summary><p style="margin-top:8px">${esc(d[4])}<br>Nguồn: học liệu, trang ${(d.length*3+i*2)%20+1}</p></details></div>`;
+  }
+  function renderCur(){
+    const box=$("aiList");
+    if(!cur||!cur.qs.length){box.innerHTML='<div class="empty-r"><b>Chưa có câu hỏi nào</b>Chọn học liệu và bấm “Tạo câu hỏi bằng AI”.</div>';$("aiMeta").textContent="Chưa có câu hỏi";$("aiSave").style.display="none";return;}
+    const hasTf=cur.qs.some(q=>qOf(q)[0]==="tf"), hasMc=cur.qs.some(q=>qOf(q)[0]==="mc");
+    $("aiMeta").textContent=cur.qs.length+" câu hỏi · "+[hasMc&&"Trắc nghiệm",hasTf&&"Đúng/Sai"].filter(Boolean).join(" & ");
+    $("aiSave").style.display=cur.saved?"none":"inline-flex";
+    box.innerHTML=cur.qs.map((q,i)=>qHTML(q,i)).join("");
+  }
+  $("aiList").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-a]"); if(!b||!cur) return;
+    const i=+b.closest(".q").dataset.i;
+    if(b.dataset.a==="regen"){
+      const d=qOf(cur.qs[i]), nq=pickQuestions(cur.name,1,[d[0]],cur.qs[i].lv,cur.qs.map(q=>q.bi));
+      if(!nq.length) return toast("Không còn câu hỏi khác để thay thế");
+      cur.qs[i]=nq[0]; renderCur(); toast("Đã tạo lại câu "+(i+1));
+    } else {
+      const t=prompt("Sửa nội dung câu hỏi:",qOf(cur.qs[i])[1]);
+      if(t&&t.trim()){ BANK[cur.qs[i].bi]=BANK[cur.qs[i].bi].slice(); BANK[cur.qs[i].bi][1]=t.trim(); renderCur(); toast("Đã cập nhật câu hỏi"); }
+    }
+  });
+  $("aiSave").addEventListener("click",()=>{
+    if(!cur) return;
+    const name=prompt("Tên bộ câu hỏi:",cur.name); if(!name||!name.trim()) return;
+    savedSets.unshift({id:++setSeq,name:name.trim(),date:new Date(),qs:cur.qs.map(q=>({...q}))});
+    cur.saved=true; renderCur(); $("savedCnt").textContent=savedSets.length; renderSets(); setTab("aiTabs","ai-","saved"); toast("Đã lưu bộ câu hỏi");
+  });
+
+  function renderSets(){
+    $("setGrid").innerHTML=savedSets.length?savedSets.map((s,i)=>{const c=SET_COL[i%4];return `
+     <article class="box set" data-id="${s.id}"><div class="set-ic" style="background:${c[0]};color:${c[1]}">${ICO_DOC}</div>
+      <div class="card-more"><button type="button" class="more-btn">•••</button><div class="more-pop"><button type="button" class="rn">Đổi tên</button><button type="button" class="del">Xóa bộ câu hỏi</button></div></div>
+      <h3>${esc(s.name)}</h3><p>${s.qs.length} câu · Đã lưu ${fmtDate(s.date)}</p>
+      <div class="acts"><button class="btn-outline view" type="button">Xem lại</button><button class="btn-primary s2 prac" type="button">Tự luyện</button></div></article>`;}).join(""):'<div class="empty">Chưa có bộ câu hỏi nào được lưu.</div>';
+  }
+  const ICO_DOC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>';
+  $("setGrid").addEventListener("click",e=>{
+    const card=e.target.closest(".set"); if(!card) return;
+    const s=savedSets.find(x=>x.id==card.dataset.id);
+    if(e.target.closest(".more-btn")){e.stopPropagation();const bx=card.querySelector(".card-more"),w=bx.classList.contains("open");document.querySelectorAll(".card-more.open").forEach(x=>x.classList.remove("open"));bx.classList.toggle("open",!w);}
+    else if(e.target.closest(".del")){if(confirm("Xóa bộ câu hỏi “"+s.name+"”?")){savedSets=savedSets.filter(x=>x!==s);$("savedCnt").textContent=savedSets.length;renderSets();}}
+    else if(e.target.closest(".rn")){const n=prompt("Tên mới:",s.name);if(n&&n.trim()){s.name=n.trim();renderSets();}}
+    else if(e.target.closest(".view")){cur={name:s.name,qs:s.qs,saved:true};renderCur();setTab("aiTabs","ai-","new");}
+    else if(e.target.closest(".prac")){showPage("practice");$("prSet").value=s.id;updSum();}
+  });
+
+  /* ----- Tự luyện ----- */
+  let dur=15;
+  function refreshPractice(){
+    const keep=$("prSet").value;
+    $("prSet").innerHTML=savedSets.map(s=>`<option value="${s.id}">${esc(s.name)} (${s.qs.length} câu)</option>`).join("")||'<option value="">Chưa có bộ câu hỏi đã lưu</option>';
+    if(keep&&savedSets.some(s=>s.id==keep)) $("prSet").value=keep;
+    updSum(); renderRecent(); renderHist();
+  }
+  function updSum(){const s=savedSets.find(x=>x.id==$("prSet").value);$("sumQ").textContent=(s?s.qs.length:0)+" câu hỏi";$("sumT").textContent=dur+" phút";}
+  $("prSet").addEventListener("change",updSum);
+  $("prDur").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;dur=+b.dataset.m;document.querySelectorAll("#prDur .chip").forEach(c=>c.classList.toggle("on",c===b));updSum();});
+  $("prAll").addEventListener("click",()=>setTab("prTabs","pr-","hist"));
+
+  const dayLbl=d=>{const t=new Date();return d.toDateString()===t.toDateString()?"Hôm nay":pad(d.getDate())+"/"+pad(d.getMonth()+1);};
+  const pt=a=>Math.round(a.ok/a.total*100)/10;
+  function renderRecent(){
+    const l=[...attempts].sort((a,b)=>b.date-a.date).slice(0,4);
+    $("prRecent").innerHTML=l.length?l.map(a=>`<div class="act"><div class="sc ${scoreCls(pt(a))}">${pt(a).toFixed(1)}</div><div><b>${esc(a.name)}</b><small>${a.ok}/${a.total} câu đúng</small></div><span>${dayLbl(a.date)}</span></div>`).join(""):'<div class="empty-r">Chưa có bài làm nào.</div>';
+  }
+  function renderHist(){
+    const m=$("hSort").value, l=[...attempts].sort((a,b)=>m==="old"?a.date-b.date:m==="hi"?pt(b)-pt(a):m==="lo"?pt(a)-pt(b):b.date-a.date);
+    $("hCnt").textContent=attempts.length+" lần làm bài đã được ghi nhận";
+    $("hBody").innerHTML=l.map(a=>`<tr><td>${esc(a.name)}</td><td>${fmtDate(a.date)}</td><td>${a.time}</td><td>${a.ok}/${a.total}</td><td><span class="sc ${scoreCls(pt(a))}" style="width:auto;height:auto;display:inline-block;padding:6px 10px;border-radius:8px;font-size:12px">${pt(a).toFixed(1)}</span></td><td><button class="eye" data-n="${attempts.indexOf(a)}" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></td></tr>`).join("")||'<tr><td colspan="6" style="text-align:center">Chưa có lịch sử làm bài.</td></tr>';
+  }
+  $("hSort").addEventListener("change",renderHist);
+  $("hBody").addEventListener("click",e=>{const b=e.target.closest(".eye");if(!b)return;const a=attempts[+b.dataset.n];if(a.review)showResult(a);else toast("Bài làm mẫu — không có chi tiết từng câu");});
+
+  /* ----- Làm bài ----- */
+  const qo=$("quizOv"), qb=$("quizBox"); let run=null;
+  $("prStart").addEventListener("click",()=>{
+    const s=savedSets.find(x=>x.id==$("prSet").value); if(!s) return toast("Hãy lưu một bộ câu hỏi trước khi tự luyện");
+    run={set:s,qs:shuffle(s.qs),ans:{},i:0,left:dur*60,start:Date.now()};
+    qo.classList.add("open"); document.body.classList.add("modal-open"); drawQ();
+    run.tm=setInterval(()=>{run.left--;const t=$("qt");if(t)t.textContent=pad(Math.floor(run.left/60))+":"+pad(run.left%60);if(run.left<=0)finish(true);},1000);
+  });
+  function drawQ(){
+    const q=run.qs[run.i],d=qOf(q),n=run.qs.length;
+    qb.innerHTML=`<div class="qbar"><h2>${esc(run.set.name)}</h2><span class="timer" id="qt">${pad(Math.floor(run.left/60))}:${pad(run.left%60)}</span></div>
+     <div class="prog"><div style="width:${(run.i+1)/n*100}%"></div></div>
+     <div class="q-h"><b>CÂU ${run.i+1}/${n}</b></div><div class="q-t">${esc(d[1])}</div>
+     ${d[2].map((o,k)=>`<div class="op pick ${run.ans[run.i]===k?"sel":""}" data-k="${k}"><i>${d[0]==="tf"?(k?"S":"Đ"):LET[k]}</i>${esc(o)}</div>`).join("")}
+     <div class="qnav"><button class="btn-cancel" id="qPrev" ${run.i?"":"disabled"}>← Câu trước</button>
+     ${run.i<n-1?'<button class="btn-submit" id="qNext">Câu tiếp →</button>':'<button class="btn-submit" id="qDone">Nộp bài</button>'}</div>
+     <div style="text-align:center;margin-top:12px"><button class="link" id="qExit" style="margin:0;color:#8992a8">Thoát (không lưu)</button></div>`;
+  }
+  qb.addEventListener("click",e=>{
+  if(e.target.id==="qClose"){ closeQuiz(); return; }
+    if(!run) return;
+    const p=e.target.closest(".pick"); if(p){run.ans[run.i]=+p.dataset.k;drawQ();return;}
+    if(e.target.id==="qPrev"){run.i--;drawQ();} else if(e.target.id==="qNext"){run.i++;drawQ();}
+    else if(e.target.id==="qDone"){const un=run.qs.length-Object.keys(run.ans).length;if(!un||confirm("Còn "+un+" câu chưa trả lời. Nộp bài?"))finish(false);}
+    else if(e.target.id==="qExit"){if(confirm("Thoát và bỏ bài làm này?"))closeQuiz();}
+    
+  });
+  function closeQuiz(){if(run)clearInterval(run.tm);run=null;qo.classList.remove("open");document.body.classList.remove("modal-open");}
+  function finish(auto){
+    clearInterval(run.tm);
+    const ok=run.qs.filter((q,i)=>run.ans[i]===qOf(q)[3]).length, el=Math.round((Date.now()-run.start)/1000);
+    const n=attempts.filter(a=>a.name.startsWith(run.set.name)).length;
+    const a={name:run.set.name+(n?" – Lần "+(n+1):""),date:new Date(),time:pad(Math.floor(el/60))+":"+pad(el%60),ok,total:run.qs.length,review:{qs:run.qs,ans:{...run.ans}}};
+    attempts.push(a); run=null; if(auto)toast("Hết giờ, hệ thống đã tự nộp bài"); renderRecent(); renderHist(); showResult(a);
+  }
+  function showResult(a){
+    qo.classList.add("open"); document.body.classList.add("modal-open");
+    qb.innerHTML=`<div class="qbar"><h2>Kết quả: ${esc(a.name)}</h2></div><div class="big">${pt(a).toFixed(1)}</div><div class="res-s">${a.ok}/${a.total} câu đúng · ${a.time}</div>
+     ${a.review.qs.map((q,i)=>{const d=qOf(q),u=a.review.ans[i];return `<div class="q" style="margin:0 0 10px"><div class="q-t"><b>Câu ${i+1}.</b> ${esc(d[1])}</div>
+      <div class="ops">${d[2].map((o,k)=>`<div class="op ${k===d[3]?"ok":u===k?"bad":""}"><i>${d[0]==="tf"?(k?"S":"Đ"):LET[k]}</i>${esc(o)}${k===d[3]?"<em>✓</em>":u===k?"<em style='color:#dc2626'>✗</em>":""}</div>`).join("")}</div>
+      <details><summary>Giải thích${u===undefined?" · Chưa trả lời":""}</summary><p style="margin-top:6px">${esc(d[4])}</p></details></div>`;}).join("")}
+     <div class="qnav" style="justify-content:flex-end"><button class="btn-submit" id="qClose">Đóng</button></div>`;
+  }
+  ready=true; onPage((location.hash||"").replace("#",""));
 });
 </script>
 </body>
