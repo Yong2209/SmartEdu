@@ -38,7 +38,10 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/actuator/health",
-                                "/api/health")
+                                "/api/health",
+                                "/api/auth/register",
+                                "/api/auth/verify-email",
+                                "/api/auth/resend-verification")
                         .permitAll()
                         .anyRequest().permitAll());
         return http.build();
