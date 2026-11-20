@@ -10,9 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.smartedu.common.security.SessionAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,9 +23,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final CorsProperties corsProperties;
+    private final SessionAuthenticationFilter sessionAuthenticationFilter;
 
-    public SecurityConfig(CorsProperties corsProperties) {
+    public SecurityConfig(
+            CorsProperties corsProperties,
+            SessionAuthenticationFilter sessionAuthenticationFilter) {
         this.corsProperties = corsProperties;
+        this.sessionAuthenticationFilter = sessionAuthenticationFilter;
     }
 
     @Bean
@@ -40,10 +47,17 @@ public class SecurityConfig {
                                 "/actuator/health",
                                 "/api/health",
                                 "/api/auth/register",
+                                "/api/auth/login",
+                                "/api/auth/logout",
+                                "/api/auth/forgot-password",
+                                "/api/auth/reset-password",
                                 "/api/auth/verify-email",
                                 "/api/auth/resend-verification")
                         .permitAll()
-                        .anyRequest().permitAll());
+                        .anyRequest().authenticated())
+                        .addFilterBefore(
+                                sessionAuthenticationFilter,
+                                UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -51,6 +65,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(corsProperties.allowedOrigins());
+        configuration.setAllowedOriginPatterns(corsProperties.allowedOriginPatterns());
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

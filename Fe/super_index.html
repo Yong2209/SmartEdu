@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,208 +9,209 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap"
+        rel="stylesheet">
 
     <style>
+        /* ================= REGISTER POPUP ================= */
+        .register-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(32, 34, 55, 0.52);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
 
-/* ================= REGISTER POPUP ================= */
-.register-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10001;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background: rgba(32, 34, 55, 0.52);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-}
+        .register-overlay.active {
+            display: flex;
+        }
 
-.register-overlay.active {
-    display: flex;
-}
+        .register-card {
+            position: relative;
+            width: min(100%, 812px);
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            padding: 34px 32px 28px;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(20, 22, 42, 0.22);
+            color: #252d42;
+            font-family: 'Inter', sans-serif;
+        }
 
-.register-card {
-    position: relative;
-    width: min(100%, 812px);
-    max-height: calc(100vh - 48px);
-    overflow-y: auto;
-    padding: 34px 32px 28px;
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: 0 24px 70px rgba(20, 22, 42, 0.22);
-    color: #252d42;
-    font-family: 'Inter', sans-serif;
-}
+        .register-heading {
+            position: relative;
+            margin-bottom: 27px;
+        }
 
-.register-heading {
-    position: relative;
-    margin-bottom: 27px;
-}
+        .register-brand {
+            margin-bottom: 9px;
+            color: #665ce4;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.6px;
+        }
 
-.register-brand {
-    margin-bottom: 9px;
-    color: #665ce4;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-}
+        .register-title {
+            margin: 0;
+            color: #252d42;
+            font-size: 25px;
+            font-weight: 500;
+            letter-spacing: -0.7px;
+        }
 
-.register-title {
-    margin: 0;
-    color: #252d42;
-    font-size: 25px;
-    font-weight: 500;
-    letter-spacing: -0.7px;
-}
+        .register-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #7e879c;
+            cursor: pointer;
+            font-size: 24px;
+        }
 
-.register-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: grid;
-    width: 34px;
-    height: 34px;
-    place-items: center;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    color: #7e879c;
-    cursor: pointer;
-    font-size: 24px;
-}
+        .register-close:hover {
+            background: #f4f3ff;
+            color: #5548d7;
+        }
 
-.register-close:hover {
-    background: #f4f3ff;
-    color: #5548d7;
-}
+        .register-fields {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 17px;
+        }
 
-.register-fields {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 17px;
-}
+        .register-field {
+            min-width: 0;
+        }
 
-.register-field {
-    min-width: 0;
-}
+        .register-field.full-width {
+            grid-column: 1 / -1;
+        }
 
-.register-field.full-width {
-    grid-column: 1 / -1;
-}
+        .register-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #252d42;
+            font-size: 13px;
+            font-weight: 600;
+        }
 
-.register-field label {
-    display: block;
-    margin-bottom: 8px;
-    color: #252d42;
-    font-size: 13px;
-    font-weight: 600;
-}
+        .register-field input,
+        .register-field select {
+            width: 100%;
+            height: 50px;
+            padding: 0 14px;
+            border: 1px solid #e1e4ee;
+            border-radius: 11px;
+            outline: none;
+            background: #fff;
+            color: #252d42;
+            font-family: inherit;
+            font-size: 14px;
+        }
 
-.register-field input,
-.register-field select {
-    width: 100%;
-    height: 50px;
-    padding: 0 14px;
-    border: 1px solid #e1e4ee;
-    border-radius: 11px;
-    outline: none;
-    background: #fff;
-    color: #252d42;
-    font-family: inherit;
-    font-size: 14px;
-}
+        .register-field input::placeholder {
+            color: #a0a8b8;
+        }
 
-.register-field input::placeholder {
-    color: #a0a8b8;
-}
+        .register-field input:focus,
+        .register-field select:focus {
+            border-color: #8d84ed;
+            box-shadow: 0 0 0 3px rgba(85, 72, 215, 0.11);
+        }
 
-.register-field input:focus,
-.register-field select:focus {
-    border-color: #8d84ed;
-    box-shadow: 0 0 0 3px rgba(85, 72, 215, 0.11);
-}
+        .register-terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            color: #818ba2;
+            font-size: 12px;
+            line-height: 1.5;
+        }
 
-.register-terms {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin: 20px 0;
-    color: #818ba2;
-    font-size: 12px;
-    line-height: 1.5;
-}
+        .register-terms input {
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+            margin: 1px 0 0;
+            accent-color: #5548d7;
+        }
 
-.register-terms input {
-    flex: 0 0 auto;
-    width: 16px;
-    height: 16px;
-    margin: 1px 0 0;
-    accent-color: #5548d7;
-}
+        .register-submit {
+            width: 100%;
+            min-height: 51px;
+            border: 0;
+            border-radius: 11px;
+            background: #5548d7;
+            box-shadow: 0 8px 20px rgba(85, 72, 215, 0.2);
+            color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s, transform 0.2s;
+        }
 
-.register-submit {
-    width: 100%;
-    min-height: 51px;
-    border: 0;
-    border-radius: 11px;
-    background: #5548d7;
-    box-shadow: 0 8px 20px rgba(85, 72, 215, 0.2);
-    color: #fff;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    transition: background 0.2s, transform 0.2s;
-}
+        .register-submit:hover {
+            transform: translateY(-1px);
+            background: #4437c0;
+        }
 
-.register-submit:hover {
-    transform: translateY(-1px);
-    background: #4437c0;
-}
+        .register-login-prompt {
+            margin: 22px 0 0;
+            color: #818ba2;
+            font-size: 13px;
+            text-align: center;
+        }
 
-.register-login-prompt {
-    margin: 22px 0 0;
-    color: #818ba2;
-    font-size: 13px;
-    text-align: center;
-}
+        .register-login-prompt a {
+            color: #5548d7;
+            font-weight: 600;
+            text-decoration: none;
+        }
 
-.register-login-prompt a {
-    color: #5548d7;
-    font-weight: 600;
-    text-decoration: none;
-}
+        .register-login-prompt a:hover {
+            text-decoration: underline;
+        }
 
-.register-login-prompt a:hover {
-    text-decoration: underline;
-}
+        @media (max-width: 600px) {
+            .register-overlay {
+                padding: 12px;
+            }
 
-@media (max-width: 600px) {
-    .register-overlay {
-        padding: 12px;
-    }
+            .register-card {
+                max-height: calc(100vh - 24px);
+                padding: 27px 20px 23px;
+                border-radius: 16px;
+            }
 
-    .register-card {
-        max-height: calc(100vh - 24px);
-        padding: 27px 20px 23px;
-        border-radius: 16px;
-    }
+            .register-title {
+                font-size: 22px;
+            }
 
-    .register-title {
-        font-size: 22px;
-    }
+            .register-fields {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
 
-    .register-fields {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .register-field.full-width {
-        grid-column: auto;
-    }
-}
+            .register-field.full-width {
+                grid-column: auto;
+            }
+        }
 
         * {
             margin: 0;
@@ -236,7 +238,8 @@
             overflow-x: hidden;
         }
 
-        button, a {
+        button,
+        a {
             font-family: inherit;
         }
 
@@ -276,7 +279,7 @@
             align-items: center;
             justify-content: center;
             color: white;
-            box-shadow: 0 7px 18px rgba(85,72,215,.2);
+            box-shadow: 0 7px 18px rgba(85, 72, 215, .2);
         }
 
         .logo-icon svg {
@@ -287,183 +290,185 @@
         .footer-brand span {
             color: var(--primary);
         }
+
         /* ================= RECOVERY POPUP ================= */
-.recovery-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 10002;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background: rgba(32, 34, 55, 0.52);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
-}
+        .recovery-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10002;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(32, 34, 55, 0.52);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+        }
 
-.recovery-overlay.active {
-    display: flex;
-}
+        .recovery-overlay.active {
+            display: flex;
+        }
 
-.recovery-card {
-    position: relative;
-    width: min(100%, 428px);
-    padding: 28px 25px 26px;
-    border: 1px solid rgba(231, 232, 241, 0.8);
-    border-radius: 17px;
-    background: #fff;
-    box-shadow: 0 24px 70px rgba(40, 43, 82, 0.2);
-    color: #252d42;
-    font-family: 'Inter', sans-serif;
-    animation: loginModalIn .22s ease-out;
-}
+        .recovery-card {
+            position: relative;
+            width: min(100%, 428px);
+            padding: 28px 25px 26px;
+            border: 1px solid rgba(231, 232, 241, 0.8);
+            border-radius: 17px;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(40, 43, 82, 0.2);
+            color: #252d42;
+            font-family: 'Inter', sans-serif;
+            animation: loginModalIn .22s ease-out;
+        }
 
-.recovery-heading {
-    position: relative;
-    margin-bottom: 24px;
-}
+        .recovery-heading {
+            position: relative;
+            margin-bottom: 24px;
+        }
 
-.recovery-brand {
-    margin-bottom: 9px;
-    color: #665ce4;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-}
+        .recovery-brand {
+            margin-bottom: 9px;
+            color: #665ce4;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.6px;
+        }
 
-.recovery-title {
-    margin: 0;
-    color: #252d42;
-    font-size: 21px;
-    font-weight: 500;
-    letter-spacing: -0.5px;
-}
+        .recovery-title {
+            margin: 0;
+            color: #252d42;
+            font-size: 21px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
 
-.recovery-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: grid;
-    width: 30px;
-    height: 30px;
-    place-items: center;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    color: #7e879c;
-    font-size: 23px;
-    cursor: pointer;
-}
+        .recovery-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: grid;
+            width: 30px;
+            height: 30px;
+            place-items: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #7e879c;
+            font-size: 23px;
+            cursor: pointer;
+        }
 
-.recovery-close:hover {
-    background: #f4f3ff;
-    color: #5548d7;
-}
+        .recovery-close:hover {
+            background: #f4f3ff;
+            color: #5548d7;
+        }
 
-.recovery-intro {
-    margin: 0 0 20px;
-    color: #818ba2;
-    font-size: 13px;
-    line-height: 1.65;
-}
+        .recovery-intro {
+            margin: 0 0 20px;
+            color: #818ba2;
+            font-size: 13px;
+            line-height: 1.65;
+        }
 
-.recovery-field label {
-    display: block;
-    margin-bottom: 7px;
-    color: #252d42;
-    font-size: 11px;
-    font-weight: 600;
-}
+        .recovery-field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #252d42;
+            font-size: 11px;
+            font-weight: 600;
+        }
 
-.recovery-input-wrap {
-    position: relative;
-}
+        .recovery-input-wrap {
+            position: relative;
+        }
 
-.recovery-input-wrap svg {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    width: 16px;
-    height: 16px;
-    transform: translateY(-50%);
-    color: #9aa3b8;
-    pointer-events: none;
-}
+        .recovery-input-wrap svg {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            width: 16px;
+            height: 16px;
+            transform: translateY(-50%);
+            color: #9aa3b8;
+            pointer-events: none;
+        }
 
-.recovery-input-wrap input {
-    width: 100%;
-    height: 39px;
-    padding: 0 12px 0 36px;
-    border: 1px solid #e1e4ee;
-    border-radius: 9px;
-    outline: none;
-    background: #fff;
-    color: #252d42;
-    font-family: inherit;
-    font-size: 12px;
-}
+        .recovery-input-wrap input {
+            width: 100%;
+            height: 39px;
+            padding: 0 12px 0 36px;
+            border: 1px solid #e1e4ee;
+            border-radius: 9px;
+            outline: none;
+            background: #fff;
+            color: #252d42;
+            font-family: inherit;
+            font-size: 12px;
+        }
 
-.recovery-input-wrap input::placeholder {
-    color: #a0a8b8;
-}
+        .recovery-input-wrap input::placeholder {
+            color: #a0a8b8;
+        }
 
-.recovery-input-wrap input:focus {
-    border-color: #8d84ed;
-    box-shadow: 0 0 0 3px rgba(85, 72, 215, 0.11);
-}
+        .recovery-input-wrap input:focus {
+            border-color: #8d84ed;
+            box-shadow: 0 0 0 3px rgba(85, 72, 215, 0.11);
+        }
 
-.recovery-submit {
-    width: 100%;
-    min-height: 39px;
-    margin-top: 14px;
-    border: 0;
-    border-radius: 9px;
-    background: #5548d7;
-    box-shadow: 0 7px 16px rgba(85, 72, 215, 0.2);
-    color: #fff;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    transition: background 0.2s, transform 0.2s;
-}
+        .recovery-submit {
+            width: 100%;
+            min-height: 39px;
+            margin-top: 14px;
+            border: 0;
+            border-radius: 9px;
+            background: #5548d7;
+            box-shadow: 0 7px 16px rgba(85, 72, 215, 0.2);
+            color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
+        }
 
-.recovery-submit:hover {
-    transform: translateY(-1px);
-    background: #4437c0;
-}
+        .recovery-submit:hover {
+            transform: translateY(-1px);
+            background: #4437c0;
+        }
 
-.recovery-status {
-    margin: 12px 0 0;
-    color: #6255df;
-    font-size: 12px;
-    line-height: 1.5;
-}
+        .recovery-status {
+            margin: 12px 0 0;
+            color: #6255df;
+            font-size: 12px;
+            line-height: 1.5;
+        }
 
-.recovery-back {
-    display: block;
-    width: fit-content;
-    margin: 19px auto 0;
-    color: #818ba2;
-    font-size: 11px;
-    text-decoration: none;
-    cursor: pointer;
-}
+        .recovery-back {
+            display: block;
+            width: fit-content;
+            margin: 19px auto 0;
+            color: #818ba2;
+            font-size: 11px;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-.recovery-back:hover {
-    color: #5548d7;
-    text-decoration: underline;
-}
+        .recovery-back:hover {
+            color: #5548d7;
+            text-decoration: underline;
+        }
 
-@media (max-width: 480px) {
-    .recovery-overlay {
-        padding: 16px;
-    }
+        @media (max-width: 480px) {
+            .recovery-overlay {
+                padding: 16px;
+            }
 
-    .recovery-card {
-        padding: 25px 21px 23px;
-    }
-} 
+            .recovery-card {
+                padding: 25px 21px 23px;
+            }
+        }
+
         .nav-links {
             display: flex;
             gap: 42px;
@@ -506,7 +511,7 @@
             font-weight: 600;
             padding: 16px 23px;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(85,72,215,.19);
+            box-shadow: 0 8px 20px rgba(85, 72, 215, .19);
             transition: .25s;
         }
 
@@ -610,7 +615,7 @@
             justify-content: center;
             align-items: center;
             color: var(--primary);
-            box-shadow: 0 5px 15px rgba(30,40,80,.08);
+            box-shadow: 0 5px 15px rgba(30, 40, 80, .08);
         }
 
         /* STUDENTS */
@@ -685,7 +690,7 @@
             border: 1px solid #e6e7f1;
             border-radius: 21px;
             overflow: hidden;
-            box-shadow: 0 35px 75px rgba(58,48,122,.14);
+            box-shadow: 0 35px 75px rgba(58, 48, 122, .14);
             transform: perspective(1200px) rotateY(-2deg);
         }
 
@@ -714,9 +719,17 @@
             border-radius: 50%;
         }
 
-        .dot:nth-child(1) { background: #e7a7a7; }
-        .dot:nth-child(2) { background: #e9cf88; }
-        .dot:nth-child(3) { background: #8dc5aa; }
+        .dot:nth-child(1) {
+            background: #e7a7a7;
+        }
+
+        .dot:nth-child(2) {
+            background: #e9cf88;
+        }
+
+        .dot:nth-child(3) {
+            background: #8dc5aa;
+        }
 
         .dashboard-body {
             display: flex;
@@ -752,7 +765,7 @@
             width: 20px;
             height: 20px;
             border-radius: 6px;
-            background: rgba(255,255,255,.13);
+            background: rgba(255, 255, 255, .13);
         }
 
         .side-item.active {
@@ -882,7 +895,7 @@
 
         .ai-card {
             border-radius: 12px;
-            background: linear-gradient(145deg,#5549c2,#6659d9);
+            background: linear-gradient(145deg, #5549c2, #6659d9);
             color: white;
             padding: 17px;
             min-height: 184px;
@@ -891,7 +904,7 @@
         .ai-icon {
             width: 33px;
             height: 33px;
-            background: rgba(255,255,255,.18);
+            background: rgba(255, 255, 255, .18);
             border-radius: 9px;
             display: flex;
             align-items: center;
@@ -933,7 +946,7 @@
             background: white;
             padding: 16px 19px;
             border-radius: 15px;
-            box-shadow: 0 17px 40px rgba(45,39,102,.14);
+            box-shadow: 0 17px 40px rgba(45, 39, 102, .14);
             z-index: 2;
         }
 
@@ -989,9 +1002,9 @@
             border: 1px solid #e6e7f1;
             border-radius: 22px;
             display: grid;
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            box-shadow: 0 14px 35px rgba(58,48,122,.05);
+            box-shadow: 0 14px 35px rgba(58, 48, 122, .05);
             scroll-margin-top: 28px;
         }
 
@@ -1052,7 +1065,7 @@
 
         .how-it-works h2 {
             color: #182137;
-            font-size: clamp(32px,4vw,44px);
+            font-size: clamp(32px, 4vw, 44px);
             line-height: 1.2;
             font-weight: 500;
             letter-spacing: -1.8px;
@@ -1070,7 +1083,7 @@
             max-width: 1250px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3,1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 27px;
             text-align: left;
         }
@@ -1113,7 +1126,7 @@
             margin: 0 14px;
             padding: 68px 5.2%;
             border-radius: 24px;
-            background: linear-gradient(110deg,#30276f,#5548c8);
+            background: linear-gradient(110deg, #30276f, #5548c8);
             color: white;
             display: flex;
             align-items: center;
@@ -1130,7 +1143,7 @@
         .benefits-cta h2 {
             max-width: 720px;
             color: white;
-            font-size: clamp(27px,3vw,38px);
+            font-size: clamp(27px, 3vw, 38px);
             line-height: 1.4;
             font-weight: 500;
             letter-spacing: -1px;
@@ -1154,7 +1167,7 @@
 
         .cta-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(0,0,0,.15);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .15);
         }
 
         /* FOOTER */
@@ -1194,7 +1207,7 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
-            background: rgba(22,25,45,.42);
+            background: rgba(22, 25, 45, .42);
             backdrop-filter: blur(7px);
             -webkit-backdrop-filter: blur(7px);
         }
@@ -1210,16 +1223,16 @@
             --login-muted: #818ba2;
             --login-border: #e1e4ee;
 
-            width: min(100%,428px);
-            max-height: min(90vh,760px);
+            width: min(100%, 428px);
+            max-height: min(90vh, 760px);
             overflow-y: auto;
             padding: 28px 25px 26px;
-            border: 1px solid rgba(231,232,241,.8);
+            border: 1px solid rgba(231, 232, 241, .8);
             border-radius: 17px;
             background: #fff;
             color: var(--login-text);
-            box-shadow: 0 24px 70px rgba(40,43,82,.22);
-            font-family: 'Inter',sans-serif;
+            box-shadow: 0 24px 70px rgba(40, 43, 82, .22);
+            font-family: 'Inter', sans-serif;
             animation: loginModalIn .22s ease-out;
         }
 
@@ -1346,7 +1359,7 @@
 
         .login-card input:focus {
             border-color: #8d84ed;
-            box-shadow: 0 0 0 3px rgba(85,72,215,.11);
+            box-shadow: 0 0 0 3px rgba(85, 72, 215, .11);
         }
 
         .login-card input::placeholder {
@@ -1377,7 +1390,7 @@
             border: 0;
             border-radius: 9px;
             background: var(--login-primary);
-            box-shadow: 0 7px 16px rgba(85,72,215,.2);
+            box-shadow: 0 7px 16px rgba(85, 72, 215, .2);
             color: #fff;
             cursor: pointer;
             font-family: inherit;
@@ -1407,6 +1420,7 @@
                 opacity: 0;
                 transform: translateY(12px) scale(.98);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -1416,7 +1430,9 @@
         /* RESPONSIVE */
 
         @media (max-width: 1450px) {
-            header, .hero {
+
+            header,
+            .hero {
                 max-width: 1160px;
             }
 
@@ -1430,7 +1446,9 @@
         }
 
         @media (max-width: 1200px) {
-            header, .hero {
+
+            header,
+            .hero {
                 margin-left: 35px;
                 margin-right: 35px;
             }
@@ -1687,10 +1705,7 @@
 
 <!-- REGISTER POPUP -->
 <div class="register-overlay" id="registerOverlay">
-    <section class="register-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="registerTitle">
+    <section class="register-card" role="dialog" aria-modal="true" aria-labelledby="registerTitle">
 
         <div class="register-heading">
             <div class="register-brand">SMARTEDU</div>
@@ -1698,10 +1713,7 @@
                 Tạo tài khoản SmartEdu
             </h2>
 
-            <button class="register-close"
-                id="closeRegister"
-                type="button"
-                aria-label="Đóng cửa sổ đăng ký">
+            <button class="register-close" id="closeRegister" type="button" aria-label="Đóng cửa sổ đăng ký">
                 &times;
             </button>
         </div>
@@ -1711,22 +1723,19 @@
 
                 <div class="register-field">
                     <label for="registerName">Họ và tên</label>
-                    <input id="registerName" name="name"
-                        type="text" autocomplete="name"
-                        placeholder="Nhập họ và tên" required>
+                    <input id="registerName" name="name" type="text" autocomplete="name" placeholder="Nhập họ và tên"
+                        required>
                 </div>
 
                 <div class="register-field">
                     <label for="registerEmail">Email</label>
-                    <input id="registerEmail" name="email"
-                        type="email" autocomplete="email"
-                        placeholder="Nhập email" required>
+                    <input id="registerEmail" name="email" type="email" autocomplete="email" placeholder="Nhập email"
+                        required>
                 </div>
 
                 <div class="register-field">
                     <label for="registerPhone">Số điện thoại</label>
-                    <input id="registerPhone" name="phone"
-                        type="tel" autocomplete="tel"
+                    <input id="registerPhone" name="phone" type="tel" autocomplete="tel"
                         placeholder="Nhập số điện thoại" required>
                 </div>
 
@@ -1742,32 +1751,26 @@
 
                 <div class="register-field full-width">
                     <label for="registerAddress">Địa chỉ</label>
-                    <input id="registerAddress" name="address"
-                        type="text" autocomplete="street-address"
+                    <input id="registerAddress" name="address" type="text" autocomplete="street-address"
                         placeholder="Nhập địa chỉ" required>
                 </div>
 
                 <div class="register-field">
                     <label for="registerPassword">Mật khẩu</label>
-                    <input id="registerPassword" name="password"
-                        type="password" autocomplete="new-password"
-                        placeholder="Tối thiểu 8 ký tự"
-                        minlength="8" required>
+                    <input id="registerPassword" name="password" type="password" autocomplete="new-password"
+                        placeholder="Tối thiểu 8 ký tự" minlength="8" required>
                 </div>
 
                 <div class="register-field">
                     <label for="confirmPassword">Nhập lại mật khẩu</label>
-                    <input id="confirmPassword" name="confirmPassword"
-                        type="password" autocomplete="new-password"
-                        placeholder="Nhập lại mật khẩu"
-                        minlength="8" required>
+                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password"
+                        placeholder="Nhập lại mật khẩu" minlength="8" required>
                 </div>
 
             </div>
 
             <label class="register-terms" for="acceptTerms">
-                <input id="acceptTerms" name="acceptTerms"
-                    type="checkbox" required>
+                <input id="acceptTerms" name="acceptTerms" type="checkbox" required>
                 <span>
                     Tôi đồng ý với Điều khoản sử dụng và Chính sách bảo mật
                 </span>
@@ -1789,89 +1792,70 @@
 
 <body>
     <!-- RECOVERY POPUP -->
-<div class="recovery-overlay" id="recoveryOverlay" aria-hidden="true">
+    <div class="recovery-overlay" id="recoveryOverlay" aria-hidden="true">
 
-    <section class="recovery-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="recoveryTitle">
+        <section class="recovery-card" role="dialog" aria-modal="true" aria-labelledby="recoveryTitle">
 
-        <div class="recovery-heading">
-            <div class="recovery-brand">SMARTEDU</div>
+            <div class="recovery-heading">
+                <div class="recovery-brand">SMARTEDU</div>
 
-            <h2 class="recovery-title" id="recoveryTitle">
-                Khôi phục mật khẩu
-            </h2>
+                <h2 class="recovery-title" id="recoveryTitle">
+                    Khôi phục mật khẩu
+                </h2>
 
-            <button class="recovery-close"
-                id="closeRecovery"
-                type="button"
-                aria-label="Đóng cửa sổ khôi phục mật khẩu">
-                &times;
-            </button>
-        </div>
-
-        <p class="recovery-intro">
-            Nhập email đã đăng ký. Chúng tôi sẽ gửi mã để bạn thiết lập mật khẩu mới.
-        </p>
-
-        <form id="recoveryForm">
-
-            <div class="recovery-field">
-                <label for="recoveryEmail">Email</label>
-
-                <div class="recovery-input-wrap">
-                    <svg viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.7"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true">
-
-                        <rect x="3" y="5" width="18" height="14" rx="2"/>
-                        <path d="m3 7 9 6 9-6"/>
-                    </svg>
-
-                    <input
-                        id="recoveryEmail"
-                        name="email"
-                        type="email"
-                        autocomplete="email"
-                        placeholder="Nhập email đã đăng ký"
-                        required>
-                </div>
+                <button class="recovery-close" id="closeRecovery" type="button"
+                    aria-label="Đóng cửa sổ khôi phục mật khẩu">
+                    &times;
+                </button>
             </div>
 
-            <button class="recovery-submit" type="submit">
-                Gửi yêu cầu khôi phục
-            </button>
-
-            <p class="recovery-status"
-                id="recoveryStatus"
-                role="status"
-                hidden>
+            <p class="recovery-intro">
+                Nhập email đã đăng ký. Chúng tôi sẽ gửi mã để bạn thiết lập mật khẩu mới.
             </p>
 
-        </form>
+            <form id="recoveryForm">
 
-        <a class="recovery-back" href="#" id="backToLogin">
-            Quay lại đăng nhập
-        </a>
+                <div class="recovery-field">
+                    <label for="recoveryEmail">Email</label>
 
-    </section>
-</div>
-<!-- END RECOVERY POPUP -->
+                    <div class="recovery-input-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="m3 7 9 6 9-6" />
+                        </svg>
+
+                        <input id="recoveryEmail" name="email" type="email" autocomplete="email"
+                            placeholder="Nhập email đã đăng ký" required>
+                    </div>
+                </div>
+
+                <button class="recovery-submit" type="submit">
+                    Gửi yêu cầu khôi phục
+                </button>
+
+                <p class="recovery-status" id="recoveryStatus" role="status" hidden>
+                </p>
+
+            </form>
+
+            <a class="recovery-back" href="#" id="backToLogin">
+                Quay lại đăng nhập
+            </a>
+
+        </section>
+    </div>
+    <!-- END RECOVERY POPUP -->
     <!-- HEADER -->
     <header>
         <a href="index.html" class="logo">
             <div class="logo-icon">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m2 9 10-5 10 5-10 5-10-5Z"/>
-                    <path d="M6 11v5c3 3 9 3 12 0v-5"/>
-                    <path d="M22 9v6"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m2 9 10-5 10 5-10 5-10-5Z" />
+                    <path d="M6 11v5c3 3 9 3 12 0v-5" />
+                    <path d="M22 9v6" />
                 </svg>
             </div>
             <div>Smart<span>Edu</span></div>
@@ -1983,10 +1967,9 @@
 
                             <div class="stat-card">
                                 <div class="stat-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         stroke="currentColor" stroke-width="2">
-                                        <path d="M4 5h16v12H8l-4 3V5Z"/>
-                                        <path d="M8 9h8M8 13h5"/>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 5h16v12H8l-4 3V5Z" />
+                                        <path d="M8 9h8M8 13h5" />
                                     </svg>
                                 </div>
                                 <div>
@@ -1997,10 +1980,9 @@
 
                             <div class="stat-card">
                                 <div class="stat-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         stroke="currentColor" stroke-width="2">
-                                        <rect x="4" y="3" width="16" height="18" rx="2"/>
-                                        <path d="M8 8h8M8 12h8M8 16h5"/>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="3" width="16" height="18" rx="2" />
+                                        <path d="M8 8h8M8 12h8M8 16h5" />
                                     </svg>
                                 </div>
                                 <div>
@@ -2011,10 +1993,9 @@
 
                             <div class="stat-card">
                                 <div class="stat-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                         stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="5" width="18" height="16" rx="2"/>
-                                        <path d="M16 3v4M8 3v4M3 10h18"/>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="5" width="18" height="16" rx="2" />
+                                        <path d="M16 3v4M8 3v4M3 10h18" />
                                     </svg>
                                 </div>
                                 <div>
@@ -2069,16 +2050,14 @@
     </main>
 
     <!-- FEATURE HIGHLIGHTS -->
-    <section class="feature-highlights" id="features"
-             aria-label="Các tính năng nổi bật">
+    <section class="feature-highlights" id="features" aria-label="Các tính năng nổi bật">
 
         <article class="feature-item">
             <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/>
-                    <path d="m19 16 .9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16Z"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" />
+                    <path d="m19 16 .9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16Z" />
                 </svg>
             </div>
             <div>
@@ -2089,11 +2068,10 @@
 
         <article class="feature-item">
             <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="17" rx="2"/>
-                    <path d="M16 2v4M8 2v4M3 10h18"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="17" rx="2" />
+                    <path d="M16 2v4M8 2v4M3 10h18" />
                 </svg>
             </div>
             <div>
@@ -2104,11 +2082,10 @@
 
         <article class="feature-item">
             <div class="feature-icon">
-                <svg viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2"
-                     stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 3v18h18"/>
-                    <path d="M8 15V9M13 15V4M18 15v-5"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M3 3v18h18" />
+                    <path d="M8 15V9M13 15V4M18 15v-5" />
                 </svg>
             </div>
             <div>
@@ -2131,11 +2108,10 @@
             <article class="step-card">
                 <span class="step-number">01</span>
                 <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2"
-                         stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 16V3M7 8l5-5 5 5"/>
-                        <path d="M5 13v7h14v-7"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 16V3M7 8l5-5 5 5" />
+                        <path d="M5 13v7h14v-7" />
                     </svg>
                 </div>
                 <h3>Tải lên học liệu</h3>
@@ -2148,9 +2124,8 @@
             <article class="step-card">
                 <span class="step-number">02</span>
                 <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2">
-                        <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" />
                     </svg>
                 </div>
                 <h3>Tạo bộ câu hỏi AI</h3>
@@ -2163,10 +2138,9 @@
             <article class="step-card">
                 <span class="step-number">03</span>
                 <div class="step-icon">
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="4" width="18" height="17" rx="2"/>
-                        <path d="M16 2v4M8 2v4M3 10h18"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="17" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
                     </svg>
                 </div>
                 <h3>Học và tối ưu lịch</h3>
@@ -2211,19 +2185,13 @@
     <!-- LOGIN MODAL -->
     <div class="login-overlay" id="loginOverlay" aria-hidden="true">
 
-        <section class="login-card"
-                 role="dialog"
-                 aria-modal="true"
-                 aria-labelledby="loginTitle">
+        <section class="login-card" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
 
             <div class="card-heading">
                 <div class="brand">SMARTEDU</div>
                 <h2 id="loginTitle">Chào mừng trở lại</h2>
 
-                <button class="close-login"
-                        id="closeLoginModal"
-                        type="button"
-                        aria-label="Đóng cửa sổ đăng nhập">
+                <button class="close-login" id="closeLoginModal" type="button" aria-label="Đóng cửa sổ đăng nhập">
                     &times;
                 </button>
             </div>
@@ -2242,19 +2210,14 @@
                     </div>
 
                     <div class="input-wrap">
-                        <svg viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="1.7"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="5" width="18" height="14" rx="2"/>
-                            <path d="m3 7 9 6 9-6"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="5" width="18" height="14" rx="2" />
+                            <path d="m3 7 9 6 9-6" />
                         </svg>
 
-                        <input id="loginUsername"
-                               name="username"
-                               type="text"
-                               autocomplete="username"
-                               placeholder="Nhập email hoặc mã sinh viên"
-                               required>
+                        <input id="loginUsername" name="username" type="text" autocomplete="username"
+                            placeholder="Nhập email hoặc mã sinh viên" required>
                     </div>
                 </div>
 
@@ -2262,32 +2225,24 @@
                     <div class="field-heading">
                         <label for="loginPassword">Mật khẩu</label>
                         <a href="#" id="openRecovery">
-    Quên mật khẩu?
-</a>
+                            Quên mật khẩu?
+                        </a>
                     </div>
 
                     <div class="input-wrap">
-                        <svg viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="1.7"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="10" width="16" height="11" rx="2"/>
-                            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="10" width="16" height="11" rx="2" />
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
                         </svg>
 
-                        <input id="loginPassword"
-                               name="password"
-                               type="password"
-                               autocomplete="current-password"
-                               placeholder="Nhập mật khẩu"
-                               required>
+                        <input id="loginPassword" name="password" type="password" autocomplete="current-password"
+                            placeholder="Nhập mật khẩu" required>
                     </div>
                 </div>
 
                 <label class="remember" for="loginRemember">
-                    <input id="loginRemember"
-                           name="remember"
-                           type="checkbox"
-                           checked>
+                    <input id="loginRemember" name="remember" type="checkbox" checked>
                     Ghi nhớ đăng nhập
                 </label>
 
@@ -2309,227 +2264,352 @@
 
     <!-- JAVASCRIPT -->
     <script>
-document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-    // ================= ELEMENTS =================
+            // ================= ELEMENTS =================
 
-    const loginOverlay = document.getElementById("loginOverlay");
-    const registerOverlay = document.getElementById("registerOverlay");
-    const recoveryOverlay = document.getElementById("recoveryOverlay");
+            const API_BASE_URL = window.SMARTEDU_API_BASE_URL || "http://localhost:8080";
 
-    const openLoginButton = document.getElementById("openLoginModal");
-    const closeLoginButton = document.getElementById("closeLoginModal");
+            const loginOverlay = document.getElementById("loginOverlay");
+            const registerOverlay = document.getElementById("registerOverlay");
+            const recoveryOverlay = document.getElementById("recoveryOverlay");
 
-    const closeRegisterButton = document.getElementById("closeRegister");
-    const closeRecoveryButton = document.getElementById("closeRecovery");
+            const openLoginButton = document.getElementById("openLoginModal");
+            const closeLoginButton = document.getElementById("closeLoginModal");
 
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const recoveryForm = document.getElementById("recoveryForm");
+            const closeRegisterButton = document.getElementById("closeRegister");
+            const closeRecoveryButton = document.getElementById("closeRecovery");
 
-    const loginUsername = document.getElementById("loginUsername");
-    const confirmPassword = document.getElementById("confirmPassword");
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const recoveryForm = document.getElementById("recoveryForm");
 
-    const recoveryEmail = document.getElementById("recoveryEmail");
-    const recoveryStatus = document.getElementById("recoveryStatus");
+            const loginUsername = document.getElementById("loginUsername");
+            const confirmPassword = document.getElementById("confirmPassword");
 
-    // ================= POPUP MANAGEMENT =================
+            const recoveryEmail = document.getElementById("recoveryEmail");
+            const recoveryStatus = document.getElementById("recoveryStatus");
 
-    function closeAllPopups() {
-        loginOverlay.classList.remove("is-open");
-        registerOverlay.classList.remove("active");
-        recoveryOverlay.classList.remove("active");
+            async function requestApi(path, options) {
+                const accessToken = localStorage.getItem("smartedu_access_token");
+                const response = await fetch(API_BASE_URL + path, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        ...(accessToken ? { "Authorization": "Bearer " + accessToken } : {}),
+                        ...(options && options.headers ? options.headers : {})
+                    },
+                    ...options
+                });
 
-        loginOverlay.setAttribute("aria-hidden", "true");
-        recoveryOverlay.setAttribute("aria-hidden", "true");
+                const payload = await response.json().catch(function () {
+                    return {};
+                });
 
-        document.body.classList.remove("login-modal-open");
-        document.body.style.overflow = "";
-    }
+                if (!response.ok) {
+                    const fieldErrors = Array.isArray(payload.fieldErrors)
+                        ? payload.fieldErrors.map(function (error) {
+                            return error.field + ": " + error.message;
+                        }).join("\n")
+                        : "";
+                    throw new Error(fieldErrors || payload.message || "Không thể kết nối với máy chủ.");
+                }
 
-    function openLoginModal() {
-        closeAllPopups();
+                return payload;
+            }
 
-        loginOverlay.classList.add("is-open");
-        loginOverlay.setAttribute("aria-hidden", "false");
+            function showApiError(error) {
+                alert(error instanceof Error ? error.message : "Đã xảy ra lỗi khi kết nối với máy chủ.");
+            }
 
-        document.body.classList.add("login-modal-open");
+            // ================= POPUP MANAGEMENT =================
 
-        setTimeout(function () {
-            loginUsername.focus();
-        }, 100);
-    }
+            function closeAllPopups() {
+                loginOverlay.classList.remove("is-open");
+                registerOverlay.classList.remove("active");
+                recoveryOverlay.classList.remove("active");
 
-    function openRegisterPopup() {
-        closeAllPopups();
+                loginOverlay.setAttribute("aria-hidden", "true");
+                recoveryOverlay.setAttribute("aria-hidden", "true");
 
-        registerOverlay.classList.add("active");
-        document.body.classList.add("login-modal-open");
-        document.body.style.overflow = "hidden";
-    }
+                document.body.classList.remove("login-modal-open");
+                document.body.style.overflow = "";
+            }
 
-    function openRecoveryPopup() {
-        closeAllPopups();
+            function openLoginModal() {
+                closeAllPopups();
 
-        recoveryOverlay.classList.add("active");
-        recoveryOverlay.setAttribute("aria-hidden", "false");
+                loginOverlay.classList.add("is-open");
+                loginOverlay.setAttribute("aria-hidden", "false");
 
-        document.body.classList.add("login-modal-open");
-        document.body.style.overflow = "hidden";
+                document.body.classList.add("login-modal-open");
 
-        recoveryStatus.hidden = true;
+                setTimeout(function () {
+                    loginUsername.focus();
+                }, 100);
+            }
 
-        setTimeout(function () {
-            recoveryEmail.focus();
-        }, 100);
-    }
+            function openRegisterPopup() {
+                closeAllPopups();
 
-    // ================= LOGIN =================
+                registerOverlay.classList.add("active");
+                document.body.classList.add("login-modal-open");
+                document.body.style.overflow = "hidden";
+            }
 
-    if (openLoginButton) {
-        openLoginButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            openLoginModal();
+            function openRecoveryPopup() {
+                closeAllPopups();
+
+                recoveryOverlay.classList.add("active");
+                recoveryOverlay.setAttribute("aria-hidden", "false");
+
+                document.body.classList.add("login-modal-open");
+                document.body.style.overflow = "hidden";
+
+                recoveryStatus.hidden = true;
+
+                setTimeout(function () {
+                    recoveryEmail.focus();
+                }, 100);
+            }
+
+            // ================= LOGIN =================
+
+            if (openLoginButton) {
+                openLoginButton.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    openLoginModal();
+                });
+            }
+
+            closeLoginButton.addEventListener("click", closeAllPopups);
+
+            loginOverlay.addEventListener("click", function (event) {
+                if (event.target === loginOverlay) {
+                    closeAllPopups();
+                }
+            });
+
+            // ================= REGISTER =================
+
+            document.querySelectorAll('a[href="register.html"]').forEach(function (link) {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    openRegisterPopup();
+                });
+            });
+
+            closeRegisterButton.addEventListener("click", closeAllPopups);
+
+            registerOverlay.addEventListener("click", function (event) {
+                if (event.target === registerOverlay) {
+                    closeAllPopups();
+                }
+            });
+
+            // Chuyển từ đăng ký sang đăng nhập
+            document.getElementById("switchToLogin").addEventListener("click", function (event) {
+                event.preventDefault();
+                openLoginModal();
+            });
+
+            // Kiểm tra form đăng ký
+            registerForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const password = document.getElementById("registerPassword");
+
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity("Mật khẩu nhập lại không khớp.");
+                    confirmPassword.reportValidity();
+                    return;
+                }
+
+                const submitButton = registerForm.querySelector("button[type='submit']");
+                submitButton.disabled = true;
+                submitButton.textContent = "Đang đăng ký...";
+
+                try {
+                    const response = await requestApi("/api/auth/register", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            fullName: document.getElementById("registerName").value.trim(),
+                            email: document.getElementById("registerEmail").value.trim(),
+                            phone: document.getElementById("registerPhone").value.trim(),
+                            gender: document.getElementById("registerGender").value,
+                            address: document.getElementById("registerAddress").value.trim(),
+                            password: password.value
+                        })
+                    });
+
+                    const email = document.getElementById("registerEmail").value.trim();
+                    alert(response.message || "Đăng ký thành công. Hãy nhập OTP được gửi đến email.");
+                    closeAllPopups();
+
+                    const otp = prompt("Nhập mã OTP 6 số đã được gửi đến " + email + ":");
+                    if (!otp) {
+                        return;
+                    }
+
+                    const verification = await requestApi("/api/auth/verify-email", {
+                        method: "POST",
+                        body: JSON.stringify({ email: email, otp: otp.trim() })
+                    });
+                    alert(verification.message || "Xác minh email thành công. Bạn có thể đăng nhập.");
+                } catch (error) {
+                    showApiError(error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Đăng ký tài khoản";
+                }
+            });
+
+            confirmPassword.addEventListener("input", function () {
+                this.setCustomValidity("");
+            });
+
+            // ================= RECOVERY =================
+
+            // Mở popup quên mật khẩu từ đăng nhập
+            document.getElementById("openRecovery").addEventListener("click", function (event) {
+                event.preventDefault();
+                openRecoveryPopup();
+            });
+
+            // Đóng popup quên mật khẩu
+            closeRecoveryButton.addEventListener("click", closeAllPopups);
+
+            recoveryOverlay.addEventListener("click", function (event) {
+                if (event.target === recoveryOverlay) {
+                    closeAllPopups();
+                }
+            });
+
+            // Quay lại đăng nhập
+            document.getElementById("backToLogin").addEventListener("click", function (event) {
+                event.preventDefault();
+                openLoginModal();
+            });
+
+            // Xử lý gửi yêu cầu khôi phục
+            recoveryForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const email = recoveryEmail.value.trim();
+                const submitButton = recoveryForm.querySelector("button[type='submit']");
+                submitButton.disabled = true;
+                submitButton.textContent = "Đang gửi...";
+
+                try {
+                    const response = await requestApi("/api/auth/forgot-password", {
+                        method: "POST",
+                        body: JSON.stringify({ email: email })
+                    });
+                    recoveryStatus.textContent = response.message || "Mã khôi phục đã được gửi đến email.";
+                    recoveryStatus.hidden = false;
+
+                    const token = prompt("Nhập mã khôi phục đã được gửi đến " + email + ":");
+                    if (!token) {
+                        return;
+                    }
+                    const password = prompt("Nhập mật khẩu mới (tối thiểu 8 ký tự):");
+                    if (!password) {
+                        return;
+                    }
+
+                    const resetResponse = await requestApi("/api/auth/reset-password", {
+                        method: "POST",
+                        body: JSON.stringify({ token: token.trim(), password: password })
+                    });
+                    alert(resetResponse.message || "Đổi mật khẩu thành công. Bạn có thể đăng nhập.");
+                    openLoginModal();
+                } catch (error) {
+                    showApiError(error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Gửi yêu cầu khôi phục";
+                }
+            });
+
+            // ================= KEYBOARD =================
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    closeAllPopups();
+                }
+            });
+
+            // ================= DEMO BUTTON =================
+
+            const demoButton = document.getElementById("demoBtn");
+
+            if (demoButton) {
+                demoButton.addEventListener("click", function () {
+                    alert("Chào mừng bạn đến với bản trải nghiệm SmartEdu!");
+                });
+            }
+
+            // ================= TRY AI BUTTON =================
+
+            const tryAIButton = document.getElementById("tryAIButton");
+
+            if (tryAIButton) {
+                tryAIButton.addEventListener("click", function () {
+                    alert(
+                        "Tính năng tạo câu hỏi bằng AI sẽ được phát triển ở các trang tiếp theo."
+                    );
+                });
+            }
+
+            // ================= LOGIN FORM =================
+
+            loginForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                const username = loginUsername.value.trim();
+                const password = document.getElementById("loginPassword").value;
+
+                if (!username || !password) {
+                    alert("Vui lòng nhập đầy đủ thông tin đăng nhập.");
+                    return;
+                }
+
+                const submitButton = loginForm.querySelector("button[type='submit']");
+                submitButton.disabled = true;
+                submitButton.textContent = "Đang đăng nhập...";
+
+                try {
+                    const response = await requestApi("/api/auth/login", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+                    const session = response.data;
+                    localStorage.setItem("smartedu_access_token", session.accessToken);
+                    localStorage.setItem("smartedu_user", JSON.stringify({
+                        id: session.userId,
+                        fullName: session.fullName,
+                        username: session.username,
+                        email: session.email,
+                        role: session.role
+                    }));
+                    closeAllPopups();
+                    alert("Đăng nhập thành công. Chào mừng " + session.fullName + "!");
+                    window.location.href = session.role === "ADMIN"
+                        ? "admin.html"
+                        : "user_edit.html";
+                } catch (error) {
+                    showApiError(error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Đăng nhập";
+                }
+            });
+
         });
-    }
-
-    closeLoginButton.addEventListener("click", closeAllPopups);
-
-    loginOverlay.addEventListener("click", function (event) {
-        if (event.target === loginOverlay) {
-            closeAllPopups();
-        }
-    });
-
-    // ================= REGISTER =================
-
-    document.querySelectorAll('a[href="register.html"]').forEach(function (link) {
-        link.addEventListener("click", function (event) {
-            event.preventDefault();
-            openRegisterPopup();
-        });
-    });
-
-    closeRegisterButton.addEventListener("click", closeAllPopups);
-
-    registerOverlay.addEventListener("click", function (event) {
-        if (event.target === registerOverlay) {
-            closeAllPopups();
-        }
-    });
-
-    // Chuyển từ đăng ký sang đăng nhập
-    document.getElementById("switchToLogin").addEventListener("click", function (event) {
-        event.preventDefault();
-        openLoginModal();
-    });
-
-    // Kiểm tra form đăng ký
-    registerForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const password = document.getElementById("registerPassword");
-
-        if (password.value !== confirmPassword.value) {
-            confirmPassword.setCustomValidity("Mật khẩu nhập lại không khớp.");
-            confirmPassword.reportValidity();
-            return;
-        }
-
-        alert(
-            "Giao diện đăng ký đã sẵn sàng. " +
-            "Chức năng tạo tài khoản sẽ được kết nối với API Backend sau."
-        );
-    });
-
-    confirmPassword.addEventListener("input", function () {
-        this.setCustomValidity("");
-    });
-
-    // ================= RECOVERY =================
-
-    // Mở popup quên mật khẩu từ đăng nhập
-    document.getElementById("openRecovery").addEventListener("click", function (event) {
-        event.preventDefault();
-        openRecoveryPopup();
-    });
-
-    // Đóng popup quên mật khẩu
-    closeRecoveryButton.addEventListener("click", closeAllPopups);
-
-    recoveryOverlay.addEventListener("click", function (event) {
-        if (event.target === recoveryOverlay) {
-            closeAllPopups();
-        }
-    });
-
-    // Quay lại đăng nhập
-    document.getElementById("backToLogin").addEventListener("click", function (event) {
-        event.preventDefault();
-        openLoginModal();
-    });
-
-    // Xử lý gửi yêu cầu khôi phục
-    recoveryForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        recoveryStatus.textContent =
-            "Chức năng gửi yêu cầu khôi phục chưa được kết nối.";
-
-        recoveryStatus.hidden = false;
-    });
-
-    // ================= KEYBOARD =================
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-            closeAllPopups();
-        }
-    });
-
-    // ================= DEMO BUTTON =================
-
-    const demoButton = document.getElementById("demoBtn");
-
-    if (demoButton) {
-        demoButton.addEventListener("click", function () {
-            alert("Chào mừng bạn đến với bản trải nghiệm SmartEdu!");
-        });
-    }
-
-    // ================= TRY AI BUTTON =================
-
-    const tryAIButton = document.getElementById("tryAIButton");
-
-    if (tryAIButton) {
-        tryAIButton.addEventListener("click", function () {
-            alert(
-                "Tính năng tạo câu hỏi bằng AI sẽ được phát triển ở các trang tiếp theo."
-            );
-        });
-    }
-
-    // ================= LOGIN FORM =================
-
-    loginForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const username = loginUsername.value.trim();
-        const password = document.getElementById("loginPassword").value;
-
-        if (!username || !password) {
-            alert("Vui lòng nhập đầy đủ thông tin đăng nhập.");
-            return;
-        }
-
-        alert(
-            "Giao diện đăng nhập đã sẵn sàng. " +
-            "Chức năng xác thực sẽ được kết nối với API Backend sau."
-        );
-    });
-
-});
-</script>
+    </script>
 
 </body>
+
 </html>

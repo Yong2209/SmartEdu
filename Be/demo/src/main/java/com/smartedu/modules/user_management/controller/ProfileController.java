@@ -1,5 +1,5 @@
 
-package main.java.com.smartedu.modules.user_management.controller;
+package com.smartedu.modules.user_management.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

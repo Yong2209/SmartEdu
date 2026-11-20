@@ -8,6 +8,8 @@ import jakarta.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataAccessException;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,6 +58,28 @@ public class GlobalExceptionHandler {
             ConstraintViolationException exception,
             HttpServletRequest request) {
         return build(HttpStatus.BAD_REQUEST, exception.getMessage(), request, List.of());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<ErrorResponse> handleDatabaseException(
+            DataAccessException exception,
+            HttpServletRequest request) {
+        return build(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                "Database is unavailable. Check SQL Server and database credentials.",
+                request,
+                List.of());
+    }
+
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<ErrorResponse> handleMailException(
+            MailException exception,
+            HttpServletRequest request) {
+        return build(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                "Email service is unavailable. Check SMTP configuration.",
+                request,
+                List.of());
     }
 
     @ExceptionHandler(Exception.class)
