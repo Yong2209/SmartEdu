@@ -88,11 +88,15 @@ public class AiQuestionService {
         boolean usedExternalAi = false;
 
         try {
-            if (aiApiKey != null && !aiApiKey.isBlank()) {
-                generatedItems = callGeminiApi(content.getExtractedText(), req);
-                usedExternalAi = true;
-            } else {
-                generatedItems = generateFallbackFromMaterialText(content.getExtractedText(), material.getTitle(), req);
+            if (aiApiKey == null || aiApiKey.isBlank()) {
+                throw new BusinessException(
+                        "Chưa cấu hình khóa API Gemini. Vui lòng đặt SMARTEDU_AI_API_KEY trước khi sử dụng AI.",
+                        HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            generatedItems = callGeminiApi(content.getExtractedText(), req);
+            usedExternalAi = true;
+            if (generatedItems == null || generatedItems.isEmpty()) {
+                throw new BusinessException("AI không trả về câu hỏi hợp lệ.", HttpStatus.BAD_GATEWAY);
             }
 
             long elapsed = System.currentTimeMillis() - startMs;
@@ -228,11 +232,47 @@ public class AiQuestionService {
         }
         regenerateCounter.put(questionId, count + 1);
 
-        String sourceSnippet = oldQ.getReferenceExcerpt() != null ? oldQ.getReferenceExcerpt() : oldQ.getContent();
-        oldQ.setContent("[Phiên bản làm mới #" + (count + 1) + "] Dựa trên nội dung học liệu: \""
-                + truncate(sourceSnippet, 140) + "\", nhận định nào sau đây phản ánh đúng bản chất kiến thức?");
-        oldQ.setExplanation("Câu hỏi được AI tái tạo từ đoạn trích dẫn gốc: " + sourceSnippet);
-        oldQ.setQuestionStatus("ACTIVE");
+        if (aiApiKey == null || aiApiKey.isBlank()) {
+            throw new BusinessException(
+                    "Chưa cấu hình khóa API Gemini. Vui lòng đặt SMARTEDU_AI_API_KEY trước khi sử dụng AI.",
+                    HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+        MaterialContent content = contentRepository.findByLearningMaterialId(oldQ.getSourceMaterial().getId())
+                .orElseThrow(() -> new BusinessException("Học liệu chưa có nội dung văn bản trích xuất."));
+        GenerateQuestionsRequest req = new GenerateQuestionsRequest();
+        req.setLearningMaterialId(oldQ.getSourceMaterial().getId());
+        req.setQuestionCount(1);
+        req.setQuestionType(oldQ.getQuestionType());
+        req.setDifficulty(oldQ.getDifficulty());
+        req.setSetTitle(oldQ.getQuestionSet().getTitle());
+
+        try {
+            GeneratedQuestionItem item = callGeminiApi(content.getExtractedText(), req).stream()
+                    .findFirst()
+                    .orElseThrow(() -> new BusinessException("AI không trả về câu hỏi mới."));
+            oldQ.setContent(item.content());
+            oldQ.setExplanation(item.explanation());
+            oldQ.setDifficulty(item.difficulty());
+            oldQ.setReferenceExcerpt(item.referenceExcerpt());
+            oldQ.setReferencePage(item.referencePage());
+            oldQ.setQuestionStatus("ACTIVE");
+            oldQ.getOptions().clear();
+            int optOrder = 1;
+            for (GeneratedOptionItem opt : item.options()) {
+                oldQ.getOptions().add(QuestionOption.builder()
+                        .question(oldQ)
+                        .optionLabel(opt.label())
+                        .content(opt.content())
+                        .isCorrect(opt.isCorrect())
+                        .displayOrder(optOrder++)
+                        .build());
+            }
+        } catch (BusinessException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new BusinessException("Không thể sinh lại câu hỏi bằng AI: " + e.getMessage(), HttpStatus.BAD_GATEWAY);
+        }
 
         Question saved = questionRepository.save(oldQ);
         return toQuestionDto(saved);
@@ -297,25 +337,60 @@ public class AiQuestionService {
         }
 
         JsonNode root = objectMapper.readTree(response.body());
-        String rawText = root.path("candidates").get(0).path("content").path("parts").get(0).path("text").asText();
-        String jsonClean = rawText.replaceAll("(?s)```json\\s*", "").replaceAll("(?s)```\\s*", "").trim();
+        JsonNode candidates = root.path("candidates");
+        if (!candidates.isArray() || candidates.isEmpty()) {
+            String reason = root.path("promptFeedback").path("blockReason").asText();
+            throw new RuntimeException(reason.isBlank()
+                    ? "Gemini không trả về nội dung candidates."
+                    : "Gemini từ chối nội dung: " + reason);
+        }
+
+        StringBuilder rawText = new StringBuilder();
+        for (JsonNode part : candidates.get(0).path("content").path("parts")) {
+            if (part.has("text")) rawText.append(part.path("text").asText());
+        }
+        if (rawText.isEmpty()) {
+            throw new RuntimeException("Gemini trả về candidates nhưng không có văn bản.");
+        }
+
+        String jsonClean = rawText.toString()
+                .replaceAll("(?is)^```(?:json)?\\s*", "")
+                .replaceAll("(?is)\\s*```$", "")
+                .trim();
+        int arrayStart = jsonClean.indexOf('[');
+        int arrayEnd = jsonClean.lastIndexOf(']');
+        if (arrayStart < 0 || arrayEnd < arrayStart) {
+            throw new RuntimeException("Gemini không trả về JSON mảng câu hỏi hợp lệ.");
+        }
+        jsonClean = jsonClean.substring(arrayStart, arrayEnd + 1);
 
         JsonNode arr = objectMapper.readTree(jsonClean);
+        if (!arr.isArray() || arr.isEmpty()) {
+            throw new RuntimeException("Gemini không tạo ra câu hỏi.");
+        }
         List<GeneratedQuestionItem> result = new ArrayList<>();
         for (JsonNode node : arr) {
             List<GeneratedOptionItem> opts = new ArrayList<>();
             for (JsonNode o : node.path("options")) {
-                opts.add(new GeneratedOptionItem(
-                        o.path("label").asText("A"),
-                        o.path("content").asText(),
-                        o.path("isCorrect").asBoolean(false)
-                ));
+                String optionContent = o.path("content").asText("").trim();
+                if (!optionContent.isBlank()) {
+                    opts.add(new GeneratedOptionItem(
+                            o.path("label").asText("A"),
+                            optionContent,
+                            o.path("isCorrect").asBoolean(false)
+                    ));
+                }
+            }
+            String content = node.path("content").asText("").trim();
+            if (content.isBlank() || opts.isEmpty()
+                    || opts.stream().filter(GeneratedOptionItem::isCorrect).count() != 1) {
+                continue;
             }
             result.add(new GeneratedQuestionItem(
-                    node.path("content").asText(),
-                    node.path("explanation").asText(),
+                    content,
+                    node.path("explanation").asText("Không có giải thích."),
                     node.path("difficulty").asText("MEDIUM"),
-                    node.path("referenceExcerpt").asText("Trích dẫn từ học liệu"),
+                    node.path("referenceExcerpt").asText(""),
                     node.path("referencePage").asLong(1),
                     opts
             ));
@@ -323,41 +398,6 @@ public class AiQuestionService {
         return result;
     }
 
-    private List<GeneratedQuestionItem> generateFallbackFromMaterialText(String text, String title, GenerateQuestionsRequest req) {
-        String[] sentences = text.split("(?<=[.!?])\\s+");
-        List<String> validSentences = Arrays.stream(sentences)
-                .map(String::trim)
-                .filter(s -> s.length() >= 30)
-                .toList();
-
-        List<GeneratedQuestionItem> list = new ArrayList<>();
-        for (int i = 0; i < req.getQuestionCount(); i++) {
-            String excerpt = validSentences.isEmpty()
-                    ? "Nội dung trọng tâm thuộc tài liệu " + title
-                    : validSentences.get(i % validSentences.size());
-
-            String diff = "MIXED".equalsIgnoreCase(req.getDifficulty())
-                    ? (i % 3 == 0 ? "EASY" : (i % 3 == 1 ? "MEDIUM" : "HARD"))
-                    : req.getDifficulty();
-
-            String qText = "Câu " + (i + 1) + ": Theo nội dung trong tài liệu \"" + title + "\", phát biểu nào sau đây là chính xác nhất?";
-            List<GeneratedOptionItem> opts = List.of(
-                    new GeneratedOptionItem("A", truncate(excerpt, 180), true),
-                    new GeneratedOptionItem("B", "Khái niệm này không được đề cập trong phạm vi kiến thức của môn học.", false),
-                    new GeneratedOptionItem("C", "Hệ thống tự động loại bỏ toàn bộ ràng buộc mà không cần kiểm tra điều kiện.", false),
-                    new GeneratedOptionItem("D", "Chỉ áp dụng cho môi trường ngoại tuyến và không lưu trữ dữ liệu.", false)
-            );
-            list.add(new GeneratedQuestionItem(
-                    qText,
-                    "Đáp án A được trích xuất trực tiếp từ nội dung gốc của học liệu.",
-                    diff,
-                    truncate(excerpt, 250),
-                    (i / 2) + 1L,
-                    opts
-            ));
-        }
-        return list;
-    }
 
     private String truncate(String s, int max) {
         if (s == null) return "";

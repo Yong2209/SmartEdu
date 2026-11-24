@@ -1120,9 +1120,8 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- helpers ---------- */
   const $ = (id) => document.getElementById(id);
   const API_BASE_URL = window.SMARTEDU_API_BASE_URL || "http://localhost:8080";
-  const accessToken = localStorage.getItem("smartedu_access_token");
-
   async function requestApi(path, options = {}) {
+    const accessToken = localStorage.getItem("smartedu_access_token");
     const response = await fetch(API_BASE_URL + path, {
       ...options,
       headers: {
@@ -1133,6 +1132,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem("smartedu_access_token");
+        localStorage.removeItem("smartedu_user");
+        throw new Error(payload.message || "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+      }
       const fieldErrors = Array.isArray(payload.fieldErrors)
         ? payload.fieldErrors.map(error => error.field + ": " + error.message).join("\n")
         : "";
@@ -1528,29 +1532,6 @@ document.addEventListener("DOMContentLoaded", function () {
   loadProfile();
 
   /* ================= CÂU HỎI AI + TỰ LUYỆN ================= */
-  const BANK=[
-   ["mc","Chức năng chính của tầng mạng trong mô hình OSI là gì?",["Truyền bit qua môi trường vật lý","Định tuyến gói tin giữa các mạng","Mã hóa dữ liệu ứng dụng","Kiểm soát phiên làm việc"],1,"Tầng mạng chịu trách nhiệm đánh địa chỉ logic và định tuyến gói tin."],
-   ["mc","Địa chỉ IPv4 có độ dài bao nhiêu bit?",["16 bit","32 bit","64 bit","128 bit"],1,"IPv4 gồm 4 octet, mỗi octet 8 bit."],
-   ["mc","Router hoạt động chủ yếu tại tầng nào trong mô hình OSI?",["Tầng vật lý","Tầng liên kết dữ liệu","Tầng mạng","Tầng giao vận"],2,"Router xử lý địa chỉ IP nên thuộc tầng mạng."],
-   ["tf","TCP là giao thức hướng kết nối và đảm bảo truyền tin cậy.",["Đúng","Sai"],0,"TCP dùng bắt tay 3 bước và cơ chế xác nhận."],
-   ["tf","Switch dùng địa chỉ IP để chuyển khung dữ liệu.",["Đúng","Sai"],1,"Switch (L2) dùng địa chỉ MAC."],
-   ["mc","Dạng chuẩn hóa nào loại bỏ phụ thuộc bắc cầu?",["1NF","2NF","3NF","BCNF"],2,"3NF loại bỏ phụ thuộc bắc cầu vào khóa chính."],
-   ["mc","Khóa chính (primary key) có đặc điểm nào?",["Có thể trùng lặp","Cho phép NULL","Xác định duy nhất một bản ghi","Luôn là chuỗi"],2,"Khóa chính định danh duy nhất mỗi bản ghi."],
-   ["mc","Lệnh SQL nào dùng để lấy dữ liệu từ bảng?",["INSERT","SELECT","UPDATE","DROP"],1,"SELECT truy vấn dữ liệu."],
-   ["tf","Một bảng có thể có nhiều khóa chính.",["Đúng","Sai"],1,"Chỉ có một khóa chính (có thể gồm nhiều cột)."],
-   ["tf","Chuẩn hóa giúp giảm dư thừa dữ liệu.",["Đúng","Sai"],0,"Mục tiêu chính của chuẩn hóa là giảm dư thừa."],
-   ["mc","Trong Scrum, một Sprint thường kéo dài bao lâu?",["1–4 tuần","3–6 tháng","1 ngày","1 năm"],0,"Sprint có thời gian cố định, thường 1–4 tuần."],
-   ["mc","Vai trò nào chịu trách nhiệm quản lý Product Backlog?",["Scrum Master","Product Owner","Developer","Stakeholder"],1,"Product Owner sắp xếp và quản lý backlog."],
-   ["mc","Cuộc họp nào diễn ra hằng ngày trong Scrum?",["Sprint Review","Retrospective","Daily Scrum","Planning"],2,"Daily Scrum kéo dài khoảng 15 phút."],
-   ["tf","Agile ưu tiên phản hồi thay đổi hơn là bám theo kế hoạch.",["Đúng","Sai"],0,"Đây là một giá trị trong Tuyên ngôn Agile."],
-   ["tf","Scrum Master là người ra lệnh cho nhóm phát triển.",["Đúng","Sai"],1,"Scrum Master là người hỗ trợ, không ra lệnh."],
-   ["mc","Độ phức tạp thời gian của tìm kiếm nhị phân là gì?",["O(n)","O(log n)","O(n²)","O(1)"],1,"Mỗi bước loại bỏ một nửa dữ liệu."],
-   ["mc","Tìm kiếm nhị phân yêu cầu dữ liệu phải như thế nào?",["Ngẫu nhiên","Đã sắp xếp","Không trùng","Toàn số nguyên"],1,"Dữ liệu cần được sắp xếp."],
-   ["mc","Thuật toán nào duyệt theo chiều rộng?",["DFS","BFS","Dijkstra","Quick sort"],1,"BFS duyệt theo từng lớp đỉnh."],
-   ["tf","Tìm kiếm tuyến tính có độ phức tạp O(n).",["Đúng","Sai"],0,"Trường hợp xấu nhất phải duyệt cả n phần tử."],
-   ["tf","DFS dùng hàng đợi (queue) để duyệt.",["Đúng","Sai"],1,"DFS dùng ngăn xếp (stack) hoặc đệ quy."]
-  ];
-  const TOPIC=[[/mạng|network/i,0,5],[/dữ liệu|csdl|sql/i,5,10],[/agile|scrum|phần mềm/i,10,15],[/thuật toán|tìm kiếm/i,15,20]];
   const LET="ABCD";
   const ICO_E='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
   const ICO_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-15-6.7L3 8M3 3v5h5M3 12a9 9 0 0 0 15 6.7L21 16M21 21v-5h-5"/></svg>';
@@ -1559,27 +1540,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
   const scoreCls=v=>v>=8?"":v>=6.5?"mid":"low";
 
-  function pickQuestions(name,n,types,lv,exclude){
-    const t=TOPIC.find(x=>x[0].test(name));
-    let idx=BANK.map((_,i)=>i).filter(i=>types.includes(BANK[i][0])&&!(exclude||[]).includes(i));
-    if(t) idx=[...idx.filter(i=>i>=t[1]&&i<t[2]),...shuffle(idx.filter(i=>i<t[1]||i>=t[2]))];
-    else idx=shuffle(idx);
-    return idx.slice(0,n).map(i=>({bi:i,lv}));
-  }
-  const qOf=q=>BANK[q.bi];
+  const qOf=q=>{
+    if(q && q.quizTestQuestionId){
+      return ["mc",q.content,(q.options||[]).map(o=>o.content),-1,"", ""];
+    }
+    if(!q || !q.content) return ["mc","Câu hỏi không khả dụng",[],0,"Không có dữ liệu câu hỏi.",""];
+    const options=(q.options||[]).slice().sort((a,b)=>(a.displayOrder||0)-(b.displayOrder||0));
+    const correct=options.findIndex(o=>o.isCorrect===true);
+    return [
+      q.questionType==="TRUE_FALSE"?"tf":"mc",
+      q.content,
+      options.map(o=>o.content),
+      Math.max(correct,0),
+      (q.explanation||"Không có giải thích.")+(q.referenceExcerpt?"<br><b>Nguồn:</b> "+q.referenceExcerpt:""),
+      q.referenceExcerpt||""
+    ];
+  };
 
-  let savedSets=[
-   {id:1,name:"Ôn tập Mạng máy tính – Chương 4",date:new Date(2026,2,16),qs:pickQuestions("mạng",10,["mc","tf"],"Trung bình")},
-   {id:2,name:"Cơ sở dữ liệu – Chuẩn hóa",date:new Date(2026,2,14),qs:pickQuestions("dữ liệu",15,["mc","tf"],"Trung bình")},
-   {id:3,name:"Agile & Scrum cơ bản",date:new Date(2026,2,10),qs:pickQuestions("agile",20,["mc","tf"],"Trung bình")},
-   {id:4,name:"Thuật toán tìm kiếm",date:new Date(2026,2,8),qs:pickQuestions("thuật toán",12,["mc","tf"],"Trung bình")}
-  ];
-  let attempts=[
-   {name:"Mạng máy tính – Lần 2",date:new Date(2026,2,16),time:"12:48",ok:9,total:10},
-   {name:"Chuẩn hóa dữ liệu",date:new Date(2026,2,14),time:"18:02",ok:12,total:15},
-   {name:"Agile & Scrum",date:new Date(2026,2,10),time:"21:35",ok:17,total:20},
-   {name:"Mạng máy tính – Lần 1",date:new Date(2026,2,8),time:"11:20",ok:7,total:10}
-  ];
+  let savedSets=[];
+  let attempts=[];
   let cur=null;
   let setSeq=4;
 
@@ -1603,7 +1582,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const sel=$("aiSrc"), keep=pendingSrc||sel.value;
     sel.innerHTML=materials.map(m=>`<option value="${m.id}" ${m.status!=="done"?"disabled":""}>${esc(m.name)}${m.status!=="done"?" (đang xử lý)":""}</option>`).join("");
     if(keep && materials.some(m=>m.id==keep&&m.status==="done")) sel.value=keep;
-    pendingSrc=null; refreshScope(); $("savedCnt").textContent=savedSets.length; renderSets();
+    pendingSrc=null; refreshScope(); loadSavedSets();
+  }
+  async function loadSavedSets(){
+    try{
+      const response=await requestApi("/api/ai/question-sets");
+      savedSets=(response.data||[]).filter(s=>s.setStatus==="SAVED").map(s=>({
+        id:s.id,name:s.title,date:s.savedAt?new Date(s.savedAt):new Date(),qs:s.questions||[]
+      }));
+      $("savedCnt").textContent=savedSets.length;
+      renderSets();
+    }catch(error){
+      $("savedCnt").textContent="0";
+      toast(error.message);
+    }
   }
   function refreshScope(){
     const m=materials.find(x=>x.id==$("aiSrc").value), p=m&&m.pages;
@@ -1616,18 +1608,40 @@ document.addEventListener("DOMContentLoaded", function () {
     c.classList.toggle("on");
   }));
 
-  $("aiGen").addEventListener("click",()=>{
+  $("aiGen").addEventListener("click",async ()=>{
     const m=materials.find(x=>x.id==$("aiSrc").value); if(!m) return toast("Vui lòng chọn học liệu đã xử lý");
     const types=[...document.querySelectorAll(".chip[data-ty].on")].map(c=>c.dataset.ty);
-    let n=Math.max(1,Math.min(20,parseInt($("aiNum").value)||10)); $("aiNum").value=n;
+    let n=Math.max(5,Math.min(20,parseInt($("aiNum").value)||10)); $("aiNum").value=n;
     const btn=$("aiGen"); btn.disabled=true; btn.textContent="AI đang tạo câu hỏi...";
     $("aiList").innerHTML='<div class="empty-r"><b>Đang phân tích học liệu...</b>Vui lòng chờ trong giây lát.</div>';
-    setTimeout(()=>{
-      const qs=pickQuestions(m.name,n,types,$("aiLv").value);
-      cur={name:"Ôn tập "+m.name,qs,saved:false};
-      if(qs.length<n) toast("Dữ liệu mẫu chỉ có "+qs.length+" câu cho lựa chọn này");
-      btn.disabled=false; btn.textContent="Tạo câu hỏi bằng AI"; renderCur();
-    },1200);
+    try {
+      const selectedType=types.includes("tf")&&!types.includes("mc")?"TRUE_FALSE":"MULTIPLE_CHOICE";
+      const difficultyMap={ "Dễ":"EASY","Trung bình":"MEDIUM","Khó":"HARD" };
+      const response=await requestApi("/api/ai/questions/generate",{
+        method:"POST",
+        body:JSON.stringify({
+          learningMaterialId:m.id,
+          contentScope:"FULL_DOCUMENT",
+          scopeDescription:$("aiScope").value,
+          questionType:selectedType,
+          questionCount:n,
+          difficulty:difficultyMap[$("aiLv").value]||"MIXED",
+          setTitle:"Ôn tập "+m.name
+        })
+      });
+      if(!response.data || !Array.isArray(response.data.questions) || !response.data.questions.length){
+        throw new Error("AI không trả về câu hỏi hợp lệ.");
+      }
+      cur={id:response.data.id,name:response.data.title,qs:response.data.questions,saved:false};
+      renderCur();
+      toast(response.message||"Đã tạo bộ câu hỏi bằng AI");
+    } catch(error){
+      $("aiList").innerHTML='<div class="empty-r"><b>Không thể tạo câu hỏi</b>'+esc(error.message)+"</div>";
+      $("aiMeta").textContent="Tạo câu hỏi thất bại";
+      toast(error.message);
+    } finally {
+      btn.disabled=false; btn.textContent="Tạo câu hỏi bằng AI";
+    }
   });
 
   function qHTML(q,i,edit){
@@ -1646,29 +1660,60 @@ document.addEventListener("DOMContentLoaded", function () {
     $("aiSave").style.display=cur.saved?"none":"inline-flex";
     box.innerHTML=cur.qs.map((q,i)=>qHTML(q,i)).join("");
   }
-  $("aiList").addEventListener("click",e=>{
+  $("aiList").addEventListener("click",async e=>{
     const b=e.target.closest("button[data-a]"); if(!b||!cur) return;
     const i=+b.closest(".q").dataset.i;
     if(b.dataset.a==="regen"){
-      const d=qOf(cur.qs[i]), nq=pickQuestions(cur.name,1,[d[0]],cur.qs[i].lv,cur.qs.map(q=>q.bi));
-      if(!nq.length) return toast("Không còn câu hỏi khác để thay thế");
-      cur.qs[i]=nq[0]; renderCur(); toast("Đã tạo lại câu "+(i+1));
+      b.disabled=true;
+      try{
+        const response=await requestApi("/api/ai/questions/"+cur.qs[i].id+"/regenerate",{method:"POST"});
+        cur.qs[i]=response.data;
+        renderCur();
+        toast(response.message||"Đã tạo lại câu hỏi");
+      }catch(error){toast(error.message);}
+      finally{b.disabled=false;}
     } else {
-      const t=prompt("Sửa nội dung câu hỏi:",qOf(cur.qs[i])[1]);
-      if(t&&t.trim()){ BANK[cur.qs[i].bi]=BANK[cur.qs[i].bi].slice(); BANK[cur.qs[i].bi][1]=t.trim(); renderCur(); toast("Đã cập nhật câu hỏi"); }
+      const q=cur.qs[i];
+      const t=prompt("Sửa nội dung câu hỏi:",q.content);
+      if(!t||!t.trim()) return;
+      try{
+        const response=await requestApi("/api/ai/questions/"+q.id,{
+          method:"PUT",
+          body:JSON.stringify({
+            content:t.trim(),
+            explanation:q.explanation,
+            difficulty:q.difficulty,
+            options:q.options
+          })
+        });
+        cur.qs[i]=response.data;
+        renderCur();
+        toast(response.message||"Đã cập nhật câu hỏi");
+      }catch(error){toast(error.message);}
     }
   });
-  $("aiSave").addEventListener("click",()=>{
-    if(!cur) return;
+  $("aiSave").addEventListener("click",async ()=>{
+    if(!cur || !cur.id) return toast("Chưa có bộ câu hỏi để lưu");
     const name=prompt("Tên bộ câu hỏi:",cur.name); if(!name||!name.trim()) return;
-    savedSets.unshift({id:++setSeq,name:name.trim(),date:new Date(),qs:cur.qs.map(q=>({...q}))});
-    cur.saved=true; renderCur(); $("savedCnt").textContent=savedSets.length; renderSets(); setTab("aiTabs","ai-","saved"); toast("Đã lưu bộ câu hỏi");
+    $("aiSave").disabled=true;
+    try{
+      const response=await requestApi("/api/ai/question-sets/"+cur.id+"/save",{
+        method:"POST",
+        body:JSON.stringify({title:name.trim(),description:"Bộ câu hỏi được tạo bằng Gemini"})
+      });
+      cur.saved=true;
+      await loadSavedSets();
+      renderCur();
+      setTab("aiTabs","ai-","saved");
+      toast(response.message||"Đã lưu bộ câu hỏi");
+    }catch(error){toast(error.message);}
+    finally{$("aiSave").disabled=false;}
   });
 
   function renderSets(){
     $("setGrid").innerHTML=savedSets.length?savedSets.map((s,i)=>{const c=SET_COL[i%4];return `
      <article class="box set" data-id="${s.id}"><div class="set-ic" style="background:${c[0]};color:${c[1]}">${ICO_DOC}</div>
-      <div class="card-more"><button type="button" class="more-btn">•••</button><div class="more-pop"><button type="button" class="rn">Đổi tên</button><button type="button" class="del">Xóa bộ câu hỏi</button></div></div>
+      <div class="card-more"><button type="button" class="more-btn">•••</button><div class="more-pop"><button type="button" class="rn">Đổi tên</button></div></div>
       <h3>${esc(s.name)}</h3><p>${s.qs.length} câu · Đã lưu ${fmtDate(s.date)}</p>
       <div class="acts"><button class="btn-outline view" type="button">Xem lại</button><button class="btn-primary s2 prac" type="button">Tự luyện</button></div></article>`;}).join(""):'<div class="empty">Chưa có bộ câu hỏi nào được lưu.</div>';
   }
@@ -1677,30 +1722,70 @@ document.addEventListener("DOMContentLoaded", function () {
     const card=e.target.closest(".set"); if(!card) return;
     const s=savedSets.find(x=>x.id==card.dataset.id);
     if(e.target.closest(".more-btn")){e.stopPropagation();const bx=card.querySelector(".card-more"),w=bx.classList.contains("open");document.querySelectorAll(".card-more.open").forEach(x=>x.classList.remove("open"));bx.classList.toggle("open",!w);}
-    else if(e.target.closest(".del")){if(confirm("Xóa bộ câu hỏi “"+s.name+"”?")){savedSets=savedSets.filter(x=>x!==s);$("savedCnt").textContent=savedSets.length;renderSets();}}
-    else if(e.target.closest(".rn")){const n=prompt("Tên mới:",s.name);if(n&&n.trim()){s.name=n.trim();renderSets();}}
-    else if(e.target.closest(".view")){cur={name:s.name,qs:s.qs,saved:true};renderCur();setTab("aiTabs","ai-","new");}
+    else if(e.target.closest(".rn")){
+      const n=prompt("Tên mới:",s.name);
+      if(n&&n.trim()){
+        requestApi("/api/ai/question-sets/"+s.id+"/save",{method:"POST",body:JSON.stringify({title:n.trim(),description:"Bộ câu hỏi SmartEdu"})})
+          .then(()=>{s.name=n.trim();renderSets();toast("Đã đổi tên bộ câu hỏi");})
+          .catch(error=>toast(error.message));
+      }
+    }
+    else if(e.target.closest(".view")){
+      requestApi("/api/ai/question-sets/"+s.id).then(response=>{
+        cur={id:response.data.id,name:response.data.title,qs:response.data.questions||[],saved:true};
+        renderCur();setTab("aiTabs","ai-","new");
+      }).catch(error=>toast(error.message));
+    }
     else if(e.target.closest(".prac")){showPage("practice");$("prSet").value=s.id;updSum();}
   });
 
   /* ----- Tự luyện & Câu trả lời sai ----- */
   let dur=15;
-  let wrongList = [
-    {id:1, bi:0, topic:"Mạng máy tính", daysAgo:2},
-    {id:2, bi:1, topic:"Mạng máy tính", daysAgo:3},
-    {id:3, bi:5, topic:"Cơ sở dữ liệu", daysAgo:4},
-    {id:4, bi:10, topic:"Agile & Scrum", daysAgo:5},
-    {id:5, bi:15, topic:"Thuật toán tìm kiếm", daysAgo:6},
-    {id:6, bi:2, topic:"Mạng máy tính", daysAgo:7},
-    {id:7, bi:7, topic:"Cơ sở dữ liệu", daysAgo:8}
-  ];
-  let wSeq = 7;
+  let wrongList = [];
+  let wSeq = 0;
 
-  function refreshPractice(){
+  async function refreshPractice(){
     const keep=$("prSet").value;
     $("prSet").innerHTML=savedSets.map(s=>`<option value="${s.id}">${esc(s.name)} (${s.qs.length} câu)</option>`).join("")||'<option value="">Chưa có bộ câu hỏi đã lưu</option>';
     if(keep&&savedSets.some(s=>s.id==keep)) $("prSet").value=keep;
-    updSum(); renderRecent(); renderWrong(); renderHist();
+    updSum();
+    try{
+      const response=await requestApi("/api/ai/quizzes/history");
+      const data=response.data||{};
+      attempts=(data.history||[]).map((h,index)=>({
+        name:h.quizTitle||"Bài kiểm tra",
+        date:h.submittedAt?new Date(h.submittedAt):new Date(),
+        time: h.durationSeconds ? pad(Math.floor(h.durationSeconds/60))+":"+pad(h.durationSeconds%60) : "0:00",
+        ok:h.correctCount||0,
+        total:(h.correctCount||0)+(h.incorrectCount||0)+(h.unansweredCount||0),
+        attemptId:h.attemptId,
+        details:h.details||[]
+      }));
+      wrongList=[];
+      for(const h of (data.history||[])){
+        if(!h.attemptId) continue;
+        try{
+          const review=await requestApi("/api/ai/quizzes/attempts/"+h.attemptId+"/review-wrong");
+          for(const item of (review.data?.items||[])){
+            wrongList.push({
+              id:wSeq++,
+              topic:h.quizTitle||"Bài kiểm tra",
+              daysAgo:0,
+              questionContent:item.questionContent,
+              correctAnswer:item.correctAnswer,
+              explanation:item.explanation,
+              referenceExcerpt:item.referenceExcerpt
+            });
+          }
+        }catch(error){
+          // Keep the history usable if one review session fails.
+        }
+      }
+    }catch(error){
+      attempts=[];
+      toast(error.message);
+    }
+    renderRecent(); renderWrong(); renderHist();
   }
   function updSum(){const s=savedSets.find(x=>x.id==$("prSet").value);$("sumQ").textContent=(s?s.qs.length:0)+" câu hỏi";$("sumT").textContent=dur+" phút";}
   $("prSet").addEventListener("change",updSum);
@@ -1730,8 +1815,6 @@ document.addEventListener("DOMContentLoaded", function () {
     $("wReviewAll").disabled = !list.length;
 
     $("wrongGrid").innerHTML = list.length ? list.map(w => {
-      const d = BANK[w.bi];
-      const ansText = d[2][d[3]];
       const timeTxt = w.daysAgo === 0 ? "Hôm nay" : w.daysAgo + " ngày trước";
       return `
       <article class="w-card" data-id="${w.id}">
@@ -1739,8 +1822,8 @@ document.addEventListener("DOMContentLoaded", function () {
           <span class="w-tag">CÂU SAI · ${esc(w.topic)}</span>
           <span class="w-time">${timeTxt}</span>
         </div>
-        <div class="w-q">${esc(d[1])}</div>
-        <div class="w-ans"><b>Đáp án đúng:</b> ${esc(ansText)}</div>
+        <div class="w-q">${esc(w.questionContent||"Câu hỏi không khả dụng")}</div>
+        <div class="w-ans"><b>Đáp án đúng:</b> ${esc(w.correctAnswer||"Không có dữ liệu")}</div>
         <div class="w-act">
           <button class="btn-outline w-retry" type="button">
             ${ICO_R} Làm lại câu này
@@ -1754,19 +1837,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $("wSort").addEventListener("change", renderWrong);
 
   function startWrongPractice(items, title){
-    if(!items.length) return toast("Không có câu hỏi để ôn tập");
-    run = {
-      set: {name: title},
-      qs: items.map(w => ({bi: w.bi, lv: "Trung bình", wrongId: w.id})),
-      ans: {}, i: 0, left: Math.max(5, items.length * 2) * 60, start: Date.now(), isWrongMode: true
-    };
-    qo.classList.add("open"); document.body.classList.add("modal-open"); drawQ();
-    run.tm = setInterval(()=>{
-      run.left--;
-      const t = $("qt");
-      if(t) t.textContent = pad(Math.floor(run.left/60)) + ":" + pad(run.left%60);
-      if(run.left <= 0) finish(true);
-    }, 1000);
+    toast("Hãy tạo bài kiểm tra mới từ bộ câu hỏi để ôn tập.");
   }
 
   $("wrongGrid").addEventListener("click", e => {
@@ -1788,15 +1859,47 @@ document.addEventListener("DOMContentLoaded", function () {
     $("hBody").innerHTML=l.map(a=>`<tr><td>${esc(a.name)}</td><td>${fmtDate(a.date)}</td><td>${a.time}</td><td>${a.ok}/${a.total}</td><td><span class="sc ${scoreCls(pt(a))}" style="width:auto;height:auto;display:inline-block;padding:6px 10px;border-radius:8px;font-size:12px">${pt(a).toFixed(1)}</span></td><td><button class="eye" data-n="${attempts.indexOf(a)}" aria-label="Xem chi tiết"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></td></tr>`).join("")||'<tr><td colspan="6" style="text-align:center">Chưa có lịch sử làm bài.</td></tr>';
   }
   $("hSort").addEventListener("change",renderHist);
-  $("hBody").addEventListener("click",e=>{const b=e.target.closest(".eye");if(!b)return;const a=attempts[+b.dataset.n];if(a.review)showResult(a);else toast("Bài làm mẫu — không có chi tiết từng câu");});
+  $("hBody").addEventListener("click",async e=>{
+    const b=e.target.closest(".eye");if(!b)return;
+    const a=attempts[+b.dataset.n];
+    if(!a || !a.attemptId) return toast("Không tìm thấy phiên làm bài.");
+    try{
+      const response=await requestApi("/api/ai/quizzes/attempts/"+a.attemptId);
+      showBackendResult({
+        name:response.data.quizTitle,
+        ok:response.data.correctCount||0,
+        total:(response.data.correctCount||0)+(response.data.incorrectCount||0)+(response.data.unansweredCount||0),
+        details:response.data.details||[]
+      });
+    }catch(error){toast(error.message);}
+  });
 
   /* ----- Làm bài ----- */
   const qo=$("quizOv"), qb=$("quizBox"); let run=null;
-  $("prStart").addEventListener("click",()=>{
-    const s=savedSets.find(x=>x.id==$("prSet").value); if(!s) return toast("Hãy lưu một bộ câu hỏi trước khi tự luyện");
-    run={set:s,qs:shuffle(s.qs),ans:{},i:0,left:dur*60,start:Date.now()};
-    qo.classList.add("open"); document.body.classList.add("modal-open"); drawQ();
-    run.tm=setInterval(()=>{run.left--;const t=$("qt");if(t)t.textContent=pad(Math.floor(run.left/60))+":"+pad(run.left%60);if(run.left<=0)finish(true);},1000);
+  $("prStart").addEventListener("click",async ()=>{
+    const s=savedSets.find(x=>x.id==$("prSet").value);
+    if(!s) return toast("Hãy lưu một bộ câu hỏi trước khi tự luyện");
+    const btn=$("prStart"); btn.disabled=true; btn.textContent="Đang khởi tạo bài kiểm tra...";
+    try{
+      const response=await requestApi("/api/ai/quizzes/start",{
+        method:"POST",
+        body:JSON.stringify({
+          questionSetId:s.id,
+          title:s.name,
+          durationMinutes:dur,
+          shuffleQuestions:true,
+          shuffleOptions:true
+        })
+      });
+      const data=response.data;
+      if(!data || !Array.isArray(data.questions) || !data.questions.length){
+        throw new Error("AI không thể khởi tạo bài kiểm tra.");
+      }
+      run={set:s,sessionId:data.sessionId,qs:data.questions,ans:{},i:0,left:dur*60,start:Date.now()};
+      qo.classList.add("open"); document.body.classList.add("modal-open"); drawQ();
+      run.tm=setInterval(()=>{run.left--;const t=$("qt");if(t)t.textContent=pad(Math.floor(run.left/60))+":"+pad(run.left%60);if(run.left<=0)finish(true);},1000);
+    }catch(error){toast(error.message);}
+    finally{btn.disabled=false;btn.textContent="Bắt đầu làm bài →";}
   });
   function drawQ(){
     const q=run.qs[run.i],d=qOf(q),n=run.qs.length;
@@ -1817,29 +1920,55 @@ document.addEventListener("DOMContentLoaded", function () {
     else if(e.target.id==="qExit"){if(confirm("Thoát và bỏ bài làm này?"))closeQuiz();}
   });
   function closeQuiz(){if(run)clearInterval(run.tm);run=null;qo.classList.remove("open");document.body.classList.remove("modal-open");}
-  function finish(auto){
+  async function finish(auto){
     clearInterval(run.tm);
-    let ok = 0;
-    const topicName = run.set.name.replace(/^Ôn tập\s+/i, "").split("–")[0].trim();
-
-    run.qs.forEach((q, i) => {
-      const isRight = run.ans[i] === qOf(q)[3];
-      if(isRight){
-        ok++;
-        if(run.isWrongMode && q.wrongId){
-          wrongList = wrongList.filter(w => w.id !== q.wrongId);
-        }
-      } else {
-        if(!wrongList.some(w => w.bi === q.bi)){
-          wrongList.unshift({id: ++wSeq, bi: q.bi, topic: topicName, daysAgo: 0});
-        }
-      }
+    if(!run.sessionId){
+      run=null;
+      toast("Phiên ôn tập sai cần bắt đầu từ một bài kiểm tra đã lưu");
+      closeQuiz();
+      return;
+    }
+    const answers=run.qs.map((q,i)=>{
+      const selectedIndex=run.ans[i];
+      const option=selectedIndex!==undefined && q.options ? q.options[selectedIndex] : null;
+      return {
+        quizTestQuestionId:q.quizTestQuestionId,
+        selectedOptionId:option?option.optionId:null,
+        answerText:null
+      };
     });
-
-    const el=Math.round((Date.now()-run.start)/1000);
-    const n=attempts.filter(a=>a.name.startsWith(run.set.name)).length;
-    const a={name:run.set.name+(n?" – Lần "+(n+1):""),date:new Date(),time:pad(Math.floor(el/60))+":"+pad(el%60),ok,total:run.qs.length,review:{qs:run.qs,ans:{...run.ans}}};
-    attempts.push(a); run=null; if(auto)toast("Hết giờ, hệ thống đã tự nộp bài"); renderRecent(); renderWrong(); renderHist(); showResult(a);
+    try{
+      const response=await requestApi("/api/ai/quizzes/attempts/"+run.sessionId+"/submit",{
+        method:"POST",
+        body:JSON.stringify({answers})
+      });
+      const result=response.data;
+      const el=Math.max(0,Math.round((Date.now()-run.start)/1000));
+      const a={
+        name:result.quizTitle||run.set.name,
+        date:new Date(),
+        time:pad(Math.floor(el/60))+":"+pad(el%60),
+        ok:result.correctCount||0,
+        total:(result.correctCount||0)+(result.incorrectCount||0)+(result.unansweredCount||0),
+        details:result.details||[]
+      };
+      await refreshPractice();
+      run=null;
+      if(auto)toast("Hết giờ, hệ thống đã tự nộp bài");
+      showBackendResult(a);
+    }catch(error){
+      toast(error.message);
+      closeQuiz();
+    }
+  }
+  function showBackendResult(a){
+    qo.classList.add("open"); document.body.classList.add("modal-open");
+    const score=a.total?Math.round(a.ok/a.total*100)/10:0;
+    qb.innerHTML=`<div class="qbar"><h2>Kết quả: ${esc(a.name)}</h2></div><div class="big">${score.toFixed(1)}</div><div class="res-s">${a.ok}/${a.total} câu đúng</div>
+      ${(a.details||[]).map((d,i)=>`<div class="q" style="margin:0 0 10px"><div class="q-t"><b>Câu ${i+1}.</b> ${esc(d.questionContent)}</div>
+      <div class="ops"><div class="op ${d.isCorrect?"ok":"bad"}">${esc(d.selectedOptionText||"Chưa chọn đáp án")}${d.isCorrect?"<em>✓</em>":""}</div></div>
+      <details><summary>Giải thích &amp; đáp án đúng</summary><p style="margin-top:6px"><b>Đáp án:</b> ${esc(d.correctAnswerText||"")}<br>${esc(d.explanation||"Không có giải thích.")}<br><b>Nguồn:</b> ${esc(d.referenceExcerpt||"Không có")}</p></details></div>`).join("")}
+      <div class="qnav" style="justify-content:flex-end"><button class="btn-submit" id="qClose">Đóng</button></div>`;
   }
   function showResult(a){
     qo.classList.add("open"); document.body.classList.add("modal-open");
