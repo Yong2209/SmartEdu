@@ -2264,6 +2264,19 @@
 
     <!-- JAVASCRIPT -->
     <script>
+        // Kiểm tra phiên đăng nhập đã có (giống Google Accounts: nếu đã có phiên thì tự động chuyển tiếp tới không gian làm việc)
+        (function checkExistingSession() {
+            const token = localStorage.getItem("smartedu_access_token");
+            const userStr = localStorage.getItem("smartedu_user");
+            if (token && userStr) {
+                try {
+                    const session = JSON.parse(userStr);
+                    const dest = session.role === "ADMIN" ? "admin.html" : "user_edit.html";
+                    window.location.replace(dest);
+                } catch (e) {}
+            }
+        })();
+
         document.addEventListener("DOMContentLoaded", function () {
 
             // ================= ELEMENTS =================
@@ -2596,9 +2609,9 @@
                     }));
                     closeAllPopups();
                     alert("Đăng nhập thành công. Chào mừng " + session.fullName + "!");
-                    window.location.href = session.role === "ADMIN"
+                    window.location.replace(session.role === "ADMIN"
                         ? "admin.html"
-                        : "user_edit.html";
+                        : "user_edit.html");
                 } catch (error) {
                     showApiError(error);
                 } finally {
