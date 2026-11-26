@@ -59,6 +59,12 @@ public class WeeklyScheduleService {
         return new WeeklyScheduleDtos.WeeklyScheduleResponse(
                 option.getId(),
                 option.getOptionName(),
+                option.getTotalCredits(),
+                option.getTotalScore(),
+                option.getOptionRank(),
+                option.getScheduleGeneration().getRegistrationPlan().getSemester().getId(),
+                option.getScheduleGeneration().getRegistrationPlan().getSemester().getStartDate(),
+                option.getScheduleGeneration().getRegistrationPlan().getSemester().getEndDate(),
                 meetings
         );
     }
@@ -70,12 +76,16 @@ public class WeeklyScheduleService {
         String roomName = meeting.getRoom() == null
                 ? null
                 : meeting.getRoom().getRoomName();
+        String campusName = meeting.getRoom() == null || meeting.getRoom().getCampus() == null
+                ? null
+                : meeting.getRoom().getCampus().getCampusName();
 
         return new WeeklyScheduleDtos.WeeklyMeetingDto(
                 section.getId(),
                 section.getCourse().getId(),
                 section.getCourse().getCourseCode(),
                 section.getCourse().getCourseName(),
+                section.getCourse().getCredits(),
                 section.getSectionCode(),
                 section.getInstructorName(),
                 meeting.getWeekday(),
@@ -83,7 +93,8 @@ public class WeeklyScheduleService {
                 meeting.getEndPeriod(),
                 meeting.getStartTime(),
                 meeting.getEndTime(),
-                roomName
+                roomName,
+                campusName
         );
     }
 }

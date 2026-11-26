@@ -1,5 +1,7 @@
 package com.smartedu.modules.schedule_management.dto;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public final class WeeklyScheduleDtos {
             Long courseId,
             String courseCode,
             String courseName,
+            BigDecimal credits,
             String sectionCode,
             String instructorName,
             Integer weekday,
@@ -20,13 +23,20 @@ public final class WeeklyScheduleDtos {
             Integer endPeriod,
             LocalTime startTime,
             LocalTime endTime,
-            String roomName
+            String roomName,
+            String campusName
     ) {
     }
 
     public record WeeklyScheduleResponse(
             Long optionId,
             String optionName,
+            BigDecimal totalCredits,
+            BigDecimal totalScore,
+            Integer optionRank,
+            Long semesterId,
+            LocalDate semesterStartDate,
+            LocalDate semesterEndDate,
             List<WeeklyMeetingDto> meetings
     ) {
     }

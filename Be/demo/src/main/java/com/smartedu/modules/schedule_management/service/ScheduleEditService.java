@@ -44,6 +44,12 @@ public class ScheduleEditService {
         List<ScheduleDtos.OptionDto> results = new ArrayList<>();
 
         for (Long id : request.optionIds()) {
+            if (results.stream().anyMatch(option -> option.optionId().equals(id))) {
+                throw new BusinessException(
+                        "Danh sách so sánh không được chứa phương án trùng lặp.",
+                        HttpStatus.BAD_REQUEST
+                );
+            }
             ScheduleOption option = getOwnedOption(id, userId);
 
             List<ScheduleDtos.SectionDto> sections =
@@ -62,7 +68,9 @@ public class ScheduleEditService {
                                                         m.getRoom() == null
                                                                 ? null
                                                                 : m.getRoom().getRoomName(),
-                                                        null
+                                                        m.getRoom() == null || m.getRoom().getCampus() == null
+                                                                ? null
+                                                                : m.getRoom().getCampus().getCampusName()
                                                 ))
                                                 .toList();
 
@@ -163,8 +171,14 @@ public class ScheduleEditService {
                 boolean conflict =
                         newMeeting.getStartPeriod() <= other.getEndPeriod()
                         && other.getStartPeriod() <= newMeeting.getEndPeriod();
+                boolean timeConflict = newMeeting.getStartTime() != null
+                        && newMeeting.getEndTime() != null
+                        && other.getStartTime() != null
+                        && other.getEndTime() != null
+                        && newMeeting.getStartTime().isBefore(other.getEndTime())
+                        && other.getStartTime().isBefore(newMeeting.getEndTime());
 
-                if (conflict) {
+                if (conflict || timeConflict) {
                     throw new BusinessException(
                             "Lớp học phần mới bị trùng lịch với một môn khác.",
                             HttpStatus.CONFLICT
@@ -204,6 +218,8 @@ public class ScheduleEditService {
             );
         }
 
+        recalculateEvaluation(edited, original);
+
         return optionRepository.save(edited);
     }
 
@@ -217,5 +233,53 @@ public class ScheduleEditService {
                         "Không tìm thấy phương án.",
                         HttpStatus.NOT_FOUND
                 ));
+    }
+
+    private void recalculateEvaluation(ScheduleOption edited, ScheduleOption original) {
+        List<SectionMeeting> meetings = edited.getSections().stream()
+                .flatMap(item -> item.getCourseSection().getMeetings().stream())
+                .toList();
+        long morning = meetings.stream().filter(m -> m.getStartPeriod() <= 6).count();
+        long afternoon = meetings.stream().filter(m -> m.getStartPeriod() >= 7).count();
+        long saturday = meetings.stream().filter(m -> m.getWeekday() == 6).count();
+        long freeDays = 7 - meetings.stream().map(SectionMeeting::getWeekday).distinct().count();
+        List<Integer> gaps = new ArrayList<>();
+        for (int day = 1; day <= 7; day++) {
+            final int currentDay = day;
+            List<SectionMeeting> dayMeetings = meetings.stream()
+                    .filter(m -> m.getWeekday() == currentDay)
+                    .sorted(java.util.Comparator.comparing(SectionMeeting::getStartPeriod))
+                    .toList();
+            for (int i = 1; i < dayMeetings.size(); i++) {
+                int gap = dayMeetings.get(i).getStartPeriod() - dayMeetings.get(i - 1).getEndPeriod() - 1;
+                if (gap > 0) gaps.add(gap);
+            }
+        }
+        Integer maxGap = original.getScheduleGeneration().getRegistrationPlan().getPreference() == null
+                ? null
+                : original.getScheduleGeneration().getRegistrationPlan().getPreference().getMaxGapPeriods();
+
+        java.math.BigDecimal total = new java.math.BigDecimal("100.0");
+        for (var previous : original.getEvaluations()) {
+            long rawScore = switch (previous.getCriterionCode()) {
+                case "MORNING" -> morning;
+                case "AFTERNOON" -> afternoon;
+                case "SATURDAY" -> -saturday;
+                case "COMPACT" -> Math.min(2, freeDays);
+                case "GAPS" -> -gaps.stream().mapToInt(Integer::intValue).sum();
+                case "MAX_GAP" -> maxGap == null ? 0 : -gaps.stream().mapToInt(gap -> Math.max(0, gap - maxGap)).sum();
+                default -> previous.getScoreValue().longValue();
+            };
+            edited.getEvaluations().add(com.smartedu.modules.schedule_management.entity.ScheduleOptionEvaluation.builder()
+                    .scheduleOption(edited)
+                    .criterionCode(previous.getCriterionCode())
+                    .criterionName(previous.getCriterionName())
+                    .scoreValue(java.math.BigDecimal.valueOf(rawScore))
+                    .weightValue(previous.getWeightValue())
+                    .explanation(previous.getExplanation())
+                    .build());
+            total = total.add(java.math.BigDecimal.valueOf(rawScore).multiply(previous.getWeightValue()));
+        }
+        edited.setTotalScore(total.setScale(4, java.math.RoundingMode.HALF_UP));
     }
 }

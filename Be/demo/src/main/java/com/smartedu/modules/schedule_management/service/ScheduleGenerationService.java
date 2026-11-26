@@ -16,11 +16,14 @@ import com.smartedu.common.security.CurrentUserResolver;
 import com.smartedu.modules.academic_management.entity.CourseSection;
 import com.smartedu.modules.academic_management.entity.SectionMeeting;
 import com.smartedu.modules.academic_management.repository.CourseSectionRepository;
+import com.smartedu.modules.academic_management.repository.CoursePrerequisiteRepository;
 import com.smartedu.modules.course_registration.entity.RegistrationPlan;
 import com.smartedu.modules.course_registration.entity.RegistrationPlanCourse;
 import com.smartedu.modules.course_registration.entity.RegistrationPreference;
+import com.smartedu.modules.course_registration.entity.StudentCourseRecord;
 import com.smartedu.modules.course_registration.repository.RegistrationPlanRepository;
 import com.smartedu.modules.course_registration.repository.RegistrationPreferenceRepository;
+import com.smartedu.modules.course_registration.repository.StudentCourseRecordRepository;
 import com.smartedu.modules.schedule_management.dto.ScheduleDtos;
 import com.smartedu.modules.schedule_management.entity.ScheduleGeneration;
 import com.smartedu.modules.schedule_management.entity.ScheduleOption;
@@ -40,6 +43,8 @@ public class ScheduleGenerationService {
     private final RegistrationPlanRepository planRepository;
     private final RegistrationPreferenceRepository preferenceRepository;
     private final CourseSectionRepository sectionRepository;
+    private final CoursePrerequisiteRepository prerequisiteRepository;
+    private final StudentCourseRecordRepository academicRecordRepository;
     private final ScheduleGenerationRepository generationRepository;
     private final ScheduleOptionRepository optionRepository;
     private final CurrentUserResolver currentUserResolver;
@@ -71,6 +76,16 @@ public class ScheduleGenerationService {
         RegistrationPreference preference = preferenceRepository
                 .findByRegistrationPlanId(plan.getId())
                 .orElse(null);
+
+        if (preference == null || preference.getMaxCredits() == null
+                || preference.getMaxCredits().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException(
+                    "Vui lòng thiết lập giới hạn tín chỉ trước khi tạo thời khóa biểu.",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+
+        validatePrerequisites(userId, selectedCourses);
 
         List<List<CourseSection>> candidateGroups = new ArrayList<>();
 
@@ -283,10 +298,6 @@ public class ScheduleGenerationService {
             List<CourseSection> sections,
             RegistrationPreference preference
     ) {
-        if (preference == null) {
-            return true;
-        }
-
         BigDecimal credits = calculateCredits(sections);
 
         if (preference.getMinCredits() != null
@@ -315,15 +326,11 @@ public class ScheduleGenerationService {
     ) {
         double score = 100.0;
 
-        if (preference == null) {
-            return BigDecimal.valueOf(score);
-        }
-
         List<SectionMeeting> meetings = sections.stream()
                 .flatMap(section -> section.getMeetings().stream())
                 .toList();
 
-        if ("MORNING".equalsIgnoreCase(preference.getPreferredShift())) {
+        if (preference != null && "MORNING".equalsIgnoreCase(preference.getPreferredShift())) {
             long morning = meetings.stream()
                     .filter(m -> m.getStartPeriod() <= 6)
                     .count();
@@ -331,7 +338,7 @@ public class ScheduleGenerationService {
             score += morning * 5.0;
         }
 
-        if ("AFTERNOON".equalsIgnoreCase(preference.getPreferredShift())) {
+        if (preference != null && "AFTERNOON".equalsIgnoreCase(preference.getPreferredShift())) {
             long afternoon = meetings.stream()
                     .filter(m -> m.getStartPeriod() >= 7)
                     .count();
@@ -339,7 +346,7 @@ public class ScheduleGenerationService {
             score += afternoon * 5.0;
         }
 
-        if (Boolean.TRUE.equals(preference.getAvoidSaturday())) {
+        if (preference != null && Boolean.TRUE.equals(preference.getAvoidSaturday())) {
             long saturday = meetings.stream()
                     .filter(m -> m.getWeekday() == 6)
                     .count();
@@ -347,16 +354,20 @@ public class ScheduleGenerationService {
             score -= saturday * 10.0;
         }
 
-        if (Boolean.TRUE.equals(preference.getCompactDays())) {
+        if (preference != null && Boolean.TRUE.equals(preference.getCompactDays())) {
             Set<Integer> days = new HashSet<>();
 
             meetings.forEach(m -> days.add(m.getWeekday()));
 
-            score += Math.max(0, 7 - days.size()) * 2.0;
+            score += Math.min(2, Math.max(0, 7 - days.size())) * 3.0;
         }
 
-        if (Boolean.TRUE.equals(preference.getMinimizeGaps())) {
-            score -= calculateGapPenalty(meetings);
+        if (preference != null && Boolean.TRUE.equals(preference.getMinimizeGaps())) {
+            score -= calculateGapPeriods(meetings) * 2.0;
+        }
+
+        if (preference != null && preference.getMaxGapPeriods() != null) {
+            score -= calculateExcessGapPeriods(meetings, preference.getMaxGapPeriods()) * 5.0;
         }
 
         return BigDecimal.valueOf(score).setScale(
@@ -365,33 +376,30 @@ public class ScheduleGenerationService {
         );
     }
 
-    
-private double calculateGapPenalty(List<SectionMeeting> meetings) {
-
-    double penalty = 0;
-
-    for (int day = 1; day <= 7; day++) {
-
-        // Tạo biến cố định để sử dụng bên trong lambda
-        final int currentDay = day;
-
-        List<SectionMeeting> dayMeetings = meetings.stream()
-                .filter(m -> m.getWeekday() == currentDay)
-                .sorted(Comparator.comparing(SectionMeeting::getStartPeriod))
-                .toList();
-
-        for (int i = 1; i < dayMeetings.size(); i++) {
-            int gap = dayMeetings.get(i).getStartPeriod()
-                    - dayMeetings.get(i - 1).getEndPeriod() - 1;
-
-            if (gap > 0) {
-                penalty += gap * 2.0;
-            }
-        }
+    private int calculateGapPeriods(List<SectionMeeting> meetings) {
+        return gapPeriods(meetings).stream().mapToInt(Integer::intValue).sum();
     }
 
-    return penalty;
-}
+    private int calculateExcessGapPeriods(List<SectionMeeting> meetings, int maxGap) {
+        return gapPeriods(meetings).stream().mapToInt(gap -> Math.max(0, gap - maxGap)).sum();
+    }
+
+    private List<Integer> gapPeriods(List<SectionMeeting> meetings) {
+        List<Integer> gaps = new ArrayList<>();
+        for (int day = 1; day <= 7; day++) {
+            final int currentDay = day;
+            List<SectionMeeting> dayMeetings = meetings.stream()
+                    .filter(m -> m.getWeekday() == currentDay)
+                    .sorted(Comparator.comparing(SectionMeeting::getStartPeriod))
+                    .toList();
+            for (int i = 1; i < dayMeetings.size(); i++) {
+                int gap = dayMeetings.get(i).getStartPeriod()
+                        - dayMeetings.get(i - 1).getEndPeriod() - 1;
+                if (gap > 0) gaps.add(gap);
+            }
+        }
+        return gaps;
+    }
 
 
     private void addEvaluations(
@@ -415,48 +423,28 @@ private double calculateGapPenalty(List<SectionMeeting> meetings) {
                 .filter(m -> m.getWeekday() == 6)
                 .count();
 
-        option.getEvaluations().add(
-                evaluation(
-                        option,
-                        "MORNING",
-                        "Ưu tiên buổi sáng",
-                        morning,
-                        "Số buổi học bắt đầu trước hoặc tại tiết 6."
-                )
-        );
-
-        option.getEvaluations().add(
-                evaluation(
-                        option,
-                        "AFTERNOON",
-                        "Ưu tiên buổi chiều",
-                        afternoon,
-                        "Số buổi học bắt đầu từ tiết 7."
-                )
-        );
-
-        option.getEvaluations().add(
-                evaluation(
-                        option,
-                        "SATURDAY",
-                        "Hạn chế thứ Bảy",
-                        -saturday,
-                        "Số buổi học vào thứ Bảy."
-                )
-        );
-
-        option.getEvaluations().add(
-                evaluation(
-                        option,
-                        "COMPACT",
-                        "Lịch học tập trung",
-                        7 - meetings.stream()
-                                .map(SectionMeeting::getWeekday)
-                                .distinct()
-                                .count(),
-                        "Số ngày trong tuần không có lịch học."
-                )
-        );
+        String shift = preference == null ? null : preference.getPreferredShift();
+        option.getEvaluations().add(evaluation(option, "MORNING", "Ưu tiên buổi sáng",
+                morning, "Mỗi buổi bắt đầu trước hoặc tại tiết 6 được cộng 5 điểm khi ưu tiên buổi sáng.",
+                "MORNING".equalsIgnoreCase(shift) ? 5 : 0));
+        option.getEvaluations().add(evaluation(option, "AFTERNOON", "Ưu tiên buổi chiều",
+                afternoon, "Mỗi buổi bắt đầu từ tiết 7 được cộng 5 điểm khi ưu tiên buổi chiều.",
+                "AFTERNOON".equalsIgnoreCase(shift) ? 5 : 0));
+        option.getEvaluations().add(evaluation(option, "SATURDAY", "Hạn chế thứ Bảy",
+                -saturday, "Mỗi buổi học thứ Bảy bị trừ 10 điểm khi bật tiêu chí này.",
+                preference != null && Boolean.TRUE.equals(preference.getAvoidSaturday()) ? 10 : 0));
+        long freeDays = 7 - meetings.stream().map(SectionMeeting::getWeekday).distinct().count();
+        option.getEvaluations().add(evaluation(option, "COMPACT", "Lịch học tập trung",
+                Math.min(2, freeDays), "Tối đa 2 ngày trống được cộng 3 điểm mỗi ngày khi bật tiêu chí này.",
+                preference != null && Boolean.TRUE.equals(preference.getCompactDays()) ? 3 : 0));
+        option.getEvaluations().add(evaluation(option, "GAPS", "Khoảng trống giữa các ca",
+                -calculateGapPeriods(meetings), "Mỗi tiết trống giữa hai ca bị trừ 2 điểm khi bật tiêu chí hạn chế thời gian chờ.",
+                preference != null && Boolean.TRUE.equals(preference.getMinimizeGaps()) ? 2 : 0));
+        int maxGap = preference == null || preference.getMaxGapPeriods() == null
+                ? 0 : preference.getMaxGapPeriods();
+        option.getEvaluations().add(evaluation(option, "MAX_GAP", "Vượt số tiết trống tối đa",
+                -calculateExcessGapPeriods(meetings, maxGap), "Mỗi tiết vượt giới hạn khoảng trống bị trừ 5 điểm.",
+                preference != null && preference.getMaxGapPeriods() != null ? 5 : 0));
     }
 
     private ScheduleOptionEvaluation evaluation(
@@ -464,14 +452,15 @@ private double calculateGapPenalty(List<SectionMeeting> meetings) {
             String code,
             String name,
             long score,
-            String explanation
+            String explanation,
+            long weight
     ) {
         return ScheduleOptionEvaluation.builder()
                 .scheduleOption(option)
                 .criterionCode(code)
                 .criterionName(name)
                 .scoreValue(BigDecimal.valueOf(score))
-                .weightValue(BigDecimal.ONE)
+                .weightValue(BigDecimal.valueOf(weight))
                 .explanation(explanation)
                 .build();
     }
@@ -480,9 +469,32 @@ private double calculateGapPenalty(List<SectionMeeting> meetings) {
             ScheduleOption option,
             List<CourseSection> sections
     ) {
-        // Chỗ này sẽ được mở rộng để kiểm tra di chuyển giữa các cơ sở.
-        // Cần biết chính xác quan hệ Room -> Campus trong project
-        // trước khi so sánh khoảng cách giữa hai cơ sở.
+        List<SectionMeeting> meetings = sections.stream()
+                .flatMap(section -> section.getMeetings().stream())
+                .sorted(Comparator.comparing(SectionMeeting::getWeekday)
+                        .thenComparing(SectionMeeting::getStartPeriod))
+                .toList();
+        for (int i = 1; i < meetings.size(); i++) {
+            SectionMeeting previous = meetings.get(i - 1);
+            SectionMeeting next = meetings.get(i);
+            if (!previous.getWeekday().equals(next.getWeekday())
+                    || previous.getEndPeriod() + 1 < next.getStartPeriod()
+                    || previous.getRoom() == null || next.getRoom() == null
+                    || previous.getRoom().getCampus() == null || next.getRoom().getCampus() == null) {
+                continue;
+            }
+            String previousCampus = previous.getRoom().getCampus().getCampusName();
+            String nextCampus = next.getRoom().getCampus().getCampusName();
+            if (previousCampus != null && nextCampus != null && !previousCampus.equals(nextCampus)) {
+                option.getWarnings().add(com.smartedu.modules.schedule_management.entity.ScheduleOptionWarning.builder()
+                        .scheduleOption(option)
+                        .warningType("CAMPUS_CHANGE")
+                        .severity("MEDIUM")
+                        .warningMessage("Hai ca học liên tiếp khác cơ sở (" + previousCampus + " → " + nextCampus
+                                + "); hãy kiểm tra thời gian di chuyển.")
+                        .build());
+            }
+        }
     }
 
     private ScheduleDtos.OptionDto toOptionDto(
@@ -543,6 +555,9 @@ private double calculateGapPenalty(List<SectionMeeting> meetings) {
         String roomName = meeting.getRoom() == null
                 ? null
                 : meeting.getRoom().getRoomName();
+        String campusName = meeting.getRoom() == null || meeting.getRoom().getCampus() == null
+                ? null
+                : meeting.getRoom().getCampus().getCampusName();
 
         return new ScheduleDtos.MeetingDto(
                 meeting.getWeekday(),
@@ -551,7 +566,37 @@ private double calculateGapPenalty(List<SectionMeeting> meetings) {
                 meeting.getStartTime(),
                 meeting.getEndTime(),
                 roomName,
-                null
+                campusName
         );
+    }
+
+    private void validatePrerequisites(Long userId, List<RegistrationPlanCourse> selectedCourses) {
+        List<Long> courseIds = selectedCourses.stream()
+                .map(selected -> selected.getCourse().getId())
+                .toList();
+        var prerequisites = prerequisiteRepository.findByCourseIdIn(courseIds).stream()
+                .collect(java.util.stream.Collectors.groupingBy(cp -> cp.getCourse().getId()));
+        Set<Long> passedCourseIds = academicRecordRepository
+                .findByUserIdAndResultStatusIgnoreCase(userId, "PASSED").stream()
+                .map(StudentCourseRecord::getCourse)
+                .map(course -> course.getId())
+                .collect(java.util.stream.Collectors.toSet());
+
+        List<String> unmet = new ArrayList<>();
+        for (RegistrationPlanCourse selected : selectedCourses) {
+            var course = selected.getCourse();
+            var missing = prerequisites.getOrDefault(course.getId(), List.of()).stream()
+                    .map(cp -> cp.getPrerequisiteCourse())
+                    .filter(prerequisite -> !passedCourseIds.contains(prerequisite.getId()))
+                    .map(prerequisite -> prerequisite.getCourseCode() + " (" + prerequisite.getCourseName() + ")")
+                    .toList();
+            if (!missing.isEmpty()) {
+                unmet.add(course.getCourseCode() + " chưa đủ điều kiện tiên quyết: "
+                        + String.join(", ", missing));
+            }
+        }
+        if (!unmet.isEmpty()) {
+            throw new BusinessException(String.join("; ", unmet), HttpStatus.BAD_REQUEST);
+        }
     }
 }

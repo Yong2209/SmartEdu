@@ -471,10 +471,10 @@ table.h td{padding:18px 20px;border-top:1px solid var(--border);color:#6b7590}ta
 .week-nav span{font-size:13px;font-weight:600;color:#273047;padding:0 6px}
 
 .tt-wrap{overflow-x:auto}
-table.tt{width:100%;border-collapse:collapse;table-layout:fixed;min-width:660px}
+table.tt{width:100%;border-collapse:collapse;table-layout:fixed;min-width:920px}
 table.tt th{padding:13px 8px;border-bottom:1px solid var(--border);border-left:1px solid var(--border);font-size:12.5px;font-weight:600;color:#4b5570;text-align:center;background:#fcfcff}
 table.tt th:first-child{width:88px;border-left:0}
-table.tt td{height:106px;padding:6px;border-bottom:1px solid var(--border);border-left:1px solid var(--border);vertical-align:top}
+table.tt td{height:54px;padding:4px;border-bottom:1px solid var(--border);border-left:1px solid var(--border);vertical-align:top}
 table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;background:#fcfcff}
 .slot-t{font-size:12.5px;font-weight:600;color:#273047}
 .slot-p{font-size:11px;color:#9aa2b6;margin-top:3px}
@@ -489,6 +489,57 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
 .ev-teal{background:#ccfbf1;color:#115e59}
 .ev-amber{background:#fef3c7;color:#92400e}
 .ev-pink{background:#fce7f3;color:#9d174d}
+.ev-card{min-height:46px;padding:6px;border-radius:8px;gap:2px;overflow:hidden}
+.ev-card b{font-size:11px;line-height:1.2}
+.ev-card small{font-size:10px;line-height:1.2}
+.ev-card button{border:0;background:transparent;color:inherit;font-size:10px;font-weight:700;text-align:left;padding:0;cursor:pointer;text-decoration:underline}
+.empty-state{padding:24px;text-align:center;color:#8992a8;font-size:13px}
+.saved-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.saved-row{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px}
+.saved-row>div:first-child{flex:1;min-width:0}
+.saved-row b{display:block;font-size:13px;color:#273047}
+.saved-row small{display:block;margin-top:3px;color:#8992a8;font-size:11.5px}
+.saved-actions{display:flex;gap:6px;flex-wrap:wrap}
+.saved-actions button,.compare-pick{border:1px solid #dfe2ec;background:#fff;border-radius:8px;padding:7px 10px;color:#4b5570;font-size:12px;cursor:pointer}
+.saved-actions button:hover,.compare-pick:hover{border-color:var(--primary);color:var(--primary)}
+.cmp-check{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:12px;color:#4b5570}
+.cmp-check input{accent-color:var(--primary)}
+.check-details{padding:12px 18px;margin:0 14px 10px;border-radius:10px;background:#f8f9fc;color:#4b5570;font-size:11.5px;line-height:1.55}
+.check-details b{display:block;margin-top:4px;color:#273047}
+.check-details ul{margin:4px 0 8px;padding-left:18px}
+.status-error{background:#fff1f1!important;border-color:#ffd1d1!important}
+.status-error .valid-txt b,.status-error .valid-stat{color:#b42318!important}
+.source-tabs{display:flex;gap:8px;margin:0 0 16px;padding:5px;width:max-content;max-width:100%;border:1px solid var(--border);border-radius:12px;background:#fff}
+.source-tabs button{height:36px;padding:0 15px;border:0;border-radius:9px;background:transparent;color:#6b7590;font-size:13px;font-weight:600;cursor:pointer}
+.source-tabs button.active{background:#efedff;color:var(--primary)}
+.manual-actions{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.manual-course-row{display:flex;align-items:flex-start;gap:13px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.manual-course-row .c-chk{margin-top:3px}
+.manual-course-main{flex:1;min-width:0}
+.manual-course-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.manual-course-title b{font-size:14px;color:#273047}
+.manual-course-title small{font-size:11.5px;color:#8992a8}
+.manual-section-list{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+.manual-section-summary{padding:8px 10px;border-radius:8px;background:#f8f8fc;color:#4b5570;font-size:11.5px;line-height:1.5}
+.manual-course-actions{display:flex;gap:5px}
+.manual-course-actions button{padding:6px 9px;border:1px solid #dfe2ec;border-radius:8px;background:#fff;color:#4b5570;font-size:11.5px;cursor:pointer}
+.manual-course-actions button:hover{border-color:var(--primary);color:var(--primary)}
+.manual-course-modal{width:min(100%,880px)}
+.manual-editor-grid{display:grid;grid-template-columns:1fr 2fr 120px;gap:12px;margin:8px 0 18px}
+.manual-editor-grid .field{margin-top:0!important}
+.manual-sections-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0;font-size:14px;font-weight:600;color:#273047}
+.manual-section-editor{padding:14px;margin-bottom:12px;border:1px solid var(--border);border-radius:12px;background:#fafaff}
+.manual-section-editor-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.manual-section-editor-head b{font-size:13px;color:#273047}
+.manual-section-editor-head button,.manual-meeting-row button{border:0;background:transparent;color:#b42318;font-size:12px;cursor:pointer}
+.manual-section-fields{display:grid;grid-template-columns:1.1fr 1.1fr 1.4fr 1fr 1fr;gap:9px}
+.manual-section-fields label,.manual-meeting-row label{display:block;margin-bottom:5px;color:#6b7590;font-size:11px;font-weight:600}
+.manual-section-fields input,.manual-meeting-row input,.manual-meeting-row select{width:100%;height:36px;padding:0 9px;border:1px solid #e1e4ee;border-radius:8px;background:#fff;color:#273047;font-size:12px}
+.manual-meetings-title{margin:13px 0 7px;color:#6b7590;font-size:11.5px;font-weight:600}
+.manual-meeting-row{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;margin-top:7px}
+.manual-meeting-add{margin-top:8px;padding:7px 10px;border:1px solid #dfe2ec;border-radius:8px;background:#fff;color:var(--primary);font-size:11.5px;font-weight:600;cursor:pointer}
+.manual-source-note{padding:12px 16px;margin-bottom:14px;border-radius:10px;background:#f4f3ff;color:#5b557e;font-size:12px;line-height:1.5}
+@media(max-width:820px){.manual-editor-grid{grid-template-columns:1fr 1fr}.manual-section-fields{grid-template-columns:1fr 1fr}.manual-meeting-row{grid-template-columns:1fr 1fr 1fr}.manual-meeting-row button{height:36px}}
 
 .ai-why{display:flex;align-items:center;gap:14px;margin:18px 22px 22px;padding:16px 20px;border-radius:14px;background:#f3f2ff}
 .ai-why-ic{width:40px;height:40px;border-radius:11px;background:var(--primary);color:#fff;display:grid;place-items:center;flex:0 0 40px}
@@ -743,6 +794,7 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M5 19h14"/></svg>
               Xuất PDF
             </button>
+            <button class="btn-pdf" id="btnExportPng" type="button">Xuất PNG</button>
             <button class="btn-primary" id="btnSavePlan" type="button">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
               Lưu phương án
@@ -764,35 +816,32 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
           <div class="term-card">
             <div class="term-left">
               <label for="schTerm">Học kỳ tác nghiệp</label>
-              <select id="schTerm">
-                <option>Học kỳ II · 2025–2026</option>
-                <option>Học kỳ I · 2026–2027</option>
-              </select>
+              <select id="schTerm"><option value="">Đang tải học kỳ...</option></select>
             </div>
             <div class="term-right">
-              <input type="file" id="csvInput" accept=".csv,.xlsx" hidden>
-              <button class="btn-outline" id="btnImportCsv" type="button" style="height:40px;padding:0 16px;font-size:13px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v6h14v-6"/></svg>
-                Nhập CSV / XLSX
-              </button>
-              <button class="btn-link" id="btnSampleCsv" type="button" style="height:40px;padding:0 14px;font-size:13px">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
-                Tải tệp mẫu
-              </button>
+              <input type="file" id="manualCoursesInput" accept=".xlsx,.csv" hidden>
+              <a class="btn-link" id="btnDownloadManualSample" href="outputs/smartedu-schedule-sample/thoi-khoa-bieu-mau.xlsx" download style="height:40px;padding:0 14px;font-size:13px">Tải Excel mẫu</a>
+              <button class="btn-outline" id="btnImportManualCourses" type="button" style="height:40px;padding:0 16px;font-size:13px">Nhập Excel / CSV</button>
+              <button class="btn-link" id="btnSavedSchedules" type="button" style="height:40px;padding:0 14px;font-size:13px">Lịch đã lưu</button>
             </div>
+          </div>
+
+          <div class="source-tabs" role="tablist" aria-label="Nguồn học phần">
+            <button type="button" id="sourceCatalog" class="active" role="tab" aria-selected="true">Danh mục SmartEdu</button>
+            <button type="button" id="sourceManual" role="tab" aria-selected="false">Excel / nhập thủ công</button>
           </div>
 
           <div class="valid-banner">
             <div class="valid-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></div>
             <div class="valid-txt">
-              <b>Dữ liệu học phần hợp lệ</b>
-              <span>Đã kiểm tra mã học phần, trường bắt buộc và dữ liệu trùng lặp.</span>
+              <b id="scheduleStatusTitle">Đang tải dữ liệu học kỳ...</b>
+              <span id="scheduleStatusText">Danh mục học phần sẽ được tải từ máy chủ SmartEdu.</span>
             </div>
-            <div class="valid-stat" id="validStat">6/6 bản ghi hợp lệ</div>
+            <div class="valid-stat" id="validStat"></div>
           </div>
 
           <div class="s1-grid">
-            <div class="box">
+            <div class="box" id="catalogPanel">
               <div class="course-head">
                 <h3>Danh mục học phần mở</h3>
                 <small>Chọn học phần bạn muốn đăng ký</small>
@@ -804,10 +853,26 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
               <div class="course-list" id="schCourseList"></div>
             </div>
 
+            <div class="box" id="manualPanel" hidden>
+              <div class="course-head">
+                <h3>Học phần nhập thủ công</h3>
+                <small>Một học phần có thể có nhiều lớp và nhiều buổi học</small>
+                <div class="search-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                  <input type="text" id="manualCourseSearch" placeholder="Tìm học phần đã nhập...">
+                </div>
+                <div class="manual-actions">
+                  <button class="btn-outline" id="btnAddManualCourse" type="button">+ Thêm học phần</button>
+                </div>
+              </div>
+              <div class="manual-source-note">Dữ liệu Excel/nhập tay được dùng để tạo lịch trên trình duyệt. Mỗi dòng Excel là một buổi học; các dòng có cùng mã học phần và mã lớp sẽ được gom thành một lớp nhiều buổi.</div>
+              <div class="course-list" id="manualCourseList"></div>
+            </div>
+
             <div class="box sel-panel">
               <div class="sel-top">
                 <h3>Đã chọn</h3>
-                <div class="sel-count"><b id="selCourseNum">6</b><small>học phần</small></div>
+                <div class="sel-count"><b id="selCourseNum">0</b><small>học phần</small></div>
               </div>
               <div class="donut-wrap">
                 <svg viewBox="0 0 120 120">
@@ -815,7 +880,7 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
                   <circle class="donut-fg" id="donutFg" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="88"></circle>
                 </svg>
                 <div class="donut-center">
-                  <b id="selCreditNum">18</b>
+                  <b id="selCreditNum">0</b>
                   <small>tín chỉ</small>
                 </div>
               </div>
@@ -836,6 +901,7 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v6h14v-6"/></svg>
                   Tải bảng điểm
                 </button>
+                <input type="file" id="transcriptInput" accept=".csv,.xlsx,.xls,.pdf" hidden>
               </div>
               <div class="box-b" style="padding:12px 20px 16px;gap:0" id="doneCourseList"></div>
             </div>
@@ -847,9 +913,9 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
               </div>
               <div class="box-b">
                 <div class="cr-inputs">
-                  <div class="fl"><label for="minCr">Tối thiểu</label><input id="minCr" type="number" min="12" max="25" value="15"></div>
+                  <div class="fl"><label for="minCr">Tối thiểu</label><input id="minCr" type="number" min="12" max="25" value="12" placeholder="Tín chỉ"></div>
                   <span>đến</span>
-                  <div class="fl"><label for="maxCr">Tối đa</label><input id="maxCr" type="number" min="12" max="25" value="21"></div>
+                  <div class="fl"><label for="maxCr">Tối đa</label><input id="maxCr" type="number" min="12" max="25" value="25" placeholder="Tín chỉ"></div>
                 </div>
                 <div class="cr-bar-wrap">
                   <div class="cr-track"><div class="cr-fill" id="crFill" style="left:23%;right:30.7%"></div></div>
@@ -905,9 +971,10 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
           <div class="s3-grid">
             <div class="box">
               <div class="opt-head">
-                <h3>3 phương án<br>phù hợp</h3>
-                <small>Đã loại 128 lịch trùng và 12 lịch vượt tín chỉ</small>
+                <h3>Phương án<br>hợp lệ</h3>
+                <small id="optHeadSummary">Chờ tạo phương án từ dữ liệu thực tế</small>
               </div>
+              <div id="scheduleCheckDetails" class="check-details">Kết quả kiểm tra trùng lịch và tín chỉ sẽ hiển thị tại đây.</div>
               <div class="opt-list" id="optList"></div>
               <div class="opt-foot">
                 <button class="btn-compare" id="openCompare" type="button">
@@ -922,14 +989,14 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
               <div class="tt-head">
                 <div>
                   <div class="tt-title">
-                    <h3 id="ttOptTitle">Phương án #1</h3>
+                    <h3 id="ttOptTitle">Chưa chọn phương án</h3>
                     <span class="best-pill" id="ttBestPill">Đề xuất tốt nhất</span>
                   </div>
-                  <div class="tt-sub" id="ttSub">18 tín chỉ · 6 học phần · Nghỉ Thứ 4 &amp; Chủ nhật</div>
+                  <div class="tt-sub" id="ttSub">Tạo phương án để xem chi tiết thời khóa biểu.</div>
                 </div>
                 <div class="week-nav">
                   <button type="button" id="prevWeek" aria-label="Tuần trước">‹</button>
-                  <span id="weekLabel">Tuần 8 · 16–22/03</span>
+                  <span id="weekLabel">Tuần học</span>
                   <button type="button" id="nextWeek" aria-label="Tuần sau">›</button>
                 </div>
               </div>
@@ -944,6 +1011,8 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
                       <th>Thứ 4</th>
                       <th>Thứ 5</th>
                       <th>Thứ 6</th>
+                      <th>Thứ 7</th>
+                      <th>Chủ nhật</th>
                     </tr>
                   </thead>
                   <tbody id="ttBody"></tbody>
@@ -956,7 +1025,7 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
                 </div>
                 <div class="ai-why-txt">
                   <b>Tại sao phương án này phù hợp?</b>
-                  <small id="aiWhyDesc">Đáp ứng 94% sở thích của bạn: học buổi sáng, nghỉ 2 ngày và chỉ có 1 khoảng trống.</small>
+                  <small id="aiWhyDesc">Lý do xếp hạng sẽ hiển thị sau khi Backend tạo phương án.</small>
                 </div>
                 <button type="button" id="btnDetailEval">Chi tiết đánh giá</button>
               </div>
@@ -1107,6 +1176,68 @@ table.tt td:first-child{border-left:0;text-align:center;vertical-align:middle;ba
     <div class="modal-actions">
       <button class="btn-cancel" id="cancelSaveTt" type="button">Hủy</button>
       <button class="btn-submit" id="confirmSaveTt" type="button">Lưu phương án</button>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="savedSchedulesOverlay">
+  <section class="modal cmp-modal" role="dialog" aria-modal="true" aria-labelledby="savedSchedulesTitle">
+    <div class="modal-head">
+      <div class="modal-brand">SMARTEDU</div>
+      <h2 class="modal-title" id="savedSchedulesTitle">Thời khóa biểu đã lưu</h2>
+      <button class="modal-close" id="closeSavedSchedules" type="button" aria-label="Đóng">&times;</button>
+    </div>
+    <div id="savedSchedulesList" class="saved-list"></div>
+  </section>
+</div>
+
+<div class="overlay" id="editSectionOverlay">
+  <section class="modal save-tt-modal" role="dialog" aria-modal="true" aria-labelledby="editSectionTitle">
+    <div class="modal-head">
+      <div class="modal-brand">SMARTEDU</div>
+      <h2 class="modal-title" id="editSectionTitle">Đổi lớp học phần</h2>
+      <button class="modal-close" id="closeEditSection" type="button" aria-label="Đóng">&times;</button>
+    </div>
+    <p id="editSectionCourse" class="save-tt-note"></p>
+    <div class="field" style="margin-top:12px">
+      <label for="editSectionSelect">Lớp khác cùng học phần</label>
+      <select id="editSectionSelect"></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelEditSection" type="button">Hủy</button>
+      <button class="btn-submit" id="confirmEditSection" type="button">Kiểm tra và áp dụng</button>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="evalOverlay">
+  <section class="modal save-tt-modal" role="dialog" aria-modal="true" aria-labelledby="evalTitle">
+    <div class="modal-head">
+      <div class="modal-brand">SMARTEDU</div>
+      <h2 class="modal-title" id="evalTitle">Giải thích xếp hạng</h2>
+      <button class="modal-close" id="closeEval" type="button" aria-label="Đóng">&times;</button>
+    </div>
+    <div id="evalContent"></div>
+  </section>
+</div>
+
+<div class="overlay" id="manualCourseOverlay">
+  <section class="modal manual-course-modal" role="dialog" aria-modal="true" aria-labelledby="manualCourseTitle">
+    <div class="modal-head">
+      <div class="modal-brand">SMARTEDU</div>
+      <h2 class="modal-title" id="manualCourseTitle">Thêm học phần thủ công</h2>
+      <button class="modal-close" id="closeManualCourse" type="button" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="manual-editor-grid">
+      <div class="field"><label for="manualCourseCode">Mã học phần</label><input id="manualCourseCode" maxlength="30" placeholder="VD: CS101"></div>
+      <div class="field"><label for="manualCourseName">Tên học phần</label><input id="manualCourseName" maxlength="120" placeholder="VD: Lập trình Java"></div>
+      <div class="field"><label for="manualCourseCredits">Tín chỉ</label><input id="manualCourseCredits" type="number" min="0.5" max="30" step="0.5" value="3"></div>
+    </div>
+    <div class="manual-sections-title"><span>Lớp học phần và lịch học</span><button class="btn-outline" id="btnAddManualSection" type="button">+ Thêm lớp học phần</button></div>
+    <div id="manualSectionList"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" id="cancelManualCourse" type="button">Hủy</button>
+      <button class="btn-submit" id="saveManualCourse" type="button">Lưu học phần</button>
     </div>
   </section>
 </div>
@@ -2015,389 +2146,9 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="qnav" style="justify-content:flex-end"><button class="btn-submit" id="qClose">Đóng</button></div>`;
   }
 
-  /* ================= LẬP THỜI KHÓA BIỂU (3 BƯỚC) ================= */
-  let schCourses = [
-    {id:"CS447", name:"Mạng máy tính", classes:4, credits:3, color:"#3f7fe0", selected:true},
-    {id:"CS445", name:"Kỹ nghệ phần mềm", classes:3, credits:3, color:"#6659ca", selected:true},
-    {id:"CS466", name:"Trí tuệ nhân tạo", classes:2, credits:3, color:"#19a074", selected:true},
-    {id:"CS362", name:"Cơ sở dữ liệu nâng cao", classes:3, credits:3, color:"#d38a10", selected:true},
-    {id:"IS385", name:"Phân tích thiết kế hệ thống", classes:2, credits:3, color:"#dc2626", selected:true},
-    {id:"ENG251", name:"Tiếng Anh chuyên ngành", classes:5, credits:3, color:"#0d9488", selected:true}
-  ];
-
-  let doneCourses = [
-    {name:"Lập trình hướng đối tượng", code:"CS 211", grade:"B+"},
-    {name:"Cấu trúc dữ liệu", code:"CS 301", grade:"A"},
-    {name:"Toán rời rạc", code:"MTH 251", grade:"B"},
-    {name:"Cơ sở dữ liệu", code:"CS 316", grade:"A"}
-  ];
-
-  const SCH_OPTIONS = [
-    {
-      id:1, title:"Tối ưu nhất", fullTitle:"Phương án #1", best:true,
-      score:94, days:4, gaps:1, offDays:"Nghỉ Thứ 4 & Chủ nhật",
-      why:"Đáp ứng 94% sở thích của bạn: học buổi sáng, nghỉ 2 ngày và chỉ có 1 khoảng trống.",
-      grid:{
-        "0-2":{name:"Kiến trúc máy tính",room:"CS 321 A · P.305",cls:"ev-blue",editable:true},
-        "0-3":{name:"Mạng máy tính",room:"CS 447 B · P.702",cls:"ev-purple"},
-        "0-5":{name:"Kỹ nghệ phần mềm",room:"CS 445 A · P.402",cls:"ev-green"},
-        "0-6":{name:"Tiếng Anh CN",room:"ENG 251 C · P.208",cls:"ev-teal"},
-        "1-2":{name:"AI cơ bản",room:"CS 466 A · P.603",cls:"ev-amber"},
-        "1-5":{name:"CSDL nâng cao",room:"CS 362 B · P.507",cls:"ev-pink"},
-        "2-3":{name:"Kỹ nghệ phần mềm",room:"CS 445 A · P.402",cls:"ev-green"},
-        "2-6":{name:"Mạng máy tính",room:"CS 447 B · P.702",cls:"ev-purple"}
-      }
-    },
-    {
-      id:2, title:"Phương án 2", fullTitle:"Phương án #2", best:false,
-      score:87, days:5, gaps:2, offDays:"Nghỉ Chủ nhật",
-      why:"Đáp ứng 87% sở thích: không trùng lịch, đủ điều kiện tiên quyết, phân bổ đều 5 ngày/tuần.",
-      grid:{
-        "0-2":{name:"Mạng máy tính",room:"CS 447 A · P.401",cls:"ev-purple"},
-        "0-4":{name:"Kỹ nghệ phần mềm",room:"CS 445 B · P.302",cls:"ev-green"},
-        "0-6":{name:"AI cơ bản",room:"CS 466 B · P.601",cls:"ev-amber"},
-        "1-3":{name:"CSDL nâng cao",room:"CS 362 A · P.505",cls:"ev-pink"},
-        "1-5":{name:"Tiếng Anh CN",room:"ENG 251 A · P.204",cls:"ev-teal"},
-        "2-2":{name:"Phân tích TKHT",room:"IS 385 A · P.309",cls:"ev-blue"},
-        "2-4":{name:"Mạng máy tính",room:"CS 447 A · P.401",cls:"ev-purple"}
-      }
-    },
-    {
-      id:3, title:"Phương án 3", fullTitle:"Phương án #3", best:false,
-      score:81, days:5, gaps:3, offDays:"Nghỉ Chủ nhật",
-      why:"Đáp ứng 81% sở thích: ưu tiên giảng viên đánh giá cao, có thêm ca chiều linh hoạt.",
-      grid:{
-        "0-3":{name:"CSDL nâng cao",room:"CS 362 C · P.502",cls:"ev-pink"},
-        "0-5":{name:"Tiếng Anh CN",room:"ENG 251 B · P.210",cls:"ev-teal"},
-        "1-2":{name:"Mạng máy tính",room:"CS 447 C · P.705",cls:"ev-purple"},
-        "1-4":{name:"AI cơ bản",room:"CS 466 A · P.603",cls:"ev-amber"},
-        "2-3":{name:"Kỹ nghệ phần mềm",room:"CS 445 C · P.408",cls:"ev-green"},
-        "2-6":{name:"Phân tích TKHT",room:"IS 385 B · P.311",cls:"ev-blue"},
-        "3-2":{name:"Mạng máy tính",room:"CS 447 C · P.705",cls:"ev-purple"}
-      }
-    }
-  ];
-
-  const SLOTS = [
-    {time:"07:00", period:"Tiết 1–3"},
-    {time:"09:15", period:"Tiết 4–6"},
-    {time:"13:00", period:"Tiết 7–9"},
-    {time:"15:15", period:"Tiết 10–12"}
-  ];
-
-  let activeSchStep = 1;
-  let activeOptId = 1;
-  let curWeek = 8;
-
-  function goSchStep(step){
-    activeSchStep = step;
-    $("schHeadActs").classList.toggle("show", step === 3);
-
-    document.querySelectorAll(".sch-step").forEach((el, idx) => {
-      el.classList.toggle("active", idx + 1 === step);
-    });
-    document.querySelectorAll("#schStepper .st-item").forEach(item => {
-      const s = +item.dataset.step;
-      item.classList.remove("active", "done");
-      const numEl = item.querySelector(".st-num");
-      if(s < step){
-        item.classList.add("done");
-        numEl.textContent = "✓";
-      } else if(s === step){
-        item.classList.add("active");
-        numEl.textContent = s;
-      } else {
-        numEl.textContent = s;
-      }
-    });
-    $("stLine1").classList.toggle("done", step > 1);
-    $("stLine2").classList.toggle("done", step > 2);
-    $("mainScroll").scrollTop = 0;
-
-    if(step === 2) renderDoneCourses();
-    if(step === 3){
-      renderOptions();
-      renderTimetable();
-    }
-  }
-
-  document.querySelectorAll("#schStepper .st-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const target = +item.dataset.step;
-      if(target <= activeSchStep) goSchStep(target);
-    });
-  });
-
-  // Render Step 1
-  function renderStep1(){
-    const q = $("schCourseSearch").value.trim().toLowerCase();
-    const filtered = schCourses.filter(c => c.name.toLowerCase().includes(q) || c.id.toLowerCase().includes(q));
-    $("schCourseList").innerHTML = filtered.length ? filtered.map(c => `
-      <label class="c-row ${c.selected ? "picked" : ""}" data-id="${c.id}">
-        <input type="checkbox" class="c-chk" ${c.selected ? "checked" : ""}>
-        <span class="c-bar" style="background:${c.color}"></span>
-        <div class="c-info">
-          <b>${esc(c.name)}</b>
-          <small>${esc(c.id.replace(/([A-Z]+)(\d+)/, "$1 $2"))} · ${c.classes} lớp đang mở</small>
-        </div>
-        <span class="c-cr">${c.credits} tín chỉ</span>
-      </label>
-    `).join("") : '<div class="empty">Không tìm thấy học phần phù hợp.</div>';
-
-    const selected = schCourses.filter(c => c.selected);
-    const totalCr = selected.reduce((sum, c) => sum + c.credits, 0);
-    $("selCourseNum").textContent = selected.length;
-    $("selCreditNum").textContent = totalCr;
-    $("validStat").textContent = `${schCourses.length}/${schCourses.length} bản ghi hợp lệ`;
-
-    const circumference = 314.16;
-    const ratio = Math.min(1, totalCr / 25);
-    $("donutFg").style.strokeDashoffset = circumference * (1 - ratio);
-
-    $("schSelList").innerHTML = selected.length ? selected.map(c => `
-      <div class="sel-item">
-        <span>${esc(c.name)}</span>
-        <button type="button" data-rm="${c.id}" aria-label="Bỏ chọn">&times;</button>
-      </div>
-    `).join("") : '<div style="padding:18px 0;text-align:center;color:#a0a6b6;font-size:12.5px">Chưa chọn học phần nào</div>';
-  }
-
-  $("schCourseSearch").addEventListener("input", renderStep1);
-  $("schCourseList").addEventListener("change", e => {
-    const row = e.target.closest(".c-row");
-    if(!row) return;
-    const c = schCourses.find(x => x.id === row.dataset.id);
-    if(c){ c.selected = e.target.checked; renderStep1(); }
-  });
-  $("schSelList").addEventListener("click", e => {
-    const btn = e.target.closest("button[data-rm]");
-    if(!btn) return;
-    const c = schCourses.find(x => x.id === btn.dataset.rm);
-    if(c){ c.selected = false; renderStep1(); }
-  });
-
-  $("btnImportCsv").addEventListener("click", () => $("csvInput").click());
-  $("csvInput").addEventListener("change", e => {
-    if(e.target.files[0]){
-      toast("Đã nhập dữ liệu từ tệp: " + e.target.files[0].name);
-      e.target.value = "";
-    }
-  });
-  $("btnSampleCsv").addEventListener("click", () => toast("Đang tải xuống tệp mẫu danh_muc_hoc_phan.xlsx"));
-
-  $("toStep2").addEventListener("click", () => {
-    const selCount = schCourses.filter(c => c.selected).length;
-    if(!selCount) return toast("Vui lòng chọn ít nhất 1 học phần");
-    goSchStep(2);
-  });
-
-  // Render Step 2
-  function renderDoneCourses(){
-    $("doneCourseList").innerHTML = doneCourses.map(d => `
-      <div class="done-item">
-        <span class="done-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></span>
-        <b>${esc(d.name)}</b>
-        <span class="code">${esc(d.code)}</span>
-        <span class="grade">${esc(d.grade)}</span>
-      </div>
-    `).join("") + `<button type="button" class="add-done-btn" id="btnAddDone">+ Khai báo môn đã học</button>`;
-  }
-
-  $("doneCourseList").addEventListener("click", e => {
-    if(e.target.id === "btnAddDone"){
-      const name = prompt("Nhập tên học phần đã hoàn thành:");
-      if(!name || !name.trim()) return;
-      const code = prompt("Mã học phần (ví dụ: CS 310):", "CS 310") || "CS 310";
-      const grade = prompt("Điểm chữ (A, B+, B, C+):", "A") || "A";
-      doneCourses.push({name: name.trim(), code: code.trim().toUpperCase(), grade: grade.trim().toUpperCase()});
-      renderDoneCourses();
-      toast("Đã thêm học phần hoàn thành");
-    }
-  });
-
-  $("btnUploadTranscript").addEventListener("click", () => toast("Đã đồng bộ bảng điểm cá nhân từ hệ thống"));
-
-  function updateCreditRange(){
-    let minV = Math.max(12, Math.min(25, parseInt($("minCr").value) || 15));
-    let maxV = Math.max(minV, Math.min(25, parseInt($("maxCr").value) || 21));
-    $("crRangeTxt").textContent = `${minV}–${maxV} tín chỉ`;
-    const leftPct = ((minV - 12) / 13) * 100;
-    const rightPct = ((25 - maxV) / 13) * 100;
-    $("crFill").style.left = leftPct + "%";
-    $("crFill").style.right = rightPct + "%";
-  }
-  $("minCr").addEventListener("input", updateCreditRange);
-  $("maxCr").addEventListener("input", updateCreditRange);
-
-  $("shiftSeg").addEventListener("click", e => {
-    const b = e.target.closest("button");
-    if(!b) return;
-    document.querySelectorAll("#shiftSeg button").forEach(x => x.classList.toggle("active", x === b));
-  });
-
-  $("backStep1").addEventListener("click", () => goSchStep(1));
-  $("toStep3").addEventListener("click", () => {
-    activeOptId = 1;
-    goSchStep(3);
-    toast("Đã kiểm tra 486 tổ hợp và tạo 3 phương án hợp lệ");
-  });
-
-  // Render Step 3
-  function renderOptions(){
-    const selCount = schCourses.filter(c => c.selected).length;
-    const totalCr = schCourses.filter(c => c.selected).reduce((s, c) => s + c.credits, 0);
-
-    $("optList").innerHTML = SCH_OPTIONS.map(opt => `
-      <div class="opt-card ${opt.id === activeOptId ? "active" : ""}" data-oid="${opt.id}">
-        <div class="opt-top">
-          <span class="opt-badge">#${opt.id}</span>
-          <div class="opt-title">
-            <b>${esc(opt.title)}</b>
-            <small>${totalCr} tín chỉ · ${opt.days} ngày học</small>
-          </div>
-          <div class="opt-score">
-            <b>${opt.score}</b>
-            <small>/100</small>
-          </div>
-        </div>
-        <div class="opt-tags">
-          <span>Không trùng lịch</span>
-          <span>Đủ tiên quyết</span>
-        </div>
-      </div>
-    `).join("");
-
-    const curOpt = SCH_OPTIONS.find(o => o.id === activeOptId) || SCH_OPTIONS[0];
-    $("ttOptTitle").textContent = curOpt.fullTitle;
-    $("ttBestPill").style.display = curOpt.best ? "inline-block" : "none";
-    $("ttSub").textContent = `${totalCr} tín chỉ · ${selCount} học phần · ${curOpt.offDays}`;
-    $("aiWhyDesc").textContent = curOpt.why;
-  }
-
-  function renderTimetable(){
-    const curOpt = SCH_OPTIONS.find(o => o.id === activeOptId) || SCH_OPTIONS[0];
-    $("ttBody").innerHTML = SLOTS.map((sl, rIdx) => {
-      let cells = `<td><div class="slot-t">${sl.time}</div><div class="slot-p">${sl.period}</div></td>`;
-      for(let day = 2; day <= 6; day++){
-        const ev = curOpt.grid[`${rIdx}-${day}`];
-        const editIcon = ev && ev.editable
-          ? `<svg class="ev-edit-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`
-          : "";
-        cells += ev
-          ? `<td><div class="ev-card ${ev.cls}"><div class="ev-top"><b>${esc(ev.name)}</b>${editIcon}</div><small>${esc(ev.room)}</small></div></td>`
-          : `<td></td>`;
-      }
-      return `<tr>${cells}</tr>`;
-    }).join("");
-  }
-
-  $("optList").addEventListener("click", e => {
-    const card = e.target.closest(".opt-card");
-    if(!card) return;
-    activeOptId = +card.dataset.oid;
-    renderOptions();
-    renderTimetable();
-  });
-
-  $("backStep2").addEventListener("click", () => goSchStep(2));
-
-  const WEEK_DATES = {
-    7: "Tuần 7 · 09–15/03",
-    8: "Tuần 8 · 16–22/03",
-    9: "Tuần 9 · 23–29/03",
-    10: "Tuần 10 · 30/03–05/04"
-  };
-  $("prevWeek").addEventListener("click", () => {
-    if(curWeek > 7){ curWeek--; $("weekLabel").textContent = WEEK_DATES[curWeek]; }
-  });
-  $("nextWeek").addEventListener("click", () => {
-    if(curWeek < 10){ curWeek++; $("weekLabel").textContent = WEEK_DATES[curWeek]; }
-  });
-
-  $("btnDetailEval").addEventListener("click", () => {
-    const curOpt = SCH_OPTIONS.find(o => o.id === activeOptId) || SCH_OPTIONS[0];
-    toast(`${curOpt.fullTitle}: Đạt ${curOpt.score}/100 điểm tối ưu tiêu chí`);
-  });
-
-  // Xuất PDF
-  $("btnExportPdf").addEventListener("click", () => {
-    toast("Đang chuẩn bị xuất PDF thời khóa biểu...");
-    setTimeout(() => window.print(), 350);
-  });
-
-  // Popup Lưu phương án thời khóa biểu (Ảnh 2)
-  const saveTtOv = $("saveTtOverlay");
-  function openSaveTtModal(){
-    const activeShift = document.querySelector("#shiftSeg button.active");
-    const shiftText = activeShift ? activeShift.textContent.toLowerCase() : "học sáng";
-    $("planAliasInput").value = `Lịch ưu tiên ${shiftText} – HK2`;
-    saveTtOv.classList.add("open");
-    document.body.classList.add("modal-open");
-    setTimeout(() => $("planAliasInput").focus(), 50);
-  }
-  function closeSaveTtModal(){
-    saveTtOv.classList.remove("open");
-    document.body.classList.remove("modal-open");
-  }
-
-  $("btnSavePlan").addEventListener("click", openSaveTtModal);
-  $("closeSaveTt").addEventListener("click", closeSaveTtModal);
-  $("cancelSaveTt").addEventListener("click", closeSaveTtModal);
-  saveTtOv.addEventListener("mousedown", e => { if(e.target === saveTtOv) closeSaveTtModal(); });
-
-  $("confirmSaveTt").addEventListener("click", () => {
-    const alias = $("planAliasInput").value.trim();
-    if(!alias){
-      toast("Vui lòng nhập tên gợi nhớ cho phương án");
-      return $("planAliasInput").focus();
-    }
-    closeSaveTtModal();
-    toast(`Đã lưu "${alias}" vào thư viện lịch cá nhân`);
-  });
-
-  // Compare Modal
-  const cmpOv = $("compareOverlay");
-  function openCompareModal(){
-    const totalCr = schCourses.filter(c => c.selected).reduce((s, c) => s + c.credits, 0);
-    $("cmpGrid").innerHTML = SCH_OPTIONS.map(opt => `
-      <div class="cmp-col ${opt.best ? "rec" : ""}">
-        ${opt.best ? '<span class="cmp-rec-tag">ĐỀ XUẤT</span>' : ""}
-        <h4>${esc(opt.fullTitle)}</h4>
-        <div class="cmp-score"><b>${opt.score}</b><span>/100 điểm</span></div>
-        <div class="cmp-rows">
-          <div>${totalCr} tín chỉ</div>
-          <div>${opt.days} ngày học / tuần</div>
-          <div>${opt.gaps} khoảng trống</div>
-          <div>${esc(opt.offDays)}</div>
-        </div>
-        <button type="button" class="btn-pick-opt" data-pick="${opt.id}">Chọn phương án</button>
-      </div>
-    `).join("");
-    cmpOv.classList.add("open");
-    document.body.classList.add("modal-open");
-  }
-  function closeCompareModal(){
-    cmpOv.classList.remove("open");
-    document.body.classList.remove("modal-open");
-  }
-
-  $("openCompare").addEventListener("click", openCompareModal);
-  $("closeCompare").addEventListener("click", closeCompareModal);
-  cmpOv.addEventListener("mousedown", e => { if(e.target === cmpOv) closeCompareModal(); });
-
-  $("cmpGrid").addEventListener("click", e => {
-    const btn = e.target.closest("button[data-pick]");
-    if(!btn) return;
-    activeOptId = +btn.dataset.pick;
-    closeCompareModal();
-    renderOptions();
-    renderTimetable();
-    toast(`Đã áp dụng Phương án #${activeOptId} làm thời khóa biểu chính`);
-  });
-
-  renderStep1();
   ready=true; onPage((location.hash||"").replace("#",""));
 });
 </script>
+<script src="schedule.js"></script>
 </body>
 </html>
