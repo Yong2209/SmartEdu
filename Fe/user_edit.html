@@ -1120,8 +1120,12 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- helpers ---------- */
   const $ = (id) => document.getElementById(id);
   const API_BASE_URL = window.SMARTEDU_API_BASE_URL || "http://localhost:8080";
+  function getAccessToken() {
+    return localStorage.getItem("smartedu_access_token");
+  }
+
   async function requestApi(path, options = {}) {
-    const accessToken = localStorage.getItem("smartedu_access_token");
+    const accessToken = getAccessToken();
     const response = await fetch(API_BASE_URL + path, {
       ...options,
       headers: {
@@ -1135,6 +1139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.status === 401) {
         localStorage.removeItem("smartedu_access_token");
         localStorage.removeItem("smartedu_user");
+        window.location.replace("super_index.html");
         throw new Error(payload.message || "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
       }
       const fieldErrors = Array.isArray(payload.fieldErrors)
@@ -1158,8 +1163,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function loadProfile() {
-    if (!accessToken) {
-      window.location.href = "super_index.html";
+    const token = getAccessToken();
+    if (!token) {
+      window.location.replace("super_index.html");
       return;
     }
     try {
@@ -1183,19 +1189,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 
-  /* ---------- NAVIGATION ---------- */
+  /* ---------- NAVIGATION (SPA BACK/FORWARD COMPATIBLE) ---------- */
   let ready = false;
   const navButtons = document.querySelectorAll("#nav button");
-  function showPage(name){
+  function showPage(name, push = true){
     if(!$("page-"+name)) name = "materials";
     document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active", p.id==="page-"+name));
     navButtons.forEach(b=>b.classList.toggle("active", b.dataset.page===name));
     $("mainScroll").scrollTop = 0;
     if(ready) onPage(name);
-    if(location.hash !== "#"+name) history.replaceState(null,"","#"+name);
+
+    const currentHash = (location.hash || "").replace("#","");
+    if(currentHash !== name) {
+      if(push) {
+        history.pushState({ page: name }, "", "#"+name);
+      } else {
+        history.replaceState({ page: name }, "", "#"+name);
+      }
+    }
   }
-  navButtons.forEach(b=>b.addEventListener("click", ()=>showPage(b.dataset.page)));
-  showPage(location.hash.replace("#","") || "materials");
+
+  navButtons.forEach(b=>b.addEventListener("click", ()=>showPage(b.dataset.page, true)));
+
+  // Lắng nghe phím quay lại (Back) hoặc tiến lên (Forward) của trình duyệt
+  window.addEventListener("popstate", function(e) {
+    const pageFromState = e.state && e.state.page;
+    const pageFromHash = (location.hash || "").replace("#","");
+    const targetPage = pageFromState || pageFromHash || "materials";
+    if($("page-"+targetPage)) {
+      showPage(targetPage, false);
+    }
+  });
+
+  window.addEventListener("hashchange", function() {
+    const targetPage = (location.hash || "").replace("#","") || "materials";
+    if($("page-"+targetPage)) {
+      showPage(targetPage, false);
+    }
+  });
+
+  const initialHash = (location.hash || "").replace("#","");
+  const initialPage = $("page-"+initialHash) ? initialHash : "materials";
+  showPage(initialPage, false);
+  history.replaceState({ page: initialPage }, "", "#"+initialPage);
 
   /* ---------- USER MENU ---------- */
   const userMenu = $("userMenu"), userTrigger = $("userTrigger");
@@ -1204,7 +1240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     userTrigger.setAttribute("aria-expanded", open);
   }
   userTrigger.addEventListener("click", e=>{ e.stopPropagation(); setMenu(!userMenu.classList.contains("open")); });
-  $("goSettings").addEventListener("click", ()=>{ setMenu(false); showPage("profile"); });
+  $("goSettings").addEventListener("click", ()=>{ setMenu(false); showPage("profile", true); });
   $("logoutBtn").addEventListener("click", async ()=>{
     try {
       await requestApi("/api/auth/logout", {method:"POST"});
@@ -1213,7 +1249,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } finally {
       localStorage.removeItem("smartedu_access_token");
       localStorage.removeItem("smartedu_user");
-      window.location.href = "super_index.html";
+      window.location.replace("super_index.html");
     }
   });
 

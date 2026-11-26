@@ -755,7 +755,7 @@ table.data-table tbody tr:hover{background:#fcfcff}
           <div class="dropdown">
             <button type="button" onclick="switchPage('settings')">Cài đặt tài khoản &amp; hệ thống</button>
             <hr>
-            <button type="button" class="danger" onclick="showToast('Đã đăng xuất khỏi phiên quản trị')">Đăng xuất</button>
+            <button type="button" class="danger" onclick="adminLogout()">Đăng xuất</button>
           </div>
         </div>
       </div>
@@ -1723,13 +1723,53 @@ document.querySelectorAll('.overlay').forEach(ov => {
   ov.addEventListener('click', (e) => { if (e.target === ov) ov.classList.remove('open'); });
 });
 
-function switchPage(pageId) {
+function switchPage(pageId, push = true) {
+  if (!document.getElementById('page-' + pageId)) pageId = 'overview';
   document.querySelectorAll('#nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === pageId));
-  document.getElementById('helpSettingsNavBtn').classList.toggle('active', pageId === 'settings');
+  const helpBtn = document.getElementById('helpSettingsNavBtn');
+  if (helpBtn) helpBtn.classList.toggle('active', pageId === 'settings');
   document.querySelectorAll('.page').forEach(sec => sec.classList.toggle('active', sec.id === 'page-' + pageId));
-  document.querySelector('.content').scrollTop = 0;
+  const contentEl = document.querySelector('.content');
+  if (contentEl) contentEl.scrollTop = 0;
+
+  const currentHash = (location.hash || "").replace("#", "");
+  if (currentHash !== pageId) {
+    if (push) {
+      history.pushState({ page: pageId }, "", "#" + pageId);
+    } else {
+      history.replaceState({ page: pageId }, "", "#" + pageId);
+    }
+  }
 }
-document.querySelectorAll('#nav button').forEach(btn => btn.addEventListener('click', () => switchPage(btn.dataset.page)));
+
+document.querySelectorAll('#nav button').forEach(btn => btn.addEventListener('click', () => switchPage(btn.dataset.page, true)));
+
+window.addEventListener("popstate", function(e) {
+  const pageFromState = e.state && e.state.page;
+  const pageFromHash = (location.hash || "").replace("#", "");
+  const targetPage = pageFromState || pageFromHash || "overview";
+  if (document.getElementById('page-' + targetPage)) {
+    switchPage(targetPage, false);
+  }
+});
+
+window.addEventListener("hashchange", function() {
+  const targetPage = (location.hash || "").replace("#", "") || "overview";
+  if (document.getElementById('page-' + targetPage)) {
+    switchPage(targetPage, false);
+  }
+});
+
+const adminInitialHash = (location.hash || "").replace("#", "");
+const adminInitialPage = document.getElementById("page-" + adminInitialHash) ? adminInitialHash : "overview";
+switchPage(adminInitialPage, false);
+history.replaceState({ page: adminInitialPage }, "", "#" + adminInitialPage);
+
+function adminLogout() {
+  localStorage.removeItem("smartedu_access_token");
+  localStorage.removeItem("smartedu_user");
+  window.location.replace("super_index.html");
+}
 
 const userMenu = document.getElementById('userMenu');
 document.getElementById('userTrigger').addEventListener('click', (e) => { e.stopPropagation(); userMenu.classList.toggle('open'); });
