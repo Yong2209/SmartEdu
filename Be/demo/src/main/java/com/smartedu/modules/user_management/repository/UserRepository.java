@@ -1,5 +1,6 @@
 package com.smartedu.modules.user_management.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     boolean existsByStudentCode(String studentCode);
+
+    List<User> findByEmailContainingIgnoreCaseOrStudentCodeContainingIgnoreCase(
+            String email,
+            String studentCode
+    );
+
+    List<User> findAllByOrderByCreatedAtDesc();
+
+    Optional<User> findById(Long id);
+    
 }
